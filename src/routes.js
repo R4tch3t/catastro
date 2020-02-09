@@ -25,7 +25,9 @@ import Notifications from "@material-ui/icons/Notifications";
 import Unarchive from "@material-ui/icons/Unarchive";
 import Language from "@material-ui/icons/Language";*/
 // core components/views for Admin layout
-import Creditos from "views/Dashboard/Creditos.js";
+import Predial from "views/Dashboard/Predial.js";
+import Orden from "views/Dashboard/Orden.js";
+import Pdf from "views/Dashboard/renderPDF.js";
 import Editar from "views/UserProfile/Editar.js";
 import Registro from "views/UserProfile/Registro.js";
 /*import TableList from "views/TableList/TableList.js";
@@ -39,11 +41,19 @@ import RTLPage from "views/RTLPage/RTLPage.js";*/
 
 const dashboardRoutes = [
   {
-    path: "/creditos",
+    path: "/orden",
+    name: "Orden de pago",
+    rtlName: "لوحة القيادة",
+    icon: Dashboard,
+    component: Orden,
+    layout: "/admin"
+  }, 
+  {
+    path: "/predial",
     name: "Predial",
     rtlName: "لوحة القيادة",
     icon: Dashboard,
-    component: Creditos,
+    component: Predial,
     layout: "/admin"
   },
   {
@@ -53,8 +63,7 @@ const dashboardRoutes = [
     icon: Person,
     component: Editar,
     layout: "/admin"
-  },
-  {
+  }, {
     path: "/registrarse",
     name: "Registrar usuario",
     rtlName: "قائمة الجدول",

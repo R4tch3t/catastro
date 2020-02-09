@@ -22,7 +22,7 @@ export default function Footer(props) {
                 Inicio
               </a>
             </ListItem>
-            <ListItem className={classes.inlineBlock}>
+           {/* <ListItem className={classes.inlineBlock}>
               <a href="https://www.uagro.mx/" target='_blank' className={classes.block}>
                 UAGro
               </a>
@@ -31,13 +31,13 @@ export default function Footer(props) {
               <a href="http://www.seguridadsocial.uagro.mx/" target='_blank' className={classes.block}>
                 Seguridad Social
               </a>
-            </ListItem>
+            </ListItem>*/ }
           </List>
         </div>
         <p className={classes.right}>
           <span>
-            &copy; {1900 + new Date().getYear()}{" "}
-            Departamento de Salud Laboral y Bienestar
+            &copy; {new Date().getFullYear()}{" "}
+            Dirección de Catastro e Impuesto Predial, Calle 13 Norte No. 1312, Esquina Avenida Constitución, Tel: (756) 47 50268
           </span>
         </p>
       </div>

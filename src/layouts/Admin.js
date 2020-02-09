@@ -15,7 +15,7 @@ import routes from "routes.js";
 
 import styles from "assets/jss/material-dashboard-react/layouts/adminStyle.js";
 
-import bgImage from "assets/img/sidebar-2.jpg";
+import bgImage from "assets/img/sidebar-5.jpg";
 import logo from "@material-ui/icons/Home";
 //import logo from "assets/img/reactlogo.png";
 
@@ -35,7 +35,7 @@ const switchRoutes = (
       }
       return null;
     })}
-    <Redirect from="/" to="/admin/creditos" />
+    <Redirect from="/" to="/admin/orden" />
   </Switch>
 );
 

@@ -9,6 +9,8 @@ import imagine1 from "assets/img/sidebar-1.jpg";
 import imagine2 from "assets/img/sidebar-2.jpg";
 import imagine3 from "assets/img/sidebar-3.jpg";
 import imagine4 from "assets/img/sidebar-4.jpg";
+import imagine5 from "assets/img/sidebar-5.jpg";
+import imagine6 from "assets/img/sidebar-6.jpg";
 
 
 export default function FixedPlugin(props) {
@@ -134,6 +136,28 @@ export default function FixedPlugin(props) {
               }}
             >
               <img src={imagine4} alt="..." />
+            </a>
+          </li>
+          <li className={bgImage === imagine5 ? "active" : ""}>
+            <a
+              className="img-holder switch-trigger"
+              onClick={() => {
+                setBgImage(imagine5);
+                props.handleImageClick(imagine5);
+              }}
+            >
+              <img src={imagine5} alt="..." />
+            </a>
+          </li>
+          <li className={bgImage === imagine6 ? "active" : ""}>
+            <a
+              className="img-holder switch-trigger"
+              onClick={() => {
+                setBgImage(imagine6);
+                props.handleImageClick(imagine6);
+              }}
+            >
+              <img src={imagine6} alt="..." />
             </a>
           </li>
 

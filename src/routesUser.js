@@ -25,7 +25,7 @@ import Notifications from "@material-ui/icons/Notifications";
 import Unarchive from "@material-ui/icons/Unarchive";
 import Language from "@material-ui/icons/Language";
 // core components/views for Admin layout
-import Creditos from "views/Dashboard/Creditos.js";
+import Orden from "views/Dashboard/Orden.js";
 import Editar from "views/UserProfile/Editar.js";
 import TableList from "views/TableList/TableList.js";
 import Typography from "views/Typography/Typography.js";
@@ -38,11 +38,11 @@ import RTLPage from "views/RTLPage/RTLPage.js";
 
 const dashboardRoutes = [
   {
-    path: "/creditos",
-    name: "Inicio",
+    path: "/orden",
+    name: "Orden de pago",
     rtlName: "لوحة القيادة",
     icon: Dashboard,
-    component: Creditos,
+    component: Orden,
     layout: "/usuario"
   },
   {

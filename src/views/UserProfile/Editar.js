@@ -244,8 +244,8 @@ this.getAvatar(idEmpleado)
       // console.log(this.nombre)
       //  console.log(this.nombre.current.value)
 
-      const sendUri = "http://34.66.54.10:3016/";
-      //const sendUri = 'http://localhost:3016/'
+      //const sendUri = "http://34.66.54.10:3016/";
+      const sendUri = 'http://localhost:3016/'
       //const sendUri = "http://192.168.1.74:3011/";
      // document.getElementById('idUsuario').value=12
       //const CVE_ID = document.getElementById('idEmpleado').defaultValue
@@ -311,8 +311,8 @@ render(){
     getAvatar = async (idUsuario) => {
       try {
 
-        const sendUri = "http://34.66.54.10:3019/";
-        //const sendUri = "http://localhost:3019/";
+        //const sendUri = "http://34.66.54.10:3019/";
+        const sendUri = "http://localhost:3019/";
         //const sendUri = "http://192.168.1.74:3012/";
         const bodyJSON = {
           idUsuario: idUsuario
