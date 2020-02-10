@@ -4,7 +4,7 @@ import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
-import CheckI from "./CheckI.js";
+import renderCI from "./renderCI";
 
 export default class Impuestos extends React.Component {
 constructor(props){
@@ -32,210 +32,74 @@ componentDidMount(){
    const subApr0 = document.getElementById('subApr0');
    const subDee0 = document.getElementById('subDee0');
    const {fa} = this.props;
-   // console.log(fa);
-   ReactDOM.render(
-    <CheckI
-        checkedIndexes={[]}
-        tasksIndexes={[0,1]}
-        md={6}
-        strsa={['41121001','41121001']}
-        strsb={['URBANOS EDIFICADOS DESTINADOS A CASA HABITACION',
-                'SUB URBANOS EDIFICADOS DESTINADOS A CASA HABITACION']}
-        ids={['0020401','0020402']}
-        fa = {fa}
-    />,
-    subIm0
-  )
-  ReactDOM.render(
-    <CheckI
-        checkedIndexes={[]}
-        md={6}
-        tasksIndexes={[0,1]}
-        strsa={['41121001','41121001']}
-        strsb={['RUSTICOS EDIFICADOS DESTINADOS A CASA HABITACION',
-                'PENSIONADOS Y JUBILADOS']}
-        ids={['0020403','0020801']}
-        fa = {fa}
-    /> ,
-    subIm1
-  )
-  ReactDOM.render(
-    <CheckI
-        checkedIndexes={[]}
-        md={6}
-        tasksIndexes={[0,1]}
-        strsa={['41121001','41121001']}
-        strsb={['INSEN','PERSONAS DE CAPACIDADES DIFERENTES']}
-        ids={['0020802','0020803']}
-        fa = {fa}
-    /> ,
-    subIm2
-  )
-  ReactDOM.render(
-    <CheckI
-        checkedIndexes={[]}
-        tasksIndexes={[0,1]}
-        md={6}
-        strsa={['41121001','41131001']}
-        strsb = {
-            ['MADRES Y/O PADRES SOLTEROS JEFES DE FAMILIA', 
-            'SOBRE ADQUISICIONES DE BIENES INMUEBLES']
-        }
-        ids={['0020804','0030101']}
-        fa = {fa}
-    /> ,
-    subIm3
-  )
-  ReactDOM.render(
-    <CheckI
-        checkedIndexes={[]}
-        tasksIndexes={[0,1]}
-        md={6}
-        strsa={['41171001','41171001']}
-        strsb = {
-            ['RECARGOS PREDIAL', '15% PRO EDUCACION Y ASISTENCIA SOCIAL']
-        }
-        ids={['0070101','0070201']}
-        fa = {fa}
-    /> ,
-    subAcc0
-  )
-  ReactDOM.render(
-    <CheckI
-        checkedIndexes={[]}
-        tasksIndexes={[0,1]}
-        md={6}
-        strsa={['41171001','41171001']}
-        strsb = {
-            ['15% PRO CAMINOS', 'DESCUENTO PREDIAL DE NATURALEZA DEUDORA']
-        }
-        ids={['0070202','0070203']}
-        fa = {fa}
-    /> ,
-    subAcc1
-  )
-  ReactDOM.render(
-    <CheckI
-        checkedIndexes={[]}
-        tasksIndexes={[0]}
-        md={6}
-        strsa={['41191001']}
-        strsb = {
-            ['REZAGOS IMPUESTO PREDIAL']
-        }
-        ids={['0090101']}
-        fa = {fa}
-    /> ,
-    subAcc2
-  )
-  ReactDOM.render(
-    <CheckI
-        checkedIndexes={[]}
-        tasksIndexes={[0,1]}
-        md={6}
-        strsa={['41491004','41491004']}
-        strsb = {
-            ['POR LA AUTORIZACION PARA LA FUSION DE PREDIOS', 
-            'POR LA AUTORIZACION PARA SUBDIVISION, LOTIFICACION Y RELOTIFICACION DE PREDIOS']
-        }
-        ids={['0090106','0090107']}
-        fa = {fa}
-    /> ,
-    subDer0
-  )
+   const task = [0,1]
+    
+     renderCI('subIm0', task, 6, [], ['41121001', '41121001'],
+       ['URBANOS EDIFICADOS DESTINADOS A CASA HABITACION',
+         'SUB URBANOS EDIFICADOS DESTINADOS A CASA HABITACION'
+       ], ['0020401', '0020402'], fa);
+   
+     renderCI('subIm1', task, 6, [], ['41121001', '41121001'],
+       ['RUSTICOS EDIFICADOS DESTINADOS A CASA HABITACION',
+         'PENSIONADOS Y JUBILADOS'
+       ], ['0020403', '0020801'], fa);
+     renderCI('subIm2', task, 6, [], ['41121001', '41121001'],
+       ['INSEN',
+         'PERSONAS DE CAPACIDADES DIFERENTES'
+       ], ['0020802', '0020803'], fa);
+   
+     renderCI('subIm3', task, 6, [], ['41121001', '41131001'],
+       ['MADRES Y/O PADRES SOLTEROS JEFES DE FAMILIA',
+         'SOBRE ADQUISICIONES DE BIENES INMUEBLES'
+       ], ['0020804', '0030101'], fa);
 
-  ReactDOM.render(
-    <CheckI
-        checkedIndexes={[]}
-        tasksIndexes={[0,1]}
-        md={6}
-        strsa={['41491004','41491004']}
-        strsb = {
-            ['CONSTANCIAS',
-            'CERTIFICACIONES']
-        }
-        ids={['0090701','0090702']}
-        fa = {fa}
-    /> ,
-    subCop0
-  )
+     renderCI('subAcc0', task, 6, [], ['41171001', '41171001'],
+       ['RECARGOS PREDIAL', '15% PRO EDUCACION Y ASISTENCIA SOCIAL'],
+       ['0070101', '0070201'], fa);
+   
+     renderCI('subAcc1', task, 6, [], ['41171001', '41171001'],
+       ['15% PRO CAMINOS', 'DESCUENTO PREDIAL DE NATURALEZA DEUDORA'],
+       ['0070202', '0070203'], fa);
+     renderCI('subAcc2', [0], 6, [], ['41191001'],
+       ['REZAGOS IMPUESTO PREDIAL'],
+       ['0090101'], fa);
+   
+     renderCI('subDer0', task, 6, [], ['41491004', '41491004'],
+       ['POR LA AUTORIZACION PARA LA FUSION DE PREDIOS',
+         'POR LA AUTORIZACION PARA SUBDIVISION, LOTIFICACION Y RELOTIFICACION DE PREDIOS'
+       ],
+       ['0090106', '0090107'], fa);
 
-  ReactDOM.render(
-    <CheckI
-        checkedIndexes={[]}
-        tasksIndexes={[0,1]}
-        md={6}
-        strsa={['41491004','41491004']}
-        strsb = {
-            ['DUPLICADOS Y COPIAS',
-            'OTROS SERVICIOS']
-        }
-        ids={['0090703','0090704']}
-        fa = {fa}
-    /> ,
-    subCop1
-  )
+     renderCI('subCop0', task, 6, [], ['41491004', '41491004'],
+       ['CONSTANCIAS',
+         'CERTIFICACIONES'
+       ],
+       ['0090701', '0090702'], fa);
+  
+     renderCI('subCop1', task, 6, [], ['41491004', '41491004'],
+       ['DUPLICADOS Y COPIAS',
+         'OTROS SERVICIOS'
+       ],
+       ['0090703', '0090704'], fa);
 
-  ReactDOM.render(
-    <CheckI
-        checkedIndexes={[]}
-        tasksIndexes={[0,1]}
-        md={6}
-        strsa={['41491004','41491004']}
-        strsb = {
-            ['PRO-BOMBEROS Y PROTECCION CIVIL',
-            'LICENCIAS PARA CONSTRUCCION DE EDIFICIOS O CASAS HABITACION, RESTAURACION O REPARACION, URBANIZACION, FRACCIONAMIENTO LORIFIACION, RELOTIFICACION, FUSION Y SUB-DIVISION']
-        }
-        ids={['00913','0091301']}
-        fa = {fa}
-    /> ,
-    subCop2
-  )
+     renderCI('subCop2', task, 6, [], ['41491004', '41491004'],
+       ['PRO-BOMBEROS Y PROTECCION CIVIL',
+         'LICENCIAS PARA CONSTRUCCION DE EDIFICIOS O CASAS HABITACION, RESTAURACION O REPARACION, URBANIZACION, FRACCIONAMIENTO LORIFIACION, RELOTIFICACION, FUSION Y SUB-DIVISION'
+       ],
+       ['00913', '0091301'], fa);
 
-  ReactDOM.render(
-    <CheckI
-        checkedIndexes={[]}
-        tasksIndexes={[0]}
-        md={12}
-        strsa={['41491005']}
-        strsb = {
-            ['VENTAS DE FORMAS IMPRESAS POR JUEGOS (FORMA 3DCC)']
-        }
-        ids={['0010804']}
-        fa = {fa}
-    /> ,
-    subPro0
-  )
+     renderCI('subPro0', [0], 12, [], ['41491005'],
+       ['VENTAS DE FORMAS IMPRESAS POR JUEGOS (FORMA 3DCC)'],
+       ['0010804'], fa);
 
-  ReactDOM.render(
-    <CheckI
-        checkedIndexes={[]}
-        tasksIndexes={[0]}
-        md={12}
-        strsa={['41621006']}
-        strsb = {
-            ['MULTAS FISCALES (FALTA DE CUMPLIMIENTO DE OBLIGACIONES FISCALES)']
-        }
-        ids={['0010101']}
-        fa = {fa}
-    /> ,
-    subApr0
-  )
+     renderCI('subApr0', [0], 12, [], ['41621006'],
+       ['MULTAS FISCALES (FALTA DE CUMPLIMIENTO DE OBLIGACIONES FISCALES)'],
+       ['0010101'], fa);
 
-  ReactDOM.render(
-    <CheckI
-        checkedIndexes={[]}
-        tasksIndexes={[0]}
-        strsa={['']}
-        md={12}
-        strsb = {
-            ['15% DE CONTRIBUCION ESTATAL (APLICADO POR AUTORIZACION DE FUSION Y SUBDIVISION DE PREDIOS)']
-        }
-        ids={['21173001001']}
-        fa = {fa}
-    /> ,
-    subDee0
-  )
+     renderCI('subDee0', [0], 12, [], [''],
+       ['15% DE CONTRIBUCION ESTATAL (APLICADO POR AUTORIZACION DE FUSION Y SUBDIVISION DE PREDIOS)'],
+       ['21173001001'], fa);
+   
   
 }
 render(){
