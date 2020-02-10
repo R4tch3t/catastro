@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import ListItem from "@material-ui/core/ListItem";
 import List from "@material-ui/core/List";
+import cintillo from "assets/img/cintillo.jpeg";
 // core components
 import styles from "assets/jss/material-dashboard-react/components/footerStyle.js";
 
@@ -40,6 +41,7 @@ export default function Footer(props) {
             Dirección de Catastro e Impuesto Predial, Calle 13 Norte No. 1312, Esquina Avenida Constitución, Tel: (756) 47 50268
           </span>
         </p>
+        <img style={{position: 'relative', width: '100%' }} src={cintillo} />
       </div>
     </footer>
   );

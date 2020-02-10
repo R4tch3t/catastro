@@ -48,11 +48,12 @@ export default function Header(props) {
   });
   return (
     <AppBar className={classes.appBar + appBarClasses}>
+      
       <Toolbar className={classes.container}>
         <div className={classes.flex}>
           {/* Here we create navbar brand, based on route name */}
           <Button color="transparent" onClick={()=>{reload()}} className={classes.title}>
-            {makeBrand()}
+            {makeBrand()} 
           </Button>
         </div>
         <Hidden smDown implementation="css">

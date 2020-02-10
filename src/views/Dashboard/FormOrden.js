@@ -1,6 +1,5 @@
 import React from 'react';
 import cookie from "react-cookies";
-import ReactDOM from "react-dom";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
 // @material-ui/core
@@ -43,9 +42,9 @@ import Button from "components/CustomButtons/Button.js";
 import Search from "@material-ui/icons/Search";
 import Poppers from "@material-ui/core/Popper";
 import Impuestos from "./Impuestos"
-import CheckI from "./CheckI";
-import { Crypt, RSA } from "hybrid-crypto-js";
+//import { Crypt, RSA } from "hybrid-crypto-js";
 import encrypt from "./encrypt";
+import renderCI from "./renderCI";
 //import { bugs, website, server } from "variables/general.js";
 import {
   creditoFovisste,
@@ -147,6 +146,9 @@ padrones=async(CTAnombre, tp, tipoB)=>{
             if (r.contribuyente !== undefined) {
               const contribuyente = r.contribuyente[0]
               const ubicacion = r.ubicacion[0]
+              const orden = r.orden
+              const predial = r.predial
+              
                 this.setState({
                   nombre: contribuyente.contribuyente,
                   CTA: contribuyente.CTA
@@ -160,6 +162,9 @@ padrones=async(CTAnombre, tp, tipoB)=>{
                 const municipio = document.getElementById('municipio');
                 const localidad = document.getElementById('localidad');
                 const bg = document.getElementById('baseGravable');
+                const m1 = document.getElementById('m1');
+                const m2 = document.getElementById('m2');
+                const periodo = document.getElementById('periodo');
                 //const checkU = document.getElementById('check0');
 
                 calle.value = ubicacion.calle;
@@ -168,16 +173,211 @@ padrones=async(CTAnombre, tp, tipoB)=>{
                 cp.value = ubicacion.cp;
                 municipio.value = ubicacion.municipio;
                 localidad.value = ubicacion.localidad;
-                
-                //if(checkU.checked){
-                  this.setState({tipoPredio: tp})
-                
-
-                if(bg.value>0){
-                  this.setZona(document.getElementById('zona').value); 
-                }else{
-                  bg.value = contribuyente.basegrav;
+                this.setState({tipoPredio: tp})
+                if(!orden){
+                  return false;
                 }
+                m1.value = orden.m1
+                m2.value = orden.m2
+                periodo.value = orden.periodo
+                this.setState({zona: orden.zona});
+                this.setState({totalN: orden.total});
+                //if(checkU.checked){
+                
+                bg.value = orden.bg;
+                //console.log(predial);
+                let checkeds = []
+                while(checkeds.length<14){
+                  checkeds.push([])
+                };
+
+                predial.forEach(e => {
+                  if (e.idImpuesto === 1) {
+                    checkeds[0].push(0)
+                    document.getElementById('0020401').value = e.val
+                  }
+                  if (e.idImpuesto === 2) {
+                    checkeds[0].push(1)
+                    document.getElementById('0020402').value = e.val
+                  }
+                  if (e.idImpuesto === 3) {
+                    checkeds[1].push(0)
+                    document.getElementById('0020403').value = e.val
+                  }
+                  if (e.idImpuesto === 4) {
+                    checkeds[1].push(1)
+                    document.getElementById('0020801').value = e.val
+                  }
+                  if (e.idImpuesto === 5) {
+                    checkeds[2].push(0)
+                    document.getElementById('0020802').value = e.val
+                  }
+                  if (e.idImpuesto === 6) {
+                    checkeds[2].push(1)
+                    document.getElementById('0020803').value = e.val
+                  }
+                  if (e.idImpuesto === 7) {
+                    checkeds[3].push(0)
+                    document.getElementById('0020804').value = e.val
+                  }
+                  if (e.idImpuesto === 8) {
+                    checkeds[3].push(1)
+                    document.getElementById('0030101').value = e.val
+                  }
+                  if (e.idImpuesto === 9) {
+                    checkeds[4].push(0)
+                    document.getElementById('0070101').value = e.val
+                  }
+                  if (e.idImpuesto === 10) {
+                    checkeds[4].push(1)
+                    document.getElementById('0070201').value = e.val
+                  }
+                  if (e.idImpuesto === 11) {
+                    checkeds[5].push(0)
+                    document.getElementById('0070202').value = e.val
+                  }
+                  if (e.idImpuesto === 12) {
+                    checkeds[5].push(1)
+                    document.getElementById('0070203').value = e.val
+                  }
+                  if (e.idImpuesto === 13) {
+                    checkeds[6].push(0)
+                    document.getElementById('0090101').value = e.val
+                  }
+                  if (e.idImpuesto === 14) {
+                    checkeds[7].push(0)
+                    document.getElementById('0090106').value = e.val
+                  }
+                  if (e.idImpuesto === 15) {
+                    checkeds[7].push(1)
+                    document.getElementById('0090107').value = e.val
+                  }
+                  if (e.idImpuesto === 16) {
+                    checkeds[8].push(0)
+                    document.getElementById('0090701').value = e.val
+                  }
+                  if (e.idImpuesto === 17) {
+                    checkeds[8].push(1)
+                    document.getElementById('0090702').value = e.val
+                  }
+                  if (e.idImpuesto === 18) {
+                    checkeds[9].push(0)
+                    document.getElementById('0090703').value = e.val
+                  }
+                  if (e.idImpuesto === 19) {
+                    checkeds[9].push(1)
+                    document.getElementById('0090704').value = e.val
+                  }
+                  if (e.idImpuesto === 20) {
+                    checkeds[10].push(0)
+                    document.getElementById('00913').value = e.val
+                  }
+                  if (e.idImpuesto === 21) {
+                    checkeds[10].push(1)
+                    document.getElementById('0091301').value = e.val
+                  }
+                  if (e.idImpuesto === 22) {
+                    checkeds[11].push(0)
+                    document.getElementById('0010804').value = e.val
+                  }
+                  if (e.idImpuesto === 23) {
+                    checkeds[12].push(0)
+                    document.getElementById('0010101').value = e.val
+                  }
+                  if (e.idImpuesto === 24) {
+                    checkeds[13].push(0)
+                    document.getElementById('21173001001').value = e.val
+                  }
+                });
+                let task = [0,1]
+                if (checkeds[0].length>0){
+                  renderCI('subIm0', task, 6, checkeds[0], ['41121001', '41121001'],
+                    ['URBANOS EDIFICADOS DESTINADOS A CASA HABITACION',
+                      'SUB URBANOS EDIFICADOS DESTINADOS A CASA HABITACION'
+                    ], ['0020401', '0020402'], this.addImpuesto);
+                }
+                if (checkeds[1].length > 0) {
+                  renderCI('subIm1', task, 6, checkeds[1], ['41121001', '41121001'],
+                    ['RUSTICOS EDIFICADOS DESTINADOS A CASA HABITACION',
+                      'PENSIONADOS Y JUBILADOS'
+                    ], ['0020403', '0020801'], this.addImpuesto);
+                }
+                if (checkeds[2].length > 0) {
+                  renderCI('subIm2', task, 6, checkeds[2], ['41121001', '41121001'],
+                    ['INSEN',
+                      'PERSONAS DE CAPACIDADES DIFERENTES'
+                    ], ['0020802', '0020803'], this.addImpuesto);
+                }
+                if (checkeds[3].length > 0) {
+                  renderCI('subIm3', task, 6, checkeds[3], ['41121001','41131001'],
+                    ['MADRES Y/O PADRES SOLTEROS JEFES DE FAMILIA',
+                      'SOBRE ADQUISICIONES DE BIENES INMUEBLES'
+                    ], ['0020804', '0030101'], this.addImpuesto);
+                }
+                if (checkeds[4].length > 0) {
+                  renderCI('subAcc0', task, 6, checkeds[4], ['41171001','41171001'],
+                    ['RECARGOS PREDIAL', '15% PRO EDUCACION Y ASISTENCIA SOCIAL'],
+                    ['0070101','0070201'], this.addImpuesto);
+                }
+                if (checkeds[5].length > 0) {
+                  renderCI('subAcc1', task, 6, checkeds[5], ['41171001','41171001'],
+                    ['15% PRO CAMINOS', 'DESCUENTO PREDIAL DE NATURALEZA DEUDORA'],
+                    ['0070202','0070203'], this.addImpuesto);
+                }
+                if (checkeds[6].length > 0) {
+                  renderCI('subAcc2', [0], 6, checkeds[6], ['41191001'],
+                    ['REZAGOS IMPUESTO PREDIAL'],
+                    ['0090101'], this.addImpuesto);
+                }
+                if (checkeds[7].length > 0) {
+                  renderCI('subDer0', task, 6, checkeds[7], ['41491004','41491004'],
+                    ['POR LA AUTORIZACION PARA LA FUSION DE PREDIOS',
+                      'POR LA AUTORIZACION PARA SUBDIVISION, LOTIFICACION Y RELOTIFICACION DE PREDIOS'
+                    ],
+                    ['0090106','0090107'], this.addImpuesto);
+                }
+                if (checkeds[8].length > 0) {
+                  renderCI('subCop0', task, 6, checkeds[8], ['41491004','41491004'],
+                    ['CONSTANCIAS',
+                      'CERTIFICACIONES'
+                    ],
+                    ['0090701','0090702'], this.addImpuesto);
+                }
+                if (checkeds[9].length > 0) {
+                  renderCI('subCop1', task, 6, checkeds[9], ['41491004','41491004'],
+                    ['DUPLICADOS Y COPIAS',
+                      'OTROS SERVICIOS'
+                    ],
+                    ['0090703','0090704'], this.addImpuesto);
+                }
+                if (checkeds[10].length > 0) {
+                  renderCI('subCop2', task, 6, checkeds[10], ['41491004','41491004'],
+                    ['PRO-BOMBEROS Y PROTECCION CIVIL',
+                      'LICENCIAS PARA CONSTRUCCION DE EDIFICIOS O CASAS HABITACION, RESTAURACION O REPARACION, URBANIZACION, FRACCIONAMIENTO LORIFIACION, RELOTIFICACION, FUSION Y SUB-DIVISION'
+                    ],
+                    ['00913','0091301'], this.addImpuesto);
+                }
+                if (checkeds[11].length > 0) {
+                  renderCI('subPro0', [0], 12, checkeds[11], ['41491005'],
+                    ['VENTAS DE FORMAS IMPRESAS POR JUEGOS (FORMA 3DCC)'],
+                    ['0010804'], this.addImpuesto);
+                }
+                if (checkeds[12].length > 0) {
+                  renderCI('subApr0', [0], 12, checkeds[12], ['41621006'],
+                    ['MULTAS FISCALES (FALTA DE CUMPLIMIENTO DE OBLIGACIONES FISCALES)'],
+                    ['0010101'], this.addImpuesto);
+                }
+                if (checkeds[13].length > 0) {
+                  renderCI('subDee0', [0], 12, checkeds[13], [''],
+                    ['15% DE CONTRIBUCION ESTATAL (APLICADO POR AUTORIZACION DE FUSION Y SUBDIVISION DE PREDIOS)'],
+                    ['21173001001'], this.addImpuesto);
+                }
+                //if (parseInt(orden.zona) > 0) {
+                 // this.setZona(orden.zona); 
+                //}
+                //else{
+                  
+                //}
 
             }
             
@@ -216,128 +416,180 @@ registrarO=async()=>{
         const bg = document.getElementById('baseGravable').value;
         const periodo = document.getElementById('periodo').value;
         const {totalN} = this.state;
+        const m1 = document.getElementById('m1').value;
+        const m2 = document.getElementById('m2').value;
+        const zona = document.getElementById('zona').value;
         const {tipoPredio} = this.state;
         const idImpuestos = [];
+        const removI = [];
         
         let I0020401 = document.getElementById('I0020401').checked;
         let V0020401 = document.getElementById('0020401').value
         if (I0020401) {
           idImpuestos.push({id: 1, val: V0020401});
+        }else{
+          removI.push({id: 1});
         }
         let I0020402 = document.getElementById('I0020402').checked;
         let V0020402 = document.getElementById('0020402').value
         if(I0020402){
           idImpuestos.push({id: 2, val: V0020402});
+        }else{
+          removI.push({id: 2});
         }
         let I0020403 = document.getElementById('I0020403').checked;
         let V0020403 = document.getElementById('0020403').value;
         if (I0020403) {
           idImpuestos.push({id: 3, val: V0020403});
+        }else{
+          removI.push({id: 3});
         }
         let I0020801 = document.getElementById('I0020801').checked;
         let V0020801 = document.getElementById('0020801').value
         if (I0020801) {
           idImpuestos.push({id: 4, val: V0020801});
+        }else{
+          removI.push({id: 4});
         }
         let I0020802 = document.getElementById('I0020802').checked;
         let V0020802 = document.getElementById('0020802').value
         if (I0020802) {
           idImpuestos.push({id: 5, val: V0020802});
+        }else{
+          removI.push({id: 5});
         }
         let I0020803 = document.getElementById('I0020803').checked;
         let V0020803 = document.getElementById('0020803').value
         if (I0020803) {
           idImpuestos.push({id: 6, val: V0020803});
+        }else{
+          removI.push({id: 6});
         }
         let I0020804 = document.getElementById('I0020804').checked;
         let V0020804 = document.getElementById('0020804').value
         if(I0020804){
           idImpuestos.push({id: 7, val: V0020804});
+        }else{
+          removI.push({id: 7});
         }
         let I0030101 = document.getElementById('I0030101').checked;
         let V0030101 = document.getElementById('0030101').value
         if(I0030101){
           idImpuestos.push({id: 8, val: V0030101});
+        }else{
+          removI.push({id: 8});
         }
         let I0070101 = document.getElementById('I0070101').checked;
         let V0070101 = document.getElementById('0070101').value
         if(I0070101){
           idImpuestos.push({id: 9, val: V0070101});
+        }else{
+          removI.push({id: 9});
         }
         let I0070201 = document.getElementById('I0070201').checked;
         let V0070201 = document.getElementById('0070201').value
         if(I0070201){
           idImpuestos.push({id: 10, val: V0070201});
+        }else{
+          removI.push({id: 10});
         }
         let I0070202 = document.getElementById('I0070202').checked;
         let V0070202 = document.getElementById('0070202').value
         if(I0070202){
           idImpuestos.push({id: 11, val: V0070202});
+        }else{
+          removI.push({id: 11});
         }
         let I0070203 = document.getElementById('I0070203').checked;
         let V0070203 = document.getElementById('0070203').value
         if (I0070203) {
           idImpuestos.push({id: 12, val: V0070203});
+        }else{
+          removI.push({id: 12});
         }
         let I0090101 = document.getElementById('I0090101').checked;
         let V0090101 = document.getElementById('0090101').value
         if (I0090101) {
           idImpuestos.push({id: 13, val: V0090101});
+        }else{
+          removI.push({id: 13});
         }
         let I0090106 = document.getElementById('I0090106').checked;
         let V0090106 = document.getElementById('0090106').value
         if (I0090106) {
           idImpuestos.push({id: 14, val: V0090106});
+        }else{
+          removI.push({id: 14});
         }
         let I0090107 = document.getElementById('I0090107').checked;
         let V0090107 = document.getElementById('0090107').value
         if (I0090107) {
           idImpuestos.push({id: 15, val: V0090107});
+        }else{
+          removI.push({id: 15});
         }
         let I0090701 = document.getElementById('I0090701').checked;
         let V0090701 = document.getElementById('0090701').value
         if (I0090701) {
           idImpuestos.push({id: 16, val: V0090701});
+        }else{
+          removI.push({id: 16});
         }
         let I0090702 = document.getElementById('I0090702').checked;
         let V0090702 = document.getElementById('0090702').value
         if (I0090702) {
           idImpuestos.push({id: 17, val: V0090702});
+        }else{
+          removI.push({id: 17});
         }
         let I0090703 = document.getElementById('I0090703').checked;
         let V0090703 = document.getElementById('0090703').value
         if (I0090703) {
           idImpuestos.push({id: 18, val: V0090703});
+        }else{
+          removI.push({id: 18});
         }
         let I0090704 = document.getElementById('I0090704').checked;
         let V0090704 = document.getElementById('0090704').value
         if (I0090704) {
           idImpuestos.push({id: 19, val: V0090704});
+        }else{
+          removI.push({id: 19});
         }
         let I00913 = document.getElementById('I00913').checked;
         let V00913 = document.getElementById('00913').value
         if (I00913) {
           idImpuestos.push({id: 20, val: V00913});
+        }else{
+          removI.push({id: 20});
         }
         let I0091301 = document.getElementById('I0091301').checked;
         let V0091301 = document.getElementById('0091301').value
         if (I0091301) {
           idImpuestos.push({id: 21, val: V0091301});
+        }else{
+          removI.push({id: 21});
         }
         let I0010804 = document.getElementById('I0010804').checked;
         let V0010804 = document.getElementById('0010804').value
         if(I0010804){
           idImpuestos.push({id: 22, val: V0010804});
+        }else{
+          removI.push({id: 22});
         }
         let I0010101 = document.getElementById('I0010101').checked;
         let V0010101 = document.getElementById('0010101').value
         if(I0010101){
           idImpuestos.push({id: 23, val: V0010101});
+        }else{
+          removI.push({id: 23});
         }
         let I21173001001 = document.getElementById('I21173001001').checked;
         let V21173001001 = document.getElementById('21173001001').value
         if (I21173001001) {
           idImpuestos.push({id: 24, val: V21173001001});
+        }else{
+          removI.push({id: 24});
         }
 
         const bodyJSON = {
@@ -349,9 +601,14 @@ registrarO=async()=>{
           municipio: municipio,
           localidad: localidad,
           periodo: periodo,
+          m1: m1,
+          m2: m2,
+          zona: zona,
+          bg: bg,
           total: totalN,
           tp: tipoPredio,
-          idImpuestos: idImpuestos
+          idImpuestos: idImpuestos,
+          removI: removI
         }
         const response = await fetch(sendUri, {
             method: "POST",
@@ -541,7 +798,7 @@ handleUpper = e => {
   e.target.value = e.target.value.toUpperCase()
 }
 blurCalle = e => {
-  console.log(e.target.value)
+  //console.log(e.target.value)
 }
 
 searchU = () => {
@@ -599,8 +856,7 @@ setZona = async(n) => {
   const m2 = document.getElementById('m2').value;
   const prol1 = document.getElementById('0070201');
   const prol2 = document.getElementById('0070202');
-  const subAcc0 = document.getElementById('subAcc0');
-  const subAcc1 = document.getElementById('subAcc1');
+  const task = [0, 1];
   const p1 = m1 * m2;
   let uma = 84.49 * n; 
   let subStr = uma.toString().split(".");
@@ -620,111 +876,45 @@ setZona = async(n) => {
   if (checkU.checked){
     const urb = document.getElementById('0020401');
     const rus = document.getElementById('0020403');
-    const subIm0 = document.getElementById('subIm0');
-    const subIm1 = document.getElementById('subIm1');
+  //  const subIm0 = document.getElementById('subIm0');
+  //  const subIm1 = document.getElementById('subIm1');
     urb.value = pb;
     rus.value = 0
-
-    ReactDOM.unmountComponentAtNode(subIm0);
-    ReactDOM.unmountComponentAtNode(subIm1);
-    
-    ReactDOM.render(
-      <CheckI
-          checkedIndexes={[0]}
-          tasksIndexes={[0,1]}
-          md={6}
-          strsa={['41121001','41121001']}
-          strsb={['URBANOS EDIFICADOS DESTINADOS A CASA HABITACION',
-                  'SUB URBANOS EDIFICADOS DESTINADOS A CASA HABITACION']}
-          ids={['0020401','0020402']}
-          fa = {this.addImpuesto}
-      />,
-      subIm0
-    )
-
-  ReactDOM.render(
-      <CheckI
-        checkedIndexes={[]}
-        tasksIndexes={[0,1]}
-        md={6}
-        strsa={['41121001','41121001']}
-        strsb={['RUSTICOS EDIFICADOS DESTINADOS A CASA HABITACION','PENSIONADOS Y JUBILADOS']}
-        ids={['0020403','0020801']}
-        fa = {this.addImpuesto}
-      />,
-      subIm1
-    )
+    renderCI('subIm0',task,6,[0],['41121001','41121001'],
+              ['URBANOS EDIFICADOS DESTINADOS A CASA HABITACION',
+               'SUB URBANOS EDIFICADOS DESTINADOS A CASA HABITACION'
+              ],['0020401','0020402'],this.addImpuesto);
+    renderCI('subIm1', task,6, [], ['41121001', '41121001'],
+      ['RUSTICOS EDIFICADOS DESTINADOS A CASA HABITACION',
+        'PENSIONADOS Y JUBILADOS'
+      ], ['0020403', '0020801'], this.addImpuesto);
 
   }else{
     const rus = document.getElementById('0020403');
     const urb = document.getElementById('0020401');
-    const subIm1 = document.getElementById('subIm1');
-    const subIm0 = document.getElementById('subIm0');
     rus.value = pb;
     urb.value = 0;
-    ReactDOM.unmountComponentAtNode(subIm0);
-    ReactDOM.unmountComponentAtNode(subIm1);
-    ReactDOM.render(
-      <CheckI
-        checkedIndexes={[0]}
-        tasksIndexes={[0,1]}
-        md={6}
-        strsa={['41121001','41121001']}
-        strsb={['RUSTICOS EDIFICADOS DESTINADOS A CASA HABITACION','PENSIONADOS Y JUBILADOS']}
-        ids={['0020403','0020801']}
-        fa = {this.addImpuesto}
-      />,
-      subIm1
-    )
-    
-     ReactDOM.render(
-      <CheckI
-          checkedIndexes={[]}
-          tasksIndexes={[0,1]}
-          md={6}
-          strsa={['41121001','41121001']}
-          strsb={['URBANOS EDIFICADOS DESTINADOS A CASA HABITACION',
-                  'SUB URBANOS EDIFICADOS DESTINADOS A CASA HABITACION']}
-          ids={['0020401','0020402']}
-          fa = {this.addImpuesto}
-      />,
-      subIm0
-    )
+    renderCI('subIm1', task, 6, [0], ['41121001', '41121001'],
+      ['RUSTICOS EDIFICADOS DESTINADOS A CASA HABITACION',
+        'PENSIONADOS Y JUBILADOS'
+      ], ['0020403', '0020801'], this.addImpuesto);
+    renderCI('subIm0', task, 6, [0], ['41121001', '41121001'],
+      ['URBANOS EDIFICADOS DESTINADOS A CASA HABITACION',
+        'SUB URBANOS EDIFICADOS DESTINADOS A CASA HABITACION'
+      ], ['0020401', '0020402'], this.addImpuesto);
   }
 
   prol1.value = pro1;
   prol2.value = pro2;
-    ReactDOM.unmountComponentAtNode(subAcc0);
-    ReactDOM.render(
-      <CheckI
-          checkedIndexes={[1]}
-          tasksIndexes={[0,1]}
-          md={6}
-          strsa={['41171001','41171001']}
-          strsb = {
-              ['RECARGOS PREDIAL', '15% PRO EDUCACION Y ASISTENCIA SOCIAL']
-          }
-          ids={['0070101','0070201']}
-          fa = {this.addImpuesto}                
-      />,
-      subAcc0
-    )
+  renderCI('subAcc0', task, 6, [1], ['41171001', '41171001'],
+    ['RECARGOS PREDIAL',
+      '15% PRO EDUCACION Y ASISTENCIA SOCIAL'
+    ], ['0070101', '0070201'], this.addImpuesto);
+  renderCI('subAcc1', task, 6, [0], ['41171001', '41171001'],
+    ['15% PRO CAMINOS',
+      'DESCUENTO PREDIAL DE NATURALEZA DEUDORA'
+    ], ['0070202', '0070203'], this.addImpuesto);
 
-    ReactDOM.unmountComponentAtNode(subAcc1);
-    ReactDOM.render(
-      <CheckI
-          checkedIndexes={[0]}
-          tasksIndexes={[0,1]}
-          strsa={['41171001','41171001']}
-          md={6}
-          strsb = {
-              ['15% PRO CAMINOS', 'DESCUENTO PREDIAL DE NATURALEZA DEUDORA']
-          }
-          ids={['0070202','0070203']}
-          fa = {this.addImpuesto}
-      />,
-      subAcc1
-    )
   this.setState({zona: n, totalN: t})
 }
 
