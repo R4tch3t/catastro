@@ -7,7 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Search from "@material-ui/icons/Search";
 
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
-import stylesM from "assets/jss/material-dashboard-react/components/headerLinksStyle.js";
+import stylesM from "assets/jss/material-dashboard-react/components/listItemStyle.js";
 import decrypt from "./decrypt";
 
 const useStyles = makeStyles(styles);

@@ -25,7 +25,7 @@ import Notifications from "@material-ui/icons/Notifications";
 import Unarchive from "@material-ui/icons/Unarchive";
 import Language from "@material-ui/icons/Language";*/
 // core components/views for Admin layout
-import Predial from "views/Dashboard/Predial.js";
+import Predial from "views/Predial/Predial.js";
 import Orden from "views/Dashboard/Orden.js";
 import Pdf from "views/Dashboard/renderPDF.js";
 import Editar from "views/UserProfile/Editar.js";
@@ -50,7 +50,7 @@ const dashboardRoutes = [
   }, 
   {
     path: "/predial",
-    name: "Predial",
+    name: "Lista de Prediales",
     rtlName: "لوحة القيادة",
     icon: Dashboard,
     component: Predial,

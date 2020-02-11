@@ -144,8 +144,8 @@ const accesoKey = (e) =>{
    try {
      
     // const sendUri = "http://34.66.54.10:3012/";
-     //const sendUri = "http://192.168.1.74:3012/";
-    const sendUri = "http://localhost:3012/";
+     const sendUri = "http://192.168.1.74:3012/";
+    //const sendUri = "http://localhost:3012/";
      
      const bodyJSON = {
        idUsuario: idUsuario,

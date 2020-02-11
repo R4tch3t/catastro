@@ -1,34 +1,41 @@
 import renderCI from "./renderCI";
+function redondeo(n) {
+  //n = Math.round(n * 100) / 100;
+  //n = Math.round(n * 10) / 10;
+  n = Math.round(n);
+  return n;
+}
 export default (n,c) => {
   const checkU = document.getElementById('check0');
   const bg = document.getElementById('baseGravable');
   const m1 = document.getElementById('m1').value;
   const m2 = document.getElementById('m2').value;
+  const tc = document.getElementById('tc').value;
   const prol1 = document.getElementById('0070201');
   const prol2 = document.getElementById('0070202');
   const task = [0, 1];
   //const p1 = m1 * m2;
   let p1 = m1;
   let p2 = m2;
-  let uma = 84.49 * n; 
-  let subStr = uma.toString().split(".");
-  uma = parseInt(subStr[0]);
-  p1 = p1 * uma
-  subStr = p1.toString().split(".");
-  p1 = parseInt(subStr[0]);
-  p2 = p2 * uma
-  subStr = p2.toString().split(".");
-  p2 = parseInt(subStr[0]);
-
+  let umaZ = 84.49 * n;
+  let umaC = 84.49 * tc;
+  
+  umaZ = redondeo(umaZ);
+  p1 = p1 * umaZ
+  p1=redondeo(p1);
+  
+  umaC = redondeo(umaC);
+  p2 = p2 * umaC
+  p2=redondeo(p2);
+  
   bg.value=p1+p2;
-  subStr = bg.value.split(".");
-  bg.value=parseInt(subStr[0]);
+  
   let pb = bg.value * 0.004;
-  subStr = pb.toString().split(".");
-  pb = parseInt(subStr[0]);
+  
+  pb = redondeo(pb);
   let pro1 = pb * 0.15;
-  subStr = pro1.toString().split(".");
-  pro1 = parseInt(subStr[0]);
+  
+  pro1 = redondeo(pro1);
   const pro2 = pro1;
   const t = pb + pro1 + pro2;
   

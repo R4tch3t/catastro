@@ -1,7 +1,5 @@
 import React from 'react';
-import cookie from "react-cookies";
 // react plugin for creating charts
-import ChartistGraph from "react-chartist";
 // @material-ui/core
 //import { makeStyles } from "@material-ui/core/styles";
 //import Icon from "@material-ui/core/Icon";
@@ -11,12 +9,6 @@ import LocalAtm from "@material-ui/icons/LocalAtm";
 import DateRange from "@material-ui/icons/DateRange";
 //import LocalOffer from "@material-ui/icons/LocalOffer";
 //import Update from "@material-ui/icons/Update";
-import ArrowUpward from "@material-ui/icons/ArrowUpward";
-import AccessTime from "@material-ui/icons/AccessTime";
-import Paper from "@material-ui/core/Paper";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import MenuList from "@material-ui/core/MenuList";
-import Checker from "./Checker.js";
 import Pdf from "./renderPDF.js";
 //import Accessibility from "@material-ui/icons/Accessibility";
 //import BugReport from "@material-ui/icons/BugReport";
@@ -25,10 +17,6 @@ import Pdf from "./renderPDF.js";
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
-import Table from "components/Table/Table.js";
-import classNames from "classnames";
-import Grow from "@material-ui/core/Grow";
-import MenuItem from "@material-ui/core/MenuItem";
 //import Tasks from "components/Tasks/Tasks.js";
 //import CustomTabs from "components/CustomTabs/CustomTabs.js";
 //import Danger from "components/Typography/Danger.js";
@@ -37,21 +25,13 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
-import CustomInput from "components/CustomInput/CustomInput.js";
-import Button from "components/CustomButtons/Button.js";
-import Search from "@material-ui/icons/Search";
-import Poppers from "@material-ui/core/Popper";
-import Impuestos from "./Impuestos"
 //import { Crypt, RSA } from "hybrid-crypto-js";
 import encrypt from "./encrypt";
 import setZona from "./setZona";
-import renderCI from "./renderCI";
+import setTC from "./setTC";
 import setBg from "./setBg";
-//import { bugs, website, server } from "variables/general.js";
-import {
-  creditoFovisste,
-  seguroFovisste
-} from "variables/charts.js";
+import GridsOrden from "./GridsOrden";
+
 import genImp from './genImp.js';
 
 
@@ -82,11 +62,13 @@ state={
     classes: null,
     openDash: null,
     openZona: null,
+    openTC: null,
     lastD: null,
     Y: 0,
     totalN: 0,
     CBG: true,
-    zona: 0
+    zona: 0,
+    tc: 0
 }
 
 constructor(props){
@@ -101,11 +83,13 @@ constructor(props){
         classes: props.classes,
         openDash: null,
         openZona: null,
+        openTC: null,
         lastD: date,
         Y: date.getFullYear(),
         totalN: 0.0,
         CBG: true,
-        zona: 0
+        zona: 0,
+        tc: 0
     };
 //    this.obtenerQ(this.state.idUsuario,this.state.idQuincena)
 }
@@ -127,8 +111,8 @@ padrones=async(CTAnombre, tp, tipoB)=>{
     try {
 
        //const sendUri = "http://34.66.54.10:3015/";
-        const sendUri = "http://localhost:3015/";
-        //const sendUri = "http://192.168.1.74:3015/";
+        //const sendUri = "http://localhost:3015/";
+        const sendUri = "http://192.168.1.74:3015/";
         const bodyJSON = {
           CTAnombre: CTAnombre,
           tp: tp,
@@ -221,9 +205,9 @@ padrones=async(CTAnombre, tp, tipoB)=>{
 registrarO=async()=>{
     try {
 
-       //const sendUri = "http://34.66.54.10:3015/";
-        const sendUri = "http://localhost:3016/";
-        //const sendUri = "http://192.168.1.74:3015/";
+       //const sendUri = "http://34.66.54.10:3016/";
+        //const sendUri = "http://localhost:3016/";
+        const sendUri = "http://192.168.1.74:3016/";
         const CTA = document.getElementById('CTA').value;
         const calle = document.getElementById('calle').value;
         let numCalle = document.getElementById('numCalle').value;
@@ -494,7 +478,6 @@ registrarO=async()=>{
     }
 }
 
-
 getParameterByName=(name, url) => {
   if (!url) url = window.location.href;
   name = name.replace(/[\[\]]/g, '\\$&');
@@ -614,28 +597,40 @@ handleKeyZona = event => {
   this.setState({openZona: event.currentTarget});
 };
 
+handleCloseTC = () => {
+  this.setState({
+    openTC: null
+  })
+};
+
+changeTC = event => {
+  const {openTC} = this.state;
+  if (openTC && openTC.contains(event.target)) {
+    this.setState({openTC: null});
+  } else {
+    this.setState({openTC: event.currentTarget});
+  }
+}
+
+handleClickTC = event => {
+  if (this.state.CBG) {
+    return false;
+  }
+  this.changeTC(event);
+};
+
+handleKeyTC = event => {
+  if (this.state.CBG) {
+    return false;
+  }
+  this.setState({openTC: event.currentTarget});
+};
+
 handleUpper = e => {
   e.target.value = e.target.value.toUpperCase()
 }
 blurCalle = e => {
   //console.log(e.target.value)
-}
-
-searchU = () => {
-    //const idEmpleado = document.getElementById('idEmpleado').value
-    const {idUsuario} = this.state
-    if(idUsuario!==''){
-      const idQuincena = this.getParameterByName('idQuincena');
-      if(idQuincena!==''){
-        window.history.pushState(null, 'Buscar usuario', `#/admin/creditos?idQuincena=${idQuincena}&idUsuario=${idUsuario}`)
-      }else{
-        window.history.pushState(null, 'Buscar usuario', `#/admin/creditos?idUsuario=${idUsuario}`)
-      }
-    }else{
-      window.history.pushState(null, 'Buscar usuario', `#/admin/creditos`)
-    }
-    
-    window.history.go()
 }
 
 buscarCTA = (key) => (event) => {
@@ -660,11 +655,21 @@ calcB = (e)=>{
   this.setState({CBG: band}) 
 }
 
+tcHandle = (n) => (e) => {
+  this.setTC(n);
+}
+
 zonaHandle = (n) => (e) => {
   this.setZona(n);
 }
 
-setZona = async(n) => {  
+setTC = async (n) => {
+  this.handleCloseTC()
+  setTC(n, this)
+}
+
+setZona = async(n) => {
+  this.handleCloseZona()
   setZona(n,this)
 }
 
@@ -732,16 +737,8 @@ render() {
                  V0010804={V0010804} V0010101={V0010101} V21173001001={V21173001001} /> )
   }else
   if(bandPdf==='0'){
-    const {CTA} = this.state
-    const {nombre} = this.state
-    const {calle} = this.state;
-    const {openDash} = this.state;
-    const {openZona} = this.state;
-    const {lastD} = this.state;
     const {Y} = this.state;
     const {totalN} = this.state;
-    const {CBG} = this.state;
-    const {zona} = this.state;
     return (
       <CardIcon>
         <GridContainer>
@@ -762,413 +759,9 @@ render() {
                   ]}
                 />*/              
                 }
-                <div id='pdfView' />
-                <div id='bodyOrden' >
-                <div className={classes.searchWrapper}>
-                  <GridContainer>
-                    <GridItem xs={12} sm={12} md={3}>
-                      <CustomInput
-                        formControlProps={{
-                          className: classes.margin + " " + classes.search 
-                        }}
-                        id='CTANM'
-                        inputProps={{
-                          placeholder: "Buscar propietario",
-                          type: 'text',
-                          onKeyUp: this.handleUpper,
-                          //value: idUsuario,
-                          
-                          inputProps: {
-                            "aria-label": "Search"
-                          }
-                        }}
-                      />
-                      <Button color="white" onClick={this.handleClickDash} aria-label="edit"
-                      aria-owns={openDash ? "profile-menu-list-grow" : null}
-                      aria-haspopup="true"
-                      justIcon round>
-                        <Search />
-                      </Button>
-                      
-                      <Poppers
-                        open={Boolean(openDash)}
-                        anchorEl={openDash}
-                        transition
-                        disablePortal
-                        className={
-                          classNames({ [classesM.popperClose]: !openDash }) +
-                          " " +
-                          classesM.popperNav
-                        }
-                        style={{zIndex: 9999}}
-                      >
-                        {({ TransitionProps, placement }) => (
-                          <Grow
-                            {...TransitionProps}
-                            id="profile-menu-list-grow"
-                            style={{
-                              transformOrigin:
-                                placement === "bottom" ? "center top" : "center bottom"
-                            }}
-                          >
-                            <Paper>
-                              <ClickAwayListener onClickAway={this.handleCloseDash}>
-                                  <MenuList role="menu">
-                                    <MenuItem key={'cuenta'}
-                                      className={classesM.dropdownItem}
-                                      onClick={this.buscarCTA(0)}
-                                    >
-                                      Por CTA. 
-                                    </MenuItem>
-                                    <MenuItem key={'nombre'}
-                                      className={classesM.dropdownItem}
-                                      onClick={this.buscarCTA(1)}
-                                    >
-                                      Por nombre 
-                                    </MenuItem>
-                                  </MenuList>
-                              </ClickAwayListener>
-                            </Paper>
-                          </Grow>
-                        )}
-                      </Poppers>
-                  </GridItem>
-                  <GridContainer>
-
-                      <Checker
-                        checkedIndexes={[0]}
-                        tasksIndexes={[0, 1]}
-                        strs={['URBANO','RUSTICO']}
-                        ids={['check','check']}
-                      />
-
-                  </GridContainer>
-                  </GridContainer>
-                </div>
-                <div>
                   
-                  <GridContainer>
-                  
-                    <GridItem xs={12} sm={12} md={5}>
-                      
-                    <CustomInput
-                      labelText="NOMBRE O RAZON SOCIAL:"
-                      id="nombre"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps = {{
-                        type: 'text',
-                        //defaultValue: ' '
-                        value: nombre,
-                        onKeyDown: this.handleNombre,
-                        onKeyUp: this.handleNombreUp
-                      /* onClick: getinfoReg,
-                        onChange: getinfoReg*/
-                      }}
-                    />
-                  </GridItem>
-                  </GridContainer>
-
-                  <GridContainer>
-                    <GridItem xs={12} sm={12} md={3}>
-                      <CustomInput
-                        labelText="CALLE:"
-                        id="calle"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps = {{
-                          type: 'text',
-                          defaultValue: '\0',
-                          //style: {"textTransform": "uppercase"}
-                          onKeyUp: this.handleUpper,
-                          onBlur: this.blurCalle,
-                        }}
-                      />
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={2}>
-                      <CustomInput
-                        labelText="NUMERO:"
-                        id="numCalle"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps = {{
-                          type: 'text', 
-                          defaultValue: '\0'
-                        }}
-                      />
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={3}>
-                      <CustomInput
-                        labelText="COLONIA:"
-                        id="colonia"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps = {{
-                          type: 'text',
-                          defaultValue: '\0',
-                          onKeyUp: this.handleUpper
-                        /* onClick: getinfoReg,
-                          onChange: getinfoReg*/
-                        }}
-                      />
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={2}>
-                      <CustomInput
-                        labelText="C.P:"
-                        id="cp"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps = {{
-                          type: 'number',
-                          defaultValue: 0
-                        }}
-                      />
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={3}>
-                      <CustomInput
-                        labelText="MUNICIPIO:"
-                        id="municipio"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps = {{
-                          type: 'text',
-                          defaultValue: '\0',
-                          onKeyUp: this.handleUpper
-                        }}
-                      />
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={3}>
-                      <CustomInput
-                        labelText="LOCALIDAD:"
-                        id="localidad"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps = {{
-                          type: 'text',
-                          defaultValue: '\0',
-                          onKeyUp: this.handleUpper
-                        }}
-                      />
-                    </GridItem>
-                  </GridContainer>
-                  
-                  <GridContainer >
-                        
-                        <Checker
-                          checkedIndexes={[]}
-                          tasksIndexes={[0]}
-                          strs={['CALCULAR BASE GRAVABLE']}
-                          ids={['cbg']}
-                          fa = {this.calcB}
-                        />
-                         
-                  </GridContainer>
-                 
-                  <GridContainer>
-                    <GridItem xs={12} sm={12} md={3}>
-                      <CustomInput
-                        labelText="TERRENO (METROS CUADRADOS):"
-                        id="m1"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps = {{
-                          type: 'number',
-                          defaultValue: 0,
-                          onChange: (e)=>{ this.setZona(document.getElementById('zona').value) },
-                          disabled: CBG
-                        }}
-                      />
-                    </GridItem>
-                    
-                    <GridItem xs={12} sm={12} md={3}>
-                      <CustomInput
-                        labelText="CONSTRUCCION (METROS CUADRADOS):"
-                        id="m2"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps = {{
-                          type: 'number',
-                          defaultValue: 0,
-                          onChange: (e)=>{ this.setZona(document.getElementById('zona').value) },
-                          disabled: CBG
-                        }}
-                      />
-                    </GridItem>
-
-                    <GridItem xs={12} sm={12} md={3}>
-                      <CustomInput
-                        labelText="ZONA:"
-                        id="zona"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps = {{
-                          type: 'number', 
-                          onKeyUp: this.handleKeyZona,
-                          onClick: this.handleClickZona,
-                          value: zona,
-                          disabled: CBG
-                        }}
-                      />
-
-                      <Poppers
-                        open={Boolean(openZona)}
-                        anchorEl={openZona}
-                        transition
-                        disablePortal
-                        className={
-                          classNames({ [classesM.popperClose]: !openZona }) +
-                          " " +
-                          classesM.popperNav
-                        }
-                        style={{zIndex: 9999}}
-                      >
-                        {({ TransitionProps, placement }) => (
-                          <Grow
-                            {...TransitionProps}
-                            id="profile-menu-list-grow"
-                            style={{
-                              transformOrigin:
-                                placement === "bottom" ? "center top" : "center bottom"
-                            }}
-                          >
-                            <Paper>
-                              <ClickAwayListener onClickAway={this.handleCloseZona}>
-                                  <MenuList role="menu">
-                                    <MenuItem key={'zona1-1'}
-                                      className={classesM.dropdownItem}
-                                      onClick={this.zonaHandle(3)}
-                                    >
-                                      3 (Zona 1) 
-                                    </MenuItem>
-                                    <MenuItem key={'zona1-2'}
-                                      className={classesM.dropdownItem}
-                                      onClick={this.zonaHandle(2.5)}
-                                    >
-                                      2.5 (Zona 1)
-                                    </MenuItem>
-                                    <MenuItem key={'zona2'}
-                                      className={classesM.dropdownItem}
-                                      onClick={this.zonaHandle(2)}
-                                    >
-                                      2 (Zona 2)
-                                    </MenuItem>
-                                    <MenuItem key={'zona3'}
-                                      className={classesM.dropdownItem}
-                                      onClick={this.zonaHandle(1.5)}
-                                    >
-                                      1.5 (Zona 3)
-                                    </MenuItem>
-                                  </MenuList>
-                              </ClickAwayListener>
-                            </Paper>
-                          </Grow>
-                        )}
-                      </Poppers>
-
-                    </GridItem>
-
-                  </GridContainer>
-                  <GridContainer>
-            
-                    <GridItem xs={12} sm={12} md={3}>
-                      <CustomInput
-                        labelText="BASE GRAVABLE:"
-                        id="baseGravable"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps = {{
-                          type: 'number',
-                          defaultValue: 0,
-                          onChange: this.setBg,
-                          onBlur: this.setBg
-                        }}
-                      />
-                    </GridItem>
-                    
-                    <GridItem xs={12} sm={12} md={3}>
-                      <CustomInput
-                        labelText="NUMERO DE CUENTA:"
-                        id="CTA"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps = {{
-                          type: 'number',
-                          value: CTA
-                        /* onClick: getinfoReg,
-                          onChange: getinfoReg*/
-                        }}
-                      />
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={3}>
-                      <CustomInput
-                        labelText="PERIODO DE PAGO:"
-                        id="periodo"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps = {{
-                          type: 'text',
-                          defaultValue: Y
-                        /* onClick: getinfoReg,
-                          onChange: getinfoReg*/
-                        }}
-                      />
-                    </GridItem>
-
-                    <GridItem xs={12} sm={12} md={3}>
-                      <CustomInput
-                        labelText="PAGUESE LA CANTIDAD DE:"
-                        id="cantidadPago"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps = {{
-                          type: 'number',
-                          value: totalN
-                        }}
-                      />
-                    </GridItem>    
-
-                  </GridContainer>
-                </div>
-                <div style={{height: 40}} />
-  
-                <Impuestos classes={classes} fa={this.addImpuesto} />
-
-                <div style={{height: 40}} />
-
-                <div>
-                  <GridContainer>
-                            
-                      <Button id = 'regB'
-                        color="success"
-                        style = {
-                          {
-                            display: 'flex',
-                            flex: 1,
-                            alignItems: 'center'
-                          }
-                        }
-                        onClick = {this.registrarO}
-                        >
-                        GENERAR ORDEN DE PAGO
-                      </Button>
-                                        
-                  </GridContainer>
-                </div>
-                </div>
+                  <GridsOrden c={this} />
+                
               </CardBody>
             </Card>
           </GridItem>

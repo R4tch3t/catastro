@@ -122,7 +122,7 @@ export default function AdminNavbarLinks() {
         <Button color="white" onClick={searchU} aria-label="edit" justIcon round>
           <Search />
         </Button>
-        </div>*/ }
+        </div>
       <div className={classes.manager}>
         <Button
           color={window.innerWidth > 959 ? "transparent" : "white"}
@@ -169,6 +169,7 @@ export default function AdminNavbarLinks() {
           )}
         </Poppers>
       </div>
+      */ }
       <div className={classes.manager}>
         <Button
           color={window.innerWidth > 959 ? "transparent" : "white"}

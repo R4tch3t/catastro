@@ -55,6 +55,8 @@ class App extends React.Component {
 
   onRender = ({ blob }) => {
     this.setState({ url: URL.createObjectURL(blob) });
+    console.log(this.state.url)
+    console.log(blob)
   };
   
 

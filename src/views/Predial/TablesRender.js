@@ -310,7 +310,7 @@ render() {
                   }}
                   id='idEmpleado'
                   inputProps={{
-                    placeholder: "Buscar propietario",
+                    placeholder: "CTA O NOMBRE",
                     type: 'text',
                     /*onKeyUp: this.handleKup,*/
                     //value: idUsuario,
