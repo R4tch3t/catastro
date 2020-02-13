@@ -25,6 +25,7 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
+import ip from "variables/ip.js";
 //import { Crypt, RSA } from "hybrid-crypto-js";
 import encrypt from "./encrypt";
 import setZona from "./setZona";
@@ -33,6 +34,8 @@ import setBg from "./setBg";
 import GridsOrden from "./GridsOrden";
 
 import genImp from './genImp.js';
+import clearCheck from './clearCheck.js';
+import sumaT from './sumaT.js';
 
 
 if (!String.prototype.splice) {
@@ -63,7 +66,9 @@ state={
     openDash: null,
     openZona: null,
     openTC: null,
+    openCTA: null,
     lastD: null,
+    ctasIndexes: [],
     Y: 0,
     totalN: 0,
     CBG: true,
@@ -84,7 +89,9 @@ constructor(props){
         openDash: null,
         openZona: null,
         openTC: null,
+        openCTA: null,
         lastD: date,
+        ctasIndexes: [],
         Y: date.getFullYear(),
         totalN: 0.0,
         CBG: true,
@@ -110,9 +117,8 @@ round = (num, decimales = 2)=>{
 padrones=async(CTAnombre, tp, tipoB)=>{
     try {
 
-       //const sendUri = "http://34.66.54.10:3015/";
-        //const sendUri = "http://localhost:3015/";
-        const sendUri = "http://192.168.1.74:3015/";
+       //const sendUri = "http://localhost:3015/";
+        const sendUri = ip('3015');
         const bodyJSON = {
           CTAnombre: CTAnombre,
           tp: tp,
@@ -160,15 +166,24 @@ padrones=async(CTAnombre, tp, tipoB)=>{
                 cp.value = ubicacion.cp;
                 municipio.value = ubicacion.municipio;
                 localidad.value = ubicacion.localidad;
-                this.setState({tipoPredio: tp})
+                this.setState({ctasIndexes: r.contribuyente, tipoPredio: tp})
+                
                 if(!orden){
+                  m1.value = 0
+                  m2.value = 0
+                  bg.value = 0;
+                  clearCheck(this)
+                  //periodo.value = orden.periodo
+                  this.setState({tc: 0, zona: 0, totalN: 0});
+
                   return false;
                 }
                 m1.value = orden.m1
                 m2.value = orden.m2
                 periodo.value = orden.periodo
-                this.setState({zona: orden.zona});
-                this.setState({totalN: orden.total});
+                
+                this.setState({tc: orden.tc, zona: orden.zona, totalN: orden.total});
+               // this.setState({totalN: orden.total});
                 //if(checkU.checked){
                 
                 bg.value = orden.bg;
@@ -205,9 +220,8 @@ padrones=async(CTAnombre, tp, tipoB)=>{
 registrarO=async()=>{
     try {
 
-       //const sendUri = "http://34.66.54.10:3016/";
         //const sendUri = "http://localhost:3016/";
-        const sendUri = "http://192.168.1.74:3016/";
+        const sendUri = ip('3016');
         const CTA = document.getElementById('CTA').value;
         const calle = document.getElementById('calle').value;
         let numCalle = document.getElementById('numCalle').value;
@@ -220,6 +234,7 @@ registrarO=async()=>{
         const {totalN} = this.state;
         const m1 = document.getElementById('m1').value;
         const m2 = document.getElementById('m2').value;
+        const tc = document.getElementById('tc').value;
         const zona = document.getElementById('zona').value;
         const {tipoPredio} = this.state;
         const idImpuestos = [];
@@ -248,7 +263,7 @@ registrarO=async()=>{
         }
         let I0020801 = document.getElementById('I0020801').checked;
         let V0020801 = document.getElementById('0020801').value
-        if (I0020801) {
+        if (I0020801 || V0020801 !== '0') {
           idImpuestos.push({id: 4, val: V0020801});
         }else{
           removI.push({id: 4});
@@ -405,6 +420,7 @@ registrarO=async()=>{
           periodo: periodo,
           m1: m1,
           m2: m2,
+          tc: tc,
           zona: zona,
           bg: bg,
           total: totalN,
@@ -626,6 +642,29 @@ handleKeyTC = event => {
   this.setState({openTC: event.currentTarget});
 };
 
+handleCloseCTA = () => {
+  this.setState({
+    openCTA: null
+  })
+};
+
+changeCTA = event => {
+  const {openCTA} = this.state;
+  if (openCTA && openCTA.contains(event.target)) {
+    this.setState({openCTA: null});
+  } else {
+    this.setState({openCTA: event.currentTarget});
+  }
+}
+
+handleClickCTA = event => {
+  this.changeCTA(event);
+};
+
+handleKeyCTA = event => {
+  this.setState({openCTA: event.currentTarget});
+};
+
 handleUpper = e => {
   e.target.value = e.target.value.toUpperCase()
 }
@@ -636,7 +675,6 @@ blurCalle = e => {
 buscarCTA = (key) => (event) => {
   const CTAnombre = document.getElementById('CTANM').value;
   const checkU = document.getElementById('check0');
-  const checkR = document.getElementById('check1');  
   
   if (checkU.checked){
     if (CTAnombre!==''){
@@ -645,6 +683,20 @@ buscarCTA = (key) => (event) => {
   }else{
     if (CTAnombre!==''){
       this.padrones(CTAnombre,'r',key)
+    }
+  }
+}
+
+rebuscarCTA = (key, CTA) => (e) => {
+  const checkU = document.getElementById('check0');
+  this.handleCloseCTA()
+  if (checkU.checked) {
+    if (CTA !== '') {
+      this.padrones(CTA, 'u', key)
+    }
+  } else {
+    if (CTA !== '') {
+      this.padrones(CTA, 'r', key)
     }
   }
 }
@@ -683,14 +735,14 @@ addImpuesto = (id) => {
       const vi = document.getElementById(id);
       const bg = document.getElementById('baseGravable').value;
       let t = (bg * 0.004)*0.15;
-      t = t.toString().split('.')[0]
+      t = Math.round(t)
       vi.value=t;
     }
     if (id === '0020401' || id === '0020402' || id === '0020403') {
         const {tipoPredio} = this.state;
         const bg = document.getElementById('baseGravable').value;
         let t = (bg * 0.004);
-        t = t.toString().split('.')[0]
+        t = Math.round(t)
         const vi = document.getElementById(id);
         if (tipoPredio === 'u' && id !== '0020403') {
           vi.value = t;
@@ -698,12 +750,23 @@ addImpuesto = (id) => {
           vi.value = t;
         }
     }
+    sumaT(this)
+}
+
+sumaT=async()=>{
+  sumaT(this);
+}
+
+setZero=async(id)=>{
+  const i = document.getElementById(id);
+  i.blur();
+  i.value = 0;
+  sumaT(this);
 }
 
 render() {
   const {bandPdf} = this.props
   const {classes} = this.props;
-  const {classesM} = this.props;
   if(bandPdf==='1'){
     const {CTA} = this.props;
     const {nombre} = this.props;

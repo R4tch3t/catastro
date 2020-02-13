@@ -17,7 +17,7 @@ export default (props) => {
     const {c} = props
     const {classes, classesM} = c.props
     const {nombre, openDash, CBG, zona, openZona, tc, openTC, 
-           CTA, Y, totalN} = c.state
+           CTA, openCTA, ctasIndexes, Y, totalN} = c.state
 
     return(
         <div id='bodyOrden' >
@@ -89,6 +89,7 @@ export default (props) => {
                         </Grow>
                     )}
                     </Poppers>
+
                 </GridItem>
                 <GridContainer>
 
@@ -586,11 +587,49 @@ export default (props) => {
                 }}
                 inputProps = {{
                     type: 'number',
-                    value: CTA
-                /* onClick: getinfoReg,
-                    onChange: getinfoReg*/
+                    value: CTA,
+                    onKeyUp: c.handleKeyCTA,
+                    onClick: c.handleClickCTA,
                 }}
                 />
+                <Poppers
+                    open={Boolean(openCTA)}
+                    anchorEl={openCTA}
+                    transition
+                    disablePortal
+                    className={
+                        classNames({ [classesM.popperClose]: !openCTA }) +
+                        " " +
+                        classesM.popperNav
+                    }
+                    style={{zIndex: 9999}}
+                    >
+                    {({ TransitionProps, placement }) => (
+                        <Grow
+                        {...TransitionProps}
+                        id="profile-menu-list-grow"
+                        style={{
+                            transformOrigin:
+                            placement === "bottom" ? "center top" : "center bottom"
+                        }}
+                        >
+                        <Paper>
+                            <ClickAwayListener onClickAway={c.handleCloseCTA}>
+                                <MenuList role="menu">
+                                {ctasIndexes.map(e => (
+                                    <MenuItem key={e.CTA}
+                                        className={classesM.dropdownItem}
+                                        onClick={c.rebuscarCTA(0,e.CTA)}
+                                    >
+                                        {e.CTA} 
+                                    </MenuItem>
+                                ))}
+                                </MenuList>
+                            </ClickAwayListener>
+                        </Paper>
+                        </Grow>
+                    )}
+                    </Poppers>
             </GridItem>
             <GridItem xs={12} sm={12} md={3}>
                 <CustomInput
@@ -626,7 +665,7 @@ export default (props) => {
         </div>
         <div style={{height: 40}} />
   
-        <Impuestos classes={classes} fa={c.addImpuesto} />
+        <Impuestos classes={classes} c={c} />
 
         <div style={{height: 40}} />
 

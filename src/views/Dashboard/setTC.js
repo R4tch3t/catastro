@@ -51,11 +51,11 @@ export default (n,c) => {
     renderCI('subIm0',task,6,[0],['41121001','41121001'],
               ['URBANOS EDIFICADOS DESTINADOS A CASA HABITACION',
                'SUB URBANOS EDIFICADOS DESTINADOS A CASA HABITACION'
-              ],['0020401','0020402'],c.addImpuesto);
+              ],['0020401','0020402'],c);
     renderCI('subIm1', task,6, [], ['41121001', '41121001'],
       ['RUSTICOS EDIFICADOS DESTINADOS A CASA HABITACION',
         'PENSIONADOS Y JUBILADOS'
-      ], ['0020403', '0020801'], c.addImpuesto);
+      ], ['0020403', '0020801'], c);
 
   }else{
     const rus = document.getElementById('0020403');
@@ -65,11 +65,11 @@ export default (n,c) => {
     renderCI('subIm1', task, 6, [0], ['41121001', '41121001'],
       ['RUSTICOS EDIFICADOS DESTINADOS A CASA HABITACION',
         'PENSIONADOS Y JUBILADOS'
-      ], ['0020403', '0020801'], c.addImpuesto);
+      ], ['0020403', '0020801'], c);
     renderCI('subIm0', task, 6, [0], ['41121001', '41121001'],
       ['URBANOS EDIFICADOS DESTINADOS A CASA HABITACION',
         'SUB URBANOS EDIFICADOS DESTINADOS A CASA HABITACION'
-      ], ['0020401', '0020402'], c.addImpuesto);
+      ], ['0020401', '0020402'], c);
   }
 
   prol1.value = pro1;
@@ -77,10 +77,10 @@ export default (n,c) => {
   renderCI('subAcc0', task, 6, [1], ['41171001', '41171001'],
     ['RECARGOS PREDIAL',
       '15% PRO EDUCACION Y ASISTENCIA SOCIAL'
-    ], ['0070101', '0070201'], c.addImpuesto);
+    ], ['0070101', '0070201'], c);
   renderCI('subAcc1', task, 6, [0], ['41171001', '41171001'],
     ['15% PRO CAMINOS',
       'DESCUENTO PREDIAL DE NATURALEZA DEUDORA'
-    ], ['0070202', '0070203'], c.addImpuesto);
+    ], ['0070202', '0070203'], c);
     c.setState({tc: n, totalN: t})
 }

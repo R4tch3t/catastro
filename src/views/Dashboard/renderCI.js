@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from "react-dom";
 import CheckI from "./CheckI";
-export default (subS, task, md, checkeds, strsa, strsb, ids, fa) => {
+export default (subS, task, md, checkeds, strsa, strsb, ids, c) => {
 
     const sub = document.getElementById(subS);
     ReactDOM.unmountComponentAtNode(sub);
@@ -14,7 +14,7 @@ export default (subS, task, md, checkeds, strsa, strsb, ids, fa) => {
             strsa={strsa}
             strsb={strsb}
             ids={ids}
-            fa = {fa}
+            c = {c}
         />,
         sub
     )

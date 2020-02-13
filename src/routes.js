@@ -25,6 +25,7 @@ import Notifications from "@material-ui/icons/Notifications";
 import Unarchive from "@material-ui/icons/Unarchive";
 import Language from "@material-ui/icons/Language";*/
 // core components/views for Admin layout
+import Corte from "views/Predial/Corte.js";
 import Predial from "views/Predial/Predial.js";
 import Orden from "views/Dashboard/Orden.js";
 import Pdf from "views/Dashboard/renderPDF.js";
@@ -47,7 +48,15 @@ const dashboardRoutes = [
     icon: Dashboard,
     component: Orden,
     layout: "/admin"
-  }, 
+  },
+  {
+    path: "/corte",
+    name: "Corte de caja",
+    rtlName: "لوحة القيادة",
+    icon: Dashboard,
+    component: Corte,
+    layout: "/admin"
+  },
   {
     path: "/predial",
     name: "Lista de Prediales",

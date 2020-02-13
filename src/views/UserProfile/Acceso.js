@@ -19,7 +19,7 @@ import WN from "@material-ui/icons/Warning"
 import E from "@material-ui/icons/Error"
 import CheckCircle from "@material-ui/icons/CheckCircle"
 import Snackbar from "components/Snackbar/Snackbar.js";
-
+import ip from "variables/ip.js";
 
 const styles = {
   cardCategoryWhite: {
@@ -143,10 +143,8 @@ const accesoKey = (e) =>{
  const comprobarU = async (idUsuario, pass) => {
    try {
      
-    // const sendUri = "http://34.66.54.10:3012/";
-     const sendUri = "http://192.168.1.74:3012/";
     //const sendUri = "http://localhost:3012/";
-     
+     const sendUri = ip('3012');
      const bodyJSON = {
        idUsuario: idUsuario,
        pass: pass
