@@ -59,6 +59,15 @@ if (!String.prototype.splice) {
 export default class TableRender extends React.Component {
 state={
     nombre: '',
+    center: {
+      lat: 17.5949479040048,
+      lng: -99.1806074659651
+    },
+    centerP: {
+      lat: 17.5949479040048,
+      lng: -99.1806074659651
+    },
+    zoom: 50,
     CTA: '',
     calle: '',
     tipoPredio: '',
@@ -75,31 +84,75 @@ state={
     zona: 0,
     tc: 0
 }
-
+markers = [];
+polylines = [];
+polygonC = null;
+polygonT = null;
+bandC = true;
 constructor(props){
     super(props);
     const date = new Date()
-    
     this.state = {
-        nombre: '',
-        CTA: '',
-        calle: '',
-        tipoPredio: '',
-        classes: props.classes,
-        openDash: null,
-        openZona: null,
-        openTC: null,
-        openCTA: null,
-        lastD: date,
-        ctasIndexes: [],
-        Y: date.getFullYear(),
-        totalN: 0.0,
-        CBG: true,
-        zona: 0,
-        tc: 0
+      nombre: "",
+      center: {
+        lat: 17.594955957692278,
+        lng: -99.18065842793638
+      },
+      centerP: {
+        lat: 17.594955957692278,
+        lng: -99.18065842793638
+      },
+      zoom: 19,
+      CTA: "",
+      calle: "",
+      tipoPredio: "",
+      classes: props.classes,
+      openDash: null,
+      openZona: null,
+      openTC: null,
+      openCTA: null,
+      lastD: date,
+      ctasIndexes: [],
+      Y: date.getFullYear(),
+      totalN: 0.0,
+      CBG: true,
+      zona: 0,
+      tc: 0
     };
 //    this.obtenerQ(this.state.idUsuario,this.state.idQuincena)
 }
+
+deg2rad = (degrees) => {
+        const pi = Math.PI;
+        return degrees * (pi / 180);
+    }
+    calcP = () => {
+        if(this.markers.length>1){
+            console.log(this.markers[0].position.lat())
+            const rlat0 = this.deg2rad(this.markers[0].position.lat());
+            const rlng0 = this.deg2rad(this.markers[0].position.lng());
+            const rlat1 = this.deg2rad(this.markers[1].position.lat());
+            const rlng1 = this.deg2rad(this.markers[1].position.lng());
+
+            const latDelta = rlat1 - rlat0;
+            const lonDelta = rlng1 - rlng0;
+            
+            const distance = (6371000 *
+              Math.acos(
+                Math.cos(rlat0) * Math.cos(rlat1) * Math.cos(lonDelta) +
+                Math.sin(rlat0) * Math.sin(rlat1)
+              )
+            );
+            const distance2 = 6371 * 2 * Math.asin(
+              Math.sqrt(
+                Math.cos(rlat0) * Math.cos(rlat1) * Math.pow(Math.sin(lonDelta / 2), 2) +
+                Math.pow(Math.sin(latDelta / 2), 2)
+              )
+            );
+            console.log(`distance: ${this.round(distance, 0)}`)
+            console.log(`distance: ${distance2}`)
+        }
+    }
 
 round = (num, decimales = 2)=>{
   var signo = (num >= 0 ? 1 : -1);
@@ -143,11 +196,12 @@ padrones=async(CTAnombre, tp, tipoB)=>{
               const predial = r.predial
               
                 this.setState({
-                  nombre: contribuyente.contribuyente,
+                 // nombre: contribuyente.contribuyente,
                   CTA: contribuyente.CTA
                 })
                 const nombre = document.getElementById('nombre');
-                nombre.focus()
+                nombre.value = contribuyente.contribuyente;
+                nombre.focus();
                 const calle = document.getElementById('calle');
                 const numCalle = document.getElementById('numCalle');
                 const colonia = document.getElementById('colonia');
@@ -166,8 +220,14 @@ padrones=async(CTAnombre, tp, tipoB)=>{
                 cp.value = ubicacion.cp;
                 municipio.value = ubicacion.municipio;
                 localidad.value = ubicacion.localidad;
-                this.setState({ctasIndexes: r.contribuyente, tipoPredio: tp})
-                
+                const ctasIndexes = []
+                while (ctasIndexes.length < r.contribuyente.length && ctasIndexes.length < 20) {
+                  ctasIndexes.push(r.contribuyente[ctasIndexes.length])
+                }
+                this.setState({ctasIndexes: ctasIndexes, tipoPredio: tp})
+                //else{
+                //  this.setState({tipoPredio: tp})
+                //}
                 if(!orden){
                   m1.value = 0
                   m2.value = 0
@@ -547,11 +607,13 @@ handleNombre = e => {
 }
 
 handleNombreUp = e => {
+  this.setState({nombre: e.target.value}) 
+  /*
   if (e.which > 47 || e.which === 32) {
     e.target.setSelectionRange(this.selectionStartNombre+1, this.selectionEndNombre+1);
   } else if (e.which === 8){
     e.target.setSelectionRange(this.selectionStartNombre, this.selectionEndNombre);
-  }
+  }*/
 }
 
 //upBand = false
@@ -666,7 +728,12 @@ handleKeyCTA = event => {
 };
 
 handleUpper = e => {
-  e.target.value = e.target.value.toUpperCase()
+  if(e.which===32||e.which>39){
+    this.selectionStartNombre = e.target.selectionStart
+    this.selectionEndNombre = e.target.selectionEnd
+    e.target.value = e.target.value.toUpperCase()
+    e.target.setSelectionRange(this.selectionStartNombre, this.selectionEndNombre);
+  }
 }
 blurCalle = e => {
   //console.log(e.target.value)

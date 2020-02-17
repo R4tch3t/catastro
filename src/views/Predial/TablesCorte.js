@@ -122,11 +122,18 @@ obtenerOF=async(fi,ff)=>{
               console.log(r.ordenes);
               let data = [];
               let total = 0;
+              data.labels = [
+                "Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7", "Q8"
+              ]
               r.ordenes.forEach(e => {
                 data.push({cta: e.CTA, NOMBRE: e.contribuyente, total: e.total, terreno: e.m1, construccion: e.m2})
                 total += parseInt(e.total); 
               });
-              this.setState({dataTable: data, total: total})
+              this.setState({dataTable: data, total: total});
+              data.labels = [
+                "Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7", "Q8"
+              ]
+
               /*const data = {}
               data.labels = [
                 "Q1","Q2","Q3","Q4","Q5","Q6","Q7","Q8","Q9","Q10","Q11","Q12",
@@ -536,13 +543,13 @@ render() {
               />
             </CardHeader>
             <CardBody>
-              <h4 className={classes.cardTitle}>Credito FOVISSTE</h4>
+              <h4 className={classes.cardTitle}>Gráfica de TOTALES</h4>
               <p className={classes.cardCategory}>
                 <span className={classes.successText}>
                   <ArrowUpward className={classes.upArrowCardCategory} />{" "}
                   {porcentajeC}%
                 </span>{" "}
-                créditos por quincena.
+                total por día.
               </p>
             </CardBody>
             <CardFooter chart>
@@ -553,6 +560,7 @@ render() {
           </Card>
         </GridItem>
       </GridContainer>
+{/*
       <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
           <Card chart>
@@ -604,8 +612,8 @@ render() {
               </div>
             </CardFooter>
           </Card>
-        </GridItem>*/}
-      </GridContainer>
+        </GridItem>//
+      </GridContainer>*/}
     </CardIcon>
   );
 }

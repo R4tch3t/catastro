@@ -45,7 +45,8 @@ export default (n,c) => {
   //  const subIm0 = document.getElementById('subIm0');
   //  const subIm1 = document.getElementById('subIm1');
     urb.value = pb;
-    rus.value = 0
+    rus.value = 0;
+    
     renderCI('subIm0',task,6,[0],['41121001','41121001'],
               ['URBANOS EDIFICADOS DESTINADOS A CASA HABITACION',
                'SUB URBANOS EDIFICADOS DESTINADOS A CASA HABITACION'
