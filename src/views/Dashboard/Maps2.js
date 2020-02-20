@@ -27,6 +27,7 @@ export class MapContainer extends React.Component {
             position: {lat: 0, lng: 0},
             drag: true
         };
+        
     }
 
     onMapReady = (props) => {
@@ -68,18 +69,170 @@ export class MapContainer extends React.Component {
             })
         }
     }
+        findStreet = (results, street) =>{
+            let c = 0
+            const place = results[c]
+            const name = place.address_components
+            c++
+            while(c<results.length){
+                const place = results[c]
+                const name = place.address_components
+                if (name[1] && street.startsWith(name[1].long_name)) {
+                    return name
+                }
+                c++
+            }
+            return name
+        }
+        getInfoMarker = (map, latLng, infowindowContent) => {
+         const {c, google}=this.props
+         const a = this;
+        // let infowindowContent = document.getElementById('infowindow-content');
+         c.markerInfo.setMap(map)
+         //c.markerInfo.setPosition(e.latLng)
+         c.markerInfo.setPosition(latLng)
+         let geocoder = new google.maps.Geocoder;
+
+         let latitude = c.markerInfo.getPosition().lat();
+         let longitude = c.markerInfo.getPosition().lng();
+         let latlng = {
+             lat: parseFloat(latitude),
+             lng: parseFloat(longitude)
+         };
+
+         geocoder.geocode({
+             'location': latlng
+         }, function (results, status) {
+             if (status === google.maps.GeocoderStatus.OK) {
+                 if (results[1]) {
+                     const place = results[1]
+                     console.log(results);
+                     let name = place.address_components
+                     let title = ''
+                     const su = document.getElementById('su').value.split(',')
+                     console.log(infowindowContent)
+                     if (name[1]) {
+                         if (su[0] && !su[0].startsWith(name[1].long_name)) {
+                            name = a.findStreet(results,su[0])
+                         }
+                         infowindowContent.children['place-name'].textContent = `${name[1].long_name} `;
+                         title += `${name[1].long_name} `
+                     }
+                     if (name[0]) {
+                         infowindowContent.children['place-name'].textContent += `#${name[0].long_name}`;
+                         title += `#${name[0].long_name} `
+                     }
+                     if (name[2]) {
+                         infowindowContent.children['place-barr'].textContent = `Barrio de ${name[2].long_name}`;
+                         title += `Barrio de ${name[2].long_name}, `
+                     }
+                     if (name[3]) {
+                         infowindowContent.children['place-city'].textContent = `${name[3].long_name}`;
+                         title += `${name[3].long_name}, `
+                     }
+                     if (name[4]) {
+                         infowindowContent.children['place-country'].textContent = `${name[4].long_name}, `;
+                         title += `${name[4].long_name}, `
+                     }
+                     if (name[5]) {
+                         infowindowContent.children['place-country'].textContent += `${name[5].long_name}, `;
+                         title += `${name[5].long_name}, `
+                     }
+                     if (name[6]) {
+                         infowindowContent.children['place-country'].textContent += `${name[6].long_name}`;
+                         title += `${name[6].long_name}`
+                     }
+                     infowindowContent.style.display = 'inline-block';
+                     //c.markerInfo.setTitle(`${infowindowContent.children['place-name'].textContent}`)
+                     c.markerInfo.setTitle(`${title}`)
+                     c.infoWindow.open(map, c.markerInfo);
+
+                 } else {
+                     console.log('Resultados no encontrados');
+                 }
+             } else {
+                 console.log('Geocoder fallo: ' + status);
+             }
+         });
+
+     }
+     /*
+     getInfoMarkerID = (map, place, infowindowContent) => {
+         const {c, google}=this.props
+        // let infowindowContent = document.getElementById('infowindow-content');
+         c.markerInfo.setMap(map)
+         //c.markerInfo.setPosition(e.latLng)
+        // c.markerInfo.setPosition(latLng)
+         let geocoder = new google.maps.Geocoder;
+
+         geocoder.geocode({
+                    'placeId': place.place_id
+                    }, function (results, status) {
+             if (status === google.maps.GeocoderStatus.OK) {
+                 if (results[0]) {
+                     const place = results[0]
+                     console.log(results);
+                     const name = place.address_components
+                     let title = ''
+                     console.log(infowindowContent)
+                     if (name[0]) {
+                         infowindowContent.children['place-name'].textContent = `${name[0].long_name} `;
+                         title = `${name[0].long_name} `
+                     }
+                     if (name[1]) {
+                         infowindowContent.children['place-barr'].textContent = `Barrio de ${name[1].long_name}`;
+                         title += `Barrio de ${name[1].long_name}, `
+                     }
+                     if (name[2]) {
+                         infowindowContent.children['place-city'].textContent = `${name[2].long_name}`;
+                         title += `${name[2].long_name}, `
+                     }
+                     if (name[3]) {
+                         infowindowContent.children['place-country'].textContent = `${name[3].long_name}, `;
+                         title += `${name[3].long_name}, `
+                     }
+                     if (name[4]) {
+                         infowindowContent.children['place-country'].textContent += `${name[4].long_name}, `;
+                         title += `${name[4].long_name}, `
+                     }
+                     if (name[5]) {
+                         infowindowContent.children['place-country'].textContent += `${name[5].long_name}`;
+                         title += `${name[5].long_name}`
+                     }
+                     infowindowContent.style.display = 'inline-block';
+                     //c.markerInfo.setTitle(`${infowindowContent.children['place-name'].textContent}`)
+                     
+                     c.markerInfo.setPosition(results[0].geometry.location)
+                     c.markerInfo.setTitle(`${title}`)
+                     c.infoWindow.open(map, c.markerInfo);
+
+                 } else {
+                     console.log('Resultados no encontrados');
+                 }
+             } else {
+                 console.log('Geocoder fallo: ' + status);
+             }
+         });
+
+     }*/
 
     searchAddr = (map) =>{
         // this.closeMark()
          const {
-             google
+             google, c
          } = this.props;
          //const map = this
          console.log(google)
          //console.log(props)
 
          //if (!google || !map) return;
+         
 
+         //function getInfoMarker(e) {
+             
+         //}
+         let infowindowContent = document.getElementById('infowindow-content');
+         c.infoWindow.setContent(infowindowContent);
          const autocomplete = new google.maps.places.Autocomplete(document.getElementById('su'));
          //autocomplete.bindTo('bounds', this);
          /*google.maps.event.addListener(map, 'bounds_changed', function () {
@@ -88,9 +241,23 @@ export class MapContainer extends React.Component {
          //google.maps.event.addListener(map,'bounds_changed', function () {
              autocomplete.bindTo('bounds', map);
         // });
+         autocomplete.setFields(['place_id', 'geometry', 'name', 'formatted_address']);
          google.maps.event.addListener(autocomplete, 'place_changed', () => {
              const place = autocomplete.getPlace();
-             console.log(place)
+             if (!place.geometry) {
+                 // User entered the name of a Place that was not suggested and
+                 // pressed the Enter key, or the Place Details request failed.
+                 console.log("No hay detalles sobre la ubicacion: '" + place.name + "'");
+                 return;
+             }
+             //console.log(place.geometry.viewport)
+             //console.log(`location: ${place.geometry.location}`)
+             //console.log(`place.geometry.viewportS: ${place.geometry.viewport.getSouthWest()}`)
+             //console.log(`place.geometry.viewportN: ${place.geometry.viewport.getNorthEast()}`)
+             console.log(`place: ${autocomplete}`)
+             
+             //this.getInfoMarkerID(map, place, infowindowContent)
+            this.getInfoMarker(map, place.geometry.location, infowindowContent)
              map.setCenter(place.geometry.location)
              map.setZoom(17)
              this.setState({
@@ -100,6 +267,7 @@ export class MapContainer extends React.Component {
                  },
                  drag: false
              });
+
          });
     }
 
@@ -117,8 +285,135 @@ export class MapContainer extends React.Component {
 
     }
     
+    findCoordinates = () => {
+        navigator.geolocation.getCurrentPosition(
+            position => {
+                const location = JSON.stringify(position);
+                console.log(`LocaFind: ${position.coords.latitude}`)
+                const center = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                }
+                this.setMap(center)
+                this.setState({
+                    position: center
+                })
+            }/*,
+            error => Alert.alert(error.message), {
+                enableHighAccuracy: true,
+                timeout: 20000,
+                maximumAge: 1000
+            }*/
+        );
+    };
+    clickTBM = (e) => {
+        const {c} = this.props
+        if(!c.bandT){
+            e.target.style.borderColor = "black"
+            e.target.style.fontWeight = 'bold'
+            const cbm = document.getElementById('cbm');
+            cbm.style.borderColor = "transparent"
+            cbm.style.fontWeight = 'normal'
+            c.bandC = false;
+        }else{
+            e.target.style.borderColor = "transparent"
+            e.target.style.fontWeight = 'normal'
+        }
+        c.bandT = !c.bandT
+    }
+    hoverTBM = (e) => {
+        const {c} = this.props
+        e.target.style.borderColor = "black"
+        e.target.style.cursor = "pointer"
+    }
+    leaveTBM = (e) => {
+        const {c} = this.props
+        if (!c.bandT) {
+            e.target.style.borderColor = "transparent"
+        }
+        //e.target.style.cursor = "pointer"
+    }
+
+    clickCBM = (e) => {
+        const {c} = this.props
+        if (!c.bandC) {
+            e.target.style.borderColor = "blue"
+            e.target.style.fontWeight = 'bold'
+            const tbm = document.getElementById('tbm');
+            tbm.style.borderColor = "transparent"
+            tbm.style.fontWeight = 'normal'
+            c.bandT = false
+        }else{
+            e.target.style.borderColor = "transparent"
+            e.target.style.fontWeight = 'normal'
+        }
+        c.bandC = !c.bandC
+    }
+    hoverCBM = (e) => {
+        const {c} = this.props
+        e.target.style.borderColor = "blue"
+        e.target.style.cursor = "pointer"
+    }
+    leaveCBM = (e) => {
+        const {c} = this.props
+        if (!c.bandC) {
+            e.target.style.borderColor = "transparent"
+        }
+    }
+
+    downET = (e) => {
+        const {c} = this.props
+        e.target.style.borderColor = "red"
+        e.target.style.fontWeight = 'bold'
+    }
+    upET = (e) => {
+        const {c,google} = this.props
+        let i = 0
+        let path = c.polyC.getPath()
+        e.target.style.borderColor = "transparent"
+        e.target.style.fontWeight = 'normal'
+        c.polygonC = new google.maps.Polygon({
+            path: c.polyC.getPath(),
+            strokeColor: 'blue',
+            fillColor: 'blue',
+            editable: true,
+            //draggable: true,
+            geodesic: true
+        });
+        c.polygonT = new google.maps.Polygon({
+            path: c.polyT.getPath(),
+            editable: true,
+            //draggable: true,
+            geodesic: true
+        });
+        while(i<c.markersC.length){
+            path.pop()
+            c.markersC[i].setMap(null)
+            i++
+        }
+        i=0
+        path = c.polyT.getPath()
+        while(i<c.markersT.length){
+            path.pop()
+            c.markersT[i].setMap(null)
+            i++
+        }
+        c.markersC=[]
+        c.markersT=[]
+    }
+    hoverET = (e) => {
+        const {c} = this.props
+        
+        e.target.style.cursor = "pointer"
+    }
+    leaveET = (e) => {
+        const {c} = this.props
+            e.target.style.borderColor = "transparent"
+    }
+
     setMap = (position)=>{
         const {google, c} = this.props
+        const a = this
         let map = new google.maps.Map(document.getElementById('map'), {
             center: position,
             zoom: 14,
@@ -126,7 +421,34 @@ export class MapContainer extends React.Component {
             
         });
         console.log(position)
-        map.setTilt(45);
+        const search = document.getElementById('su');
+        const tbm = document.getElementById('tbm');
+        const cbm = document.getElementById('cbm');
+        const et = document.getElementById('et');
+        search.style.width = "400px";
+        tbm.onclick = this.clickTBM;
+        tbm.onmouseenter = this.hoverTBM;
+        tbm.onmouseleave = this.leaveTBM;
+        tbm.style.fontWeight = 'normal'
+        
+        cbm.onclick = this.clickCBM;
+        cbm.onmouseenter = this.hoverCBM;
+        cbm.onmouseleave = this.leaveCBM;
+        cbm.style.fontWeight = 'normal'
+
+        et.onmousedown = this.downET;
+        et.onmouseup = this.upET;
+        et.onmouseenter = this.hoverET;
+        et.onmouseleave = this.leaveET;
+        et.style.fontWeight = 'normal'
+
+        search.onfocus = (e) => {search.style.borderColor = "#4d90fe"}
+        search.onblur = (e) => {search.style.borderColor = "transparent"}
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(search);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(tbm);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(cbm);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(et);
+       // map.setTilt(45);
         let bounds = {
             north: position.lat - 0.0010000,
             south: position.lat + 0.0010000,
@@ -187,109 +509,231 @@ export class MapContainer extends React.Component {
         rectangle.addListener('bounds_changed', showNewRect);
 
         //map.addListener('onready', this.onMapReady);
-        this.searchAddr(map)
+        
         //rectangle.setMap(map);
-        let polyC = new google.maps.Polyline({
-            strokeColor: 'red',
+        c.polyC = new google.maps.Polyline({
+            strokeColor: 'blue',
             strokeOpacity: 1.0,
             strokeWeight: 3,
             editable: true,
             draggable: true,
         });
-        let polyT = new google.maps.Polyline({
+        c.polyT = new google.maps.Polyline({
             strokeColor: '#000000',
             strokeOpacity: 1.0,
             strokeWeight: 3,
             editable: true,
             draggable: true,
         });
-        polyC.setMap(map);
-        polyT.setMap(map);
+        c.polyC.setMap(map);
+        c.polyT.setMap(map);
+
         const polygonC = new google.maps.Polygon({
-            path: polyC.getPath(),
-            strokeColor: 'red',
-            fillColor: 'red',
+            path: c.polyC.getPath(),
+            strokeColor: 'blue',
+            fillColor: 'blue',
             editable: true,
-            draggable: true,
+            //draggable: true,
             geodesic: true
         });
         const polygonT = new google.maps.Polygon({
-            path: polyT.getPath(),
+            path: c.polyT.getPath(),
             editable: true,
-            draggable: true,
+            //draggable: true,
             geodesic: true
         });
         c.polygonC = polygonC;
         c.polygonT = polygonT;
+        const _setLength = (poly, latlng) => {
+            let needle = {
+                minDistance: 9999999999, //silly high
+                index: -1,
+                latlng: null
+            };
+            let needle2 = {
+                maxDistance: 0, //silly low
+                index: -1,
+                latlng: null,
+                first: false
+            };
+
+            poly.getPath().forEach(function (routePoint, index) {
+                let dist = google.maps.geometry.spherical.computeDistanceBetween(latlng, routePoint);
+                if (dist < needle.minDistance) {
+                    needle.minDistance = dist;
+                    needle.index = index;
+                    needle.latlng = routePoint;
+                }
+            });
+
+            poly.getPath().forEach(function (routePoint, index) {
+                let dist = google.maps.geometry.spherical.computeDistanceBetween(latlng, routePoint);
+                let distT = google.maps.geometry.spherical.computeDistanceBetween(needle.latlng, routePoint);
+                console.log(`${dist} ${distT} `)
+                console.log(needle.minDistance)
+                dist += needle.minDistance
+                dist -= distT
+                console.log(`${routePoint} `)
+                if (Math.round(dist) === 0 && !needle2.first) {
+                    needle2.maxDistance = dist;
+                    needle2.index = index;
+                    needle2.latlng = routePoint;
+                    needle2.first = Math.abs(needle.index - index) === 1
+                }
+            });
+
+            let distance = google.maps.geometry.spherical.computeDistanceBetween(needle.latlng, needle2.latlng);
+            // The closest point in the polyline
+            console.log("Closest index: " + needle.index);
+            console.log("Closest2 index: " + needle2.index);
+            console.log("minD: " + needle.minDistance);
+            console.log("maxD: " + needle2.maxDistance);
+            console.log("distance: " + Math.round(distance));
+            let infowindow = new google.maps.InfoWindow();
+            infowindow.setContent(`${Math.round(distance)} Metros`);
+
+            // infowindow.position = event.latLng;
+            infowindow.setPosition(latlng);
+            infowindow.open(map);
+
+            // The clicked point on the polyline
+            console.log(latlng);
+        }
+        const onPathUpC = (e) => {
+            let latlng = e.latLng;
+            let poly = null
+            poly = c.polyC
+            _setLength(poly, latlng)
+        }
+
+        const onPathUpT = (e) => {
+            let latlng = e.latLng;
+            let poly = null
+            poly = c.polyT
+            _setLength(poly, latlng)
+        }
+
+        google.maps.event.addListener(c.polyC, 'mouseup', onPathUpC)
+        google.maps.event.addListener(c.polyT, 'mouseup', onPathUpT)
+         c.markerInfo = new google.maps.Marker({
+             draggable: true,
+         });
+         c.infoWindow = new google.maps.InfoWindow();
+         let infowindowContent = document.getElementById('infowindow-content');
+         c.infoWindow.setContent(infowindowContent);
+         function getIMarker(e) {
+             a.getInfoMarker(map, e.latLng, infowindowContent);
+         }
+         this.searchAddr(map);
+         google.maps.event.addListener(c.markerInfo, 'mouseup', getIMarker);
         function addLatLng(event) {
             let path = null
-            if (c.bandC){
-                path = polyC.getPath();
-            }else{
-                path = polyT.getPath();
-            }
-            let l = path.getLength();
-            console.log(path.g)
-            // Because path is an MVCArray, we can simply append a new coordinate
-            // and it will automatically appear.
-            path.push(event.latLng);
-
-            // Add a new marker at the new plotted point on the polyline.
             let marker = new google.maps.Marker({
                 position: event.latLng,
                 draggable: true,
-                title: '#' + path.getLength(),
-                map: map
+               // title: '#' + path.getLength(),
+              //  map: map
             });
-            
-            c.markers.push(marker)
-            c.calcP()
+            if (c.bandC){
+                path = c.polyC.getPath();
+                marker.setTitle(`#${path.getLength()+1}`)
+                marker.setIcon("http://maps.google.com/mapfiles/ms/icons/blue-dot.png")
+                c.markersC.push(marker)
+            }else if(c.bandT){
+                path = c.polyT.getPath();
+                marker.setTitle(`#${path.getLength()+1}`)
+                marker.setIcon("http://maps.google.com/mapfiles/ms/icons/green-dot.png")
+                c.markersT.push(marker)
+            }else{
+               // c.markerInfo.setMap(map)
+                a.getInfoMarker(map, event.latLng, infowindowContent);
+                return;
+            }
+            let l = path.getLength();
+            console.log(path.g);
+            // Because path is an MVCArray, we can simply append a new coordinate
+            // and it will automatically appear.
+            path.push(event.latLng);
+            marker.setMap(map);
+            if(l>0){
+               // const latlng = `(${path.getAt(l).getLat()}, ${path.getAt(l).getLng()})`
+               // const latlng2 = `(${path.getAt(l-1).getLat()}, ${path.getAt(l-1).getLng()})`
+                //console.log(path.getAt(l - 1))
+                let distance = google.maps.geometry.spherical.computeDistanceBetween(event.latLng, path.getAt(l - 1));
+                let infowindow = new google.maps.InfoWindow();
+                infowindow.setContent(`${Math.round(distance)} Metros`);
+
+                // infowindow.position = event.latLng;
+                infowindow.setPosition(event.latLng);
+                infowindow.open(map);
+            }
             const onMarkerClick = (e) => {
-                console.log(`markerCl ${polyT.getPath().getLength()} : ${l}`)
-                if (polyC.getPath().getLength() > 2 && l===0) {
+                console.log(`markerCl ${c.polyT.getPath().getLength()} : ${l}`)
+                if (c.polyC.getPath().getLength() > 2 && c.bandC && l===0) {
                     path.push(e.latLng);
-                    if(c.bandC){
-                        //c.polygonC.setPath(path);
-                        c.polygonC.setMap(map);
-                        c.bandC=false;
-                    } else if (polyT.getPath().getLength() > 2 ){
-                       // c.polygonT.setPath(path);
-                        c.polygonT.setMap(map);
-                    }
-                   // c.bandTerreno = false;
-                    c.markers.push(c.markers[0]);
+                    c.polygonC.setMap(map);
+                    google.maps.event.addListener(c.polygonC, 'mouseup', onPathUpC)
+                    c.markersC.push(c.markersC[0]);
+                }else if (c.polyT.getPath().getLength() > 2 && l===0){
+                    path.push(e.latLng);
+                    c.polygonT.setMap(map);
+                    google.maps.event.addListener(c.polygonT, 'mouseup', onPathUpT)
+                    c.markersT.push(c.markersT[0]);
                 }
                 
             }
             const onMarkerDb = (e) => {
                 let x = l
-                while (x < path.getLength()) {
-                    path.removeAt(x);
+                
+                if(c.bandC){
+                    while (x < path.getLength()) {
+                        path.removeAt(x);
+                    }
+                    while (c.markersC.length>x) {
+                        c.markersC[c.markersC.length-1].setMap(null);
+                        c.markersC.pop()
+                    }
                 }
-                while (c.markers.length>x) {
-                    c.markers[c.markers.length-1].setMap(null);
-                    c.markers.pop()
+                if(c.bandT){
+                    while (x < path.getLength()) {
+                        path.removeAt(x);
+                    }
+                    while (c.markersT.length>x) {
+                        c.markersT[c.markersT.length-1].setMap(null);
+                        c.markersT.pop()
+                    }
                 }
+                
             }
             const onMarkerUp = (e) => {
+                let l2 = null 
                 path.removeAt(l);
                 path.insertAt(l, e.latLng);
                 if(c.polygon){
-                    c.polygon.setPath(path)
+                    c.polygon.setPath(path);
                 }
+                
+                
             }
+            
             marker.addListener('click', onMarkerClick)
             marker.addListener('dblclick', onMarkerDb)
             marker.addListener('mouseup', onMarkerUp)
+            //polyC.addListener('mouseup', onPathUp)
+            
+            console.log(c.polyC)
         }
+       
         // Add a listener for the click event
+        //map.addListener('click', getInfoMarker);
         map.addListener('click', addLatLng);
         this.setState({
             map
         })
     }
     componentDidMount(){
-        this.getLocation()
+       // this.getLocation()
+        this.findCoordinates();
     }
     render() {
         const {position} = this.state

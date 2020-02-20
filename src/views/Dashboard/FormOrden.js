@@ -84,11 +84,18 @@ state={
     zona: 0,
     tc: 0
 }
-markers = [];
+markersC = [];
+markersT = [];
+markerInfo = null;
+infoWindow=null;
 polylines = [];
+widthPol = []
 polygonC = null;
 polygonT = null;
-bandC = true;
+bandC = false;
+bandT = false;
+polyC=null;
+polyT=null;
 constructor(props){
     super(props);
     const date = new Date()
@@ -126,13 +133,14 @@ deg2rad = (degrees) => {
         const pi = Math.PI;
         return degrees * (pi / 180);
     }
-    calcP = () => {
-        if(this.markers.length>1){
-            console.log(this.markers[0].position.lat())
-            const rlat0 = this.deg2rad(this.markers[0].position.lat());
-            const rlng0 = this.deg2rad(this.markers[0].position.lng());
-            const rlat1 = this.deg2rad(this.markers[1].position.lat());
-            const rlng1 = this.deg2rad(this.markers[1].position.lng());
+    calcP = (l) => {
+        //if(l>0){
+            console.log(this.markers[l-1].position.lat())
+            console.log(this.markers)
+            const rlat0 = this.deg2rad(this.markers[l - 1].position.lat());
+            const rlng0 = this.deg2rad(this.markers[l - 1].position.lng());
+            const rlat1 = this.deg2rad(this.markers[l].position.lat());
+            const rlng1 = this.deg2rad(this.markers[l].position.lng());
 
             const latDelta = rlat1 - rlat0;
             const lonDelta = rlng1 - rlng0;
@@ -151,7 +159,8 @@ deg2rad = (degrees) => {
             );
             console.log(`distance: ${this.round(distance, 0)}`)
             console.log(`distance: ${distance2}`)
-        }
+            return this.round(distance, 0);
+        //}
     }
 
 round = (num, decimales = 2)=>{

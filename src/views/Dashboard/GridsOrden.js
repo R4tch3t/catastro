@@ -20,7 +20,22 @@ export default (props) => {
     const {classes, classesM} = c.props
     const {center, zoom, nombre, openDash, CBG, zona, openZona, tc, openTC, 
            CTA, openCTA, ctasIndexes, Y, totalN} = c.state
-        
+    const controls = {
+      backgroundColor: "#fff",
+      borderRadius: "2px",
+      border: "1px solid transparent",
+      boxShadow: "0 2px 6px rgba(0, 0, 0, 0.3)",
+      boxSizing: "border-box",
+      fontFamily: "Roboto",
+      fontSize: "15px",
+      fontWeight: 300,
+      height: "29px",
+      marginLeft: "17px",
+      marginTop: "10px",
+      outline: "none",
+      padding: "0 11px 0 13px",
+      textOverflow: "ellipsis",
+    }
 
     return (
       <div id="bodyOrden">
@@ -134,8 +149,19 @@ export default (props) => {
           </GridContainer>
           {/*<Map c={c} />*/}
           {/*<div><iframe frameBorder='0' height='450' src='https://www.mapdevelopers.com/area_calculator_adv.php?zoom=1&lat=40&lng=-73&height=450&width=500&button_color=eeeeee&text_color=000000&' width='500'></iframe><div style={{fontSize: 10}}><a href="https://www.mapdevelopers.com/area_finder.php">Area calculator</a> provided by <a href="https://www.mapdevelopers.com">Map Developers</a></div></div>*/}
-           
-            <input id='su' type='text'  defaultValue='Chilapa' />
+            <div style={{display: 'none'}} id="infowindow-content">
+              <span id="place-name" style={{fontWeight: 'bold'}}></span><br/>
+              <span id="place-barr" ></span><br/>
+              <span id="place-city" ></span><br/>
+              <span id="place-country" ></span><br/>
+              
+            </div>
+            <div style={{display: 'none'}}>
+              <input id='su' type='text' style={controls}  defaultValue='Chilapa' />
+              <button id='tbm' style={controls}  > TERRENO </button>
+              <button id='cbm' style={controls}  > CONSTRUCCION </button>
+              <button id='et' style={controls}  > ELIMINAR TRAZOS </button>  
+            </div>
             <Maps c={c} />
             
           <GridContainer>
