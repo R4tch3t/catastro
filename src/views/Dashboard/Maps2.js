@@ -2,6 +2,7 @@
 import React from 'react';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 import MapsFun from './MapsFun'
+import getZone from './getZone'
 import AddLocation from "@material-ui/icons/AddLocation";
 import Place from "@material-ui/icons/Place";
 import GpsFixed from "@material-ui/icons/GpsFixed";
@@ -69,16 +70,26 @@ export class MapContainer extends React.Component {
             })
         }
     }
-        findStreet = (results, street) =>{
-            let c = 0
-            const place = results[c]
-            const name = place.address_components
-            c++
+        findStreet = (results, street, barr) =>{
+            let c = 1
+            let place = results[c]
+            let name = place.address_components
+            if(name.length<6){
+                place = results[0]
+                name = place.address_components
+            }
+            c=0
             while(c<results.length){
                 const place = results[c]
                 const name = place.address_components
-                if (name[1] && street.startsWith(name[1].long_name)) {
-                    return name
+                if(name.length===7){
+                    if (name[1] && street.startsWith(name[1].long_name) && barr.endsWith(name[2].long_name)) {
+                        return name
+                    }
+                }else{
+                    if (name[1] && street.startsWith(name[0].long_name) && barr.endsWith(name[1].long_name)) {
+                        return name
+                    }
                 }
                 c++
             }
@@ -110,43 +121,95 @@ export class MapContainer extends React.Component {
                      let name = place.address_components
                      let title = ''
                      const su = document.getElementById('su').value.split(',')
+                     let street = ''
+                     let barr = ''
+                     let calle = document.getElementById('calle')
+                     let numCalle = document.getElementById('numCalle')
+                     numCalle.value = 0
+                     let colonia = document.getElementById('colonia')
+                     let cp = document.getElementById('cp')
+                     let municipio = document.getElementById('municipio')
+                     let localidad = document.getElementById('localidad')
                      console.log(infowindowContent)
                      if (name[1]) {
-                         if (su[0] && !su[0].startsWith(name[1].long_name)) {
-                            name = a.findStreet(results,su[0])
+                         if (su[0] && (!su[0].startsWith(name[1].long_name) || !su[1].endsWith(name[2].long_name))) {
+                            name = a.findStreet(results, su[0], su[1])
                          }
-                         infowindowContent.children['place-name'].textContent = `${name[1].long_name} `;
-                         title += `${name[1].long_name} `
+                         if(name.length === 7){
+                            infowindowContent.children['place-name'].textContent = `${name[1].long_name} `;
+                            title += `${name[1].long_name} `
+                         }
                      }
                      if (name[0]) {
-                         infowindowContent.children['place-name'].textContent += `#${name[0].long_name}`;
-                         title += `#${name[0].long_name} `
+                         if (name.length === 7) {
+                            infowindowContent.children['place-name'].textContent += `#${name[0].long_name}`;
+                            title += `#${name[0].long_name} `
+                            street = name[1].long_name
+                            numCalle.value = name[0].long_name
+                           
+                         }else{
+                            infowindowContent.children['place-name'].textContent = `${name[0].long_name}`;
+                            title += `${name[0].long_name} `
+                            street = name[0].long_name
+                           
+                         }
+                         calle.value=street.toUpperCase()
                      }
                      if (name[2]) {
-                         infowindowContent.children['place-barr'].textContent = `Barrio de ${name[2].long_name}`;
-                         title += `Barrio de ${name[2].long_name}, `
+                         if(name.length===7){
+                            infowindowContent.children['place-barr'].textContent = `Barrio de ${name[2].long_name}`;
+                            title += `Barrio de ${name[2].long_name}, `
+                            barr = name[2].long_name
+                         }else{
+                             infowindowContent.children['place-barr'].textContent = `Colonia ${name[1].long_name}`;
+                             title += `Colonia ${name[1].long_name}, `
+                             barr = name[1].long_name
+                         }
+                         colonia.value=barr.toUpperCase()
                      }
                      if (name[3]) {
-                         infowindowContent.children['place-city'].textContent = `${name[3].long_name}`;
-                         title += `${name[3].long_name}, `
+                         if(name.length===7){
+                            infowindowContent.children['place-city'].textContent = `${name[3].long_name}`;
+                            title += `${name[3].long_name}, `
+                            municipio.value = name[3].long_name.toUpperCase()
+                            localidad.value = name[3].long_name.toUpperCase()
+                         }else{
+                             infowindowContent.children['place-city'].textContent = `${name[2].long_name}`;
+                             title += `${name[2].long_name}, `
+                             municipio.value = name[2].long_name.toUpperCase()
+                             localidad.value = name[2].long_name.toUpperCase()
+                         }
+
                      }
                      if (name[4]) {
-                         infowindowContent.children['place-country'].textContent = `${name[4].long_name}, `;
-                         title += `${name[4].long_name}, `
+                         if (name.length === 7) {
+                            infowindowContent.children['place-country'].textContent = `${name[4].long_name}, `;
+                            title += `${name[4].long_name}, `
+                         }else{
+                             infowindowContent.children['place-country'].textContent = `${name[3].long_name}, `;
+                             title += `${name[3].long_name}, `
+                         }
                      }
                      if (name[5]) {
-                         infowindowContent.children['place-country'].textContent += `${name[5].long_name}, `;
-                         title += `${name[5].long_name}, `
+                         if(name.length===7){
+                            infowindowContent.children['place-country'].textContent += `${name[5].long_name}, `;
+                            title += `${name[5].long_name}, `
+                         }else{
+                            infowindowContent.children['place-country'].textContent += `${name[4].long_name}, ${name[5].long_name}`;
+                            title += `${name[4].long_name}, ${name[5].long_name}`
+                            cp.value = name[5].long_name
+                         }
                      }
                      if (name[6]) {
                          infowindowContent.children['place-country'].textContent += `${name[6].long_name}`;
                          title += `${name[6].long_name}`
+                         cp.value = name[6].long_name
                      }
                      infowindowContent.style.display = 'inline-block';
                      //c.markerInfo.setTitle(`${infowindowContent.children['place-name'].textContent}`)
                      c.markerInfo.setTitle(`${title}`)
                      c.infoWindow.open(map, c.markerInfo);
-
+                     getZone(street,barr,c)
                  } else {
                      console.log('Resultados no encontrados');
                  }

@@ -276,6 +276,9 @@ export default (props) => {
                   onKeyUp: e => {
                     c.setZona(document.getElementById("zona").value);
                   },
+                  onMouseUp: e => {
+                    c.setZona(document.getElementById("zona").value);
+                  },
                   disabled: CBG
                 }}
               />
