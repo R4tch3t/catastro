@@ -39,7 +39,7 @@ export default (props)=>{
     <>
       {tasksIndexes.map(value => (        
             <GridItem key={value} xs={12} sm={12} md={md}>
-              <div style={{cursor: 'pointer'}} onClick={() => handleToggle(value,ids[value])}   >
+              <div style={{cursor: 'pointer'}} onMouseUp={() => handleToggle(value,ids[value])}   >
               <Checkbox
                   id={`I${ids[value]}`}
                   checked={checked.indexOf(value) !== -1}
