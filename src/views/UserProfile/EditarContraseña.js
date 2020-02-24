@@ -21,6 +21,7 @@ import CheckCircle from "@material-ui/icons/CheckCircle"
 import Snackbar from "components/Snackbar/Snackbar.js";
 
 import avatar from "assets/img/faces/login.jpg";
+import ip from "variables/ip";
 
 const styles = {
   cardCategoryWhite: {
@@ -152,8 +153,8 @@ const actualizarPass = async (pass) => {
   try {
     // console.log(this.nombre)
     //  console.log(this.nombre.current.value)
-
-        const sendUri = "http://34.66.54.10:3017/";
+        const sendUri = ip("3017");
+       // const sendUri = "http://34.66.54.10:3017/";
        // const sendUri = 'http://localhost:3017/'
         //const sendUri = "http://192.168.1.74:3017/";
         //const pass = this.newPass.current.value
@@ -305,19 +306,6 @@ const changeToEdit = () => {
               </GridContainer>
             </CardBody>
             <CardFooter>
-              <Button
-                color="danger"  
-                style={{
-                  display: 'flex',
-                  flex: 1, 
-                  alignItems: 'center'
-                }}
-                onClick = {changeToEdit}
-                >
-                Atras
-              </Button>
-            </CardFooter>
-            <CardFooter>
               <Button id = 'actPB'
                 color="success"  
                 style={{
@@ -328,6 +316,19 @@ const changeToEdit = () => {
                 onClick = {validarPass}
                 >
                 Guardar cambios
+              </Button>
+            </CardFooter>
+            <CardFooter>
+              <Button
+                color="danger"  
+                style={{
+                  display: 'flex',
+                  flex: 1, 
+                  alignItems: 'center'
+                }}
+                onClick = {changeToEdit}
+                >
+                Atras
               </Button>
             </CardFooter>
           </Card>

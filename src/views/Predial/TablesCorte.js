@@ -43,8 +43,8 @@ import Calendar from "react-calendar";
 import ip from "variables/ip.js";
 //import { bugs, website, server } from "variables/general.js";
 import {
-  creditoFovisste,
-  seguroFovisste
+  corte,
+ // corte
 } from "variables/charts.js";
 
 
@@ -57,7 +57,8 @@ state={
     setOpenDash: null,
     dateSI: null,
     dateSF: null,
-    total: 0
+    total: 0,
+    porcentaje: 0
 }
 //[openDash, setOpenDash] = React.useState(null);
 handleCloseDash = () => {
@@ -69,17 +70,23 @@ constructor(props){
     super(props);
     const date = new Date()
     const lastD = date.getMonth()
-    
+    let dateSI = new Date()
+    let dateSF = new Date()
+    dateSI.setHours(0,0,0,0)
+    dateSF.setHours(0,0,0,0)
+    console.log(date.toJSON())
     this.state = {
       dataTable: [],
       classes: props.classes,
       openDash: null,
       setOpenDash: null,
       lastD: lastD,
-      dateSI: new Date(),
-      dateSF: new Date(),
-      total: 0
+      dateSI: dateSI,
+      dateSF: dateSF,
+      total: 0,
+      porcentaje: 0
     };
+  
     //this.obtenerQ(this.state.idUsuario,this.state.idQuincena)
 }
 
@@ -101,6 +108,10 @@ obtenerOF=async(fi,ff)=>{
 
        // const sendUri = "http://localhost:3015/";
         const sendUri = ip("3014");
+        let tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
+        fi = (new Date(fi - tzoffset))//.toISOString()//.slice(0, -1);
+       // tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
+        ff = (new Date(ff - tzoffset))//.toISOString().slice(0, -1);
         const bodyJSON = {
             fi: fi,
             ff: ff
@@ -118,21 +129,162 @@ obtenerOF=async(fi,ff)=>{
         const responseJson = await response.json().then(r => {
             //  console.log(`Response1: ${r}`)
 
-            if (r.ordenes) {
-              console.log(r.ordenes);
+            if (r.ordenesu || r.ordenesr) {
               let data = [];
               let total = 0;
-              data.labels = [
-                "Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7", "Q8"
-              ]
-              r.ordenes.forEach(e => {
-                data.push({cta: e.CTA, NOMBRE: e.contribuyente, total: e.total, terreno: e.m1, construccion: e.m2})
+              let totalD = 0;
+              let i = 0;
+              let high = 0;
+              let porcentaje=0;
+              data.objects = {}
+              data.labels = []
+              data.totales = []
+              //dateSI.toLocaleDateString()
+              const {dateSI} = this.state
+              let dateLabel = new Date(dateSI)
+              r.ordenesu.forEach(e => {
+                data.push({
+                  key: `${e.CTA}u`,
+                  cta: e.CTA,
+                  NOMBRE: e.contribuyente,
+                  tp: 'URBANO',
+                  total: e.total,
+                  terreno: e.m1,
+                  construccion: e.m2
+                })
+                //data.labels.push(`D${data.labels.length+1}`)
+               // data.labels.push(`${dateLabel.toLocaleDateString()}`)
+               // dateLabel.setDate(dateLabel.getDate() + 1);
+                i++
+                if (e.dateUp > dateLabel || i === r.ordenesu.length) {
+                  if (i === r.ordenesu.length) {
+                    totalD += parseInt(e.total);
+                  }
+                  dateLabel = new Date(e.dateUp)
+                  data.objects[`${dateLabel.toLocaleDateString()}`] = totalD
+                  totalD=0
+                }
+                
                 total += parseInt(e.total); 
+                totalD += parseInt(e.total);
               });
-              this.setState({dataTable: data, total: total});
-              data.labels = [
+              i=0
+              dateLabel = new Date(dateSI)
+              totalD=0
+              r.ordenesr.forEach(e => {
+                data.push({
+                  key: `${e.CTA}r`,
+                  cta: e.CTA,
+                  NOMBRE: e.contribuyente,
+                  tp: 'RUSTICO',
+                  total: e.total,
+                  terreno: e.m1,
+                  construccion: e.m2
+                })
+                //data.labels.push(`D${data.labels.length+1}`)
+                //data.labels.push(`${dateLabel.toLocaleDateString()}`)
+                //dateLabel.setDate(dateLabel.getDate() + 1);
+                i++
+                if (e.dateUp > dateLabel || i === r.ordenesr.length) {
+                  if (i === r.ordenesr.length){
+                    totalD += parseInt(e.total);
+                  }
+                  dateLabel = new Date(e.dateUp)
+                  if (data.objects[`${dateLabel.toLocaleDateString()}`]) {
+                    data.objects[`${dateLabel.toLocaleDateString()}`] += totalD
+                  }else{
+                    data.objects[`${dateLabel.toLocaleDateString()}`] = totalD
+                  }
+                  totalD = 0
+                }
+               // data.totales.push(e.total)
+                total += parseInt(e.total); 
+                totalD += parseInt(e.total);
+              });
+              console.log(data.objects)
+              const objects = Object.entries(data.objects)
+              if (objects.length<16){
+                for (let [key, value] of objects) {
+                  console.log(`key: ${key} e: ${value}`)
+                  data.labels.push(key)
+                  data.totales.push(value)
+                  if(value>high){
+                    high=value
+                  }
+                  porcentaje++
+                }
+              }else if(objects.length<30&&objects.length>15){
+                dateLabel = new Date(dateSI)
+                dateLabel.setDate(dateLabel+7)
+                totalD = 0
+                i=0
+                for (let [key, value] of objects) {
+                  
+                  i++
+                  if(new Date(key)>dateLabel||i===objects.length){
+                    if (i === objects.length){
+                      totalD += value
+                      if (totalD > high) {
+                        high = totalD
+                      }
+                      data.labels.push(`SEM ${i}`)
+                      data.totales.push(totalD)
+                      totalD=0
+                      dateLabel = new Date(key)
+                      dateLabel.setDate(dateLabel + 7)
+                    }
+
+                    porcentaje++
+                  }
+                  totalD+=value
+                  if (totalD > high) {
+                    high = totalD
+                  }
+                  
+                }
+              } else {
+                dateLabel = new Date(dateSI)
+                dateLabel.setMonth(dateLabel.getMonth() + 1)
+                totalD = 0
+                i = 0
+                for (let [key, value] of objects) {
+
+                  i++
+                  if (new Date(key) > dateLabel || i === objects.length) {
+                    if (i === objects.length) {
+                      totalD += value
+                      if (totalD > high) {
+                        high = totalD
+                      }
+                      data.labels.push(`MES ${i}`)
+                      data.totales.push(totalD)
+                      totalD = 0
+                      dateLabel = new Date(key)
+                      dateLabel.setMonth(dateLabel.getMonth() + 1)
+                    }
+
+                    porcentaje++
+                  }
+                  totalD += value
+                  if (totalD > high) {
+                    high = totalD
+                  }
+
+                }
+              }
+
+              console.log(high)
+              corte.options.high = high
+              corte.data.labels = data.labels
+              corte.data.series = [data.totales]
+              console.log(`${porcentaje}/${total}`)
+              porcentaje = ((total/(porcentaje))/total)*100
+              porcentaje = this.round(porcentaje)
+              this.setState({dataTable: data, total: total, porcentaje});
+              
+              /*data.labels = [
                 "Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7", "Q8"
-              ]
+              ]*/
 
               /*const data = {}
               data.labels = [
@@ -298,11 +450,12 @@ render() {
   const {total} = this.state;
   const {totalS} = this.state;
   const {lastD} = this.state;
-  const {porcentajeC} = this.state;
+  const {porcentaje} = this.state;
   const {porcentajeS} = this.state;
   const headCells = [
     { id: 'cta', numeric: true, disablePadding: true, label: 'CTA' },
     { id: 'NOMBRE', numeric: false, disablePadding: false, label: 'Nombre' },
+    { id: 'tp', numeric: false, disablePadding: false, label: 'Tipo' },
     { id: 'total', numeric: false, disablePadding: false, label: 'Total' },
     { id: 'terreno', numeric: true, disablePadding: false, label: 'Terreno' },
     { id: 'construccion', numeric: true, disablePadding: false, label: 'Construcción' },
@@ -536,10 +689,10 @@ render() {
             <CardHeader color="success">
               <ChartistGraph
                 className="ct-chart"
-                data={creditoFovisste.data}
-                type="Line"
-                options={creditoFovisste.options}
-                listener={creditoFovisste.animation}
+                data={corte.data}
+                type="Bar"
+                options={corte.options}
+                listener={corte.animation}
               />
             </CardHeader>
             <CardBody>
@@ -547,14 +700,14 @@ render() {
               <p className={classes.cardCategory}>
                 <span className={classes.successText}>
                   <ArrowUpward className={classes.upArrowCardCategory} />{" "}
-                  {porcentajeC}%
+                  {porcentaje}%
                 </span>{" "}
                 total por día.
               </p>
             </CardBody>
             <CardFooter chart>
               <div className={classes.stats}>
-                <AccessTime /> Créditos de 2019
+                <AccessTime /> {`Periodo del ${dateSI.toLocaleDateString()} al ${dateSF.toLocaleDateString()}`}
               </div>
             </CardFooter>
           </Card>

@@ -26,7 +26,7 @@ import Unarchive from "@material-ui/icons/Unarchive";
 import Language from "@material-ui/icons/Language";*/
 // core components/views for Admin layout
 import Corte from "views/Predial/Corte.js";
-import Predial from "views/Predial/Predial.js";
+import Padrones from "views/Predial/Padrones.js";
 import Orden from "views/Dashboard/Orden.js";
 import Pdf from "views/Dashboard/renderPDF.js";
 import Editar from "views/UserProfile/Editar.js";
@@ -58,11 +58,11 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
-    path: "/predial",
-    name: "Lista de Prediales",
+    path: "/padrones",
+    name: "Lista de Padrones",
     rtlName: "لوحة القيادة",
     icon: Dashboard,
-    component: Predial,
+    component: Padrones,
     layout: "/admin"
   },
   {

@@ -23,6 +23,7 @@ import CheckCircle from "@material-ui/icons/CheckCircle"
 import Snackbar from "components/Snackbar/Snackbar.js";
 
 import avatar from "assets/img/faces/login.jpg";
+import ip from "variables/ip";
 
 const styles = {
   cardCategoryWhite: {
@@ -229,7 +230,7 @@ this.getAvatar(idEmpleado)
       pass.focus()
       return false
     }
-
+    console.log(`pass: ${pass.value} passC: ${passC}`)
     if (passC !== pass.value) {
       showNotification("trP")
       pass.focus()
@@ -243,13 +244,13 @@ this.getAvatar(idEmpleado)
     try {
       // console.log(this.nombre)
       //  console.log(this.nombre.current.value)
-
+      const sendUri = ip("3009");
       //const sendUri = "http://34.66.54.10:3016/";
-      const sendUri = 'http://localhost:3016/'
+      //const sendUri = 'http://localhost:3016/'
       //const sendUri = "http://192.168.1.74:3011/";
      // document.getElementById('idUsuario').value=12
       //const CVE_ID = document.getElementById('idEmpleado').defaultValue
-      const nombre = document.getElementById('nombre').value
+      const nombre = document.getElementById('nombre').value.toUpperCase()
       const correo = document.getElementById('correo').value
       const edad = document.getElementById('edad').value
 
@@ -275,7 +276,7 @@ this.getAvatar(idEmpleado)
         //console.log(`Response1: ${r}`)
         if (r[0] !== undefined && r[0].correo === correo) {
           removeCoockies()
-          saveCookies(idEmpleado, r[0].nombre, r[0].correo, r[0].edad, r[0].idRol, pass)
+          saveCookies(idEmpleado, r[0].nombre, r[0].correo, r[0].edad, r[0].idRol, r[0].pass)
           showNotification("trA")
         } else if (r.error.name === 'error01') {
           showNotification("trE1")
@@ -286,6 +287,7 @@ this.getAvatar(idEmpleado)
 
 
     } catch (e) {
+      showNotification("trE1")
       console.log(`Error: ${e}`)
     }
   };
@@ -310,9 +312,9 @@ render(){
     }
     getAvatar = async (idUsuario) => {
       try {
-
+        const sendUri = ip("3019");
         //const sendUri = "http://34.66.54.10:3019/";
-        const sendUri = "http://localhost:3019/";
+        //const sendUri = "http://localhost:3019/";
         //const sendUri = "http://192.168.1.74:3012/";
         const bodyJSON = {
           idUsuario: idUsuario
@@ -385,7 +387,7 @@ render(){
           place="tr"
           color="danger"
           icon={E}
-          message='Error al intentar actualizar'
+          message='Error, no hay conexion a internet'
           open={trE1}
           closeNotification={() => setTRE1(false)}
           close

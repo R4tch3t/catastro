@@ -1,11 +1,41 @@
 import ip from "variables/ip.js";
-export default async(street, barr, c) => {
+export default async(CTA, street, barr, zona, tp, c) => {
     try {
-
-        const sendUri = ip('3020');
+        const sendUri = ip('3021');
+        let i = 0
+        let path = c.polyC.getPath();
+        let pc = []
+        let pt = []
+        let mInfo = []
+        console.log(path)
+        if(path){
+            while(i<path.length){
+                pc.push({lat: path.g[i].lat(), lng: path.g[i].lng()})
+                i++
+            }
+        }
+        path = c.polyT.getPath();
+        i=0;
+        if(path){
+            while(i<path.length){
+                pt.push({lat: path.g[i].lat(), lng: path.g[i].lng()})
+                i++
+            }
+        }
+        if (c.markerInfo.getPosition()) {
+            mInfo.push({lat: c.markerInfo.getPosition().lat(), lng: c.markerInfo.getPosition().lng()})
+        }
+        
         const bodyJSON = {
+            CTA: CTA,
             street: street,
-            barr: barr
+            barr: barr,
+            zona: zona,
+            saveZ: c.saveZ,
+            tp: tp,
+            pc: pc,
+            pt: pt,
+            mInfo: mInfo            
         }
         const response = await fetch(sendUri, {
             method: "POST",
@@ -19,14 +49,10 @@ export default async(street, barr, c) => {
         const responseJson = await response.json().then(r => {
             //console.log(`Response1: ${r}`)
 
-            if (r.zona !== undefined) {
-                c.saveZ = 0
-                c.setState({zona: r.zona[0].valor})
-            }else{
-                c.saveZ = 1
-                c.setState({zona: 0})
+            if (r.exito !== undefined) {
+                console.log('exito')
             }
-
+             
             /*else if (r.error.name === "error01") {
                        this.removeCookies()
                        confirmAlert({

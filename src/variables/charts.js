@@ -15,20 +15,19 @@ var delays2 = 80,
 // // // Daily Sales
 // #############################
 
-const creditoFovisste = {
+const corte = {
   data: {
     labels: [
-      "Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7", "Q8", "Q9", "Q10", "Q11", "Q12",
-      "Q13", "Q14", "Q15", "Q16", "Q17", "Q18", "Q19", "Q20", "Q21", "Q22", "Q23", "Q24"
+      "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"
     ],
-    series: [[12, 17, 7, 17, 23, 18, 38]]
+    series: [[]]
   },
   options: {
     lineSmooth: Chartist.Interpolation.cardinal({
       tension: 0
     }),
     low: 0,
-    high: 10000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+    high: 1000000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
     chartPadding: {
       top: 0,
       right: 0,
@@ -177,7 +176,7 @@ const completedTasksChart = {
 };
 
 module.exports = {
-  creditoFovisste,
+  corte,
   seguroFovisste,
   completedTasksChart
 };

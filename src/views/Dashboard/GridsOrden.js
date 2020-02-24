@@ -273,12 +273,12 @@ export default (props) => {
                 inputProps={{
                   type: "number",
                   defaultValue: 0,
-                  onKeyUp: e => {
+                  onBlur: e => {
                     c.setZona(document.getElementById("zona").value);
-                  },
+                  },/*
                   onMouseUp: e => {
                     c.setZona(document.getElementById("zona").value);
-                  },
+                  },*/
                   disabled: CBG
                 }}
               />
@@ -294,7 +294,7 @@ export default (props) => {
                 inputProps={{
                   type: "number",
                   defaultValue: 0,
-                  onChange: e => {
+                  onBlur: e => {
                     c.setZona(document.getElementById("zona").value);
                   },
                   disabled: CBG
@@ -650,7 +650,7 @@ export default (props) => {
                 inputProps={{
                   type: "number",
                   defaultValue: 0,
-                  onChange: c.setBg,
+                  //onChange: c.setBg,
                   onBlur: c.setBg
                 }}
               />

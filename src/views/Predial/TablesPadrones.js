@@ -23,7 +23,7 @@ import MenuList from "@material-ui/core/MenuList";
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
-import Table from "components/Table/Table.js";
+import TablePadrones from "components/Table/TablePadrones.js";
 import classNames from "classnames";
 import Grow from "@material-ui/core/Grow";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -44,24 +44,19 @@ import {
   creditoFovisste,
   seguroFovisste
 } from "variables/charts.js";
+import ip from 'variables/ip';
 
 
 
 export default class TableRender extends React.Component {
 state={
-    idUsuario: '',
-    idQuincena: '',
     dataTable: [],
     classes: null,
     openDash: null,
     setOpenDash: null,
-    lastD: 0.0,
-    totalC: 0.0,
-    totalS: 0.0,
-    porcentajeC: 0,
-    porcentajeS: 0
+    labelB: null
 }
-//[openDash, setOpenDash] = React.useState(null);
+tipoB = 0
 handleCloseDash = () => {
  // setOpenDash(null);
  //const {setOpenDash} = this.state
@@ -69,22 +64,15 @@ handleCloseDash = () => {
 };
 constructor(props){
     super(props);
-    const date = new Date()
-    const lastD = date.getMonth()
     this.state = {
-        idUsuario: props.idUsuario,
-        idQuincena: props.idQuincena,
         dataTable: [],
         classes: props.classes,
+        classesM: props.classesM,
         openDash: null,
         setOpenDash: null,
-        lastD: lastD,
-        totalC: 0.0,
-        totalS: 0.0,
-        porcentajeC: 0,
-        porcentajeS: 0
+        labelB: 'CTA'
     };
-    this.obtenerQ(this.state.idUsuario,this.state.idQuincena)
+    
 }
 
 round = (num, decimales = 2)=>{
@@ -100,17 +88,17 @@ round = (num, decimales = 2)=>{
   return signo * (num[0] + 'e' + (num[1] ? (+num[1] - decimales) : -decimales));
 }
 
-obtenerQ=async(idUsuario,idQuincena)=>{
+allPadrones=async(CTAnombre)=>{
     try {
 
-       const sendUri = "http://34.66.54.10:3015/";
+       //const sendUri = "http://34.66.54.10:3015/";
+       const sendUri = ip("3023");
        // const sendUri = "http://localhost:3015/";
         //const sendUri = "http://192.168.1.74:3015/";
-        const bodyJSON = {
-            idUsuario: idUsuario,
-            idQuincena: idQuincena
-        };
-        var page = []
+       const bodyJSON = {
+         CTAnombre: CTAnombre,
+         tipoB: this.tipoB
+       }
         const response = await fetch(sendUri, {
             method: "POST",
             headers: {
@@ -122,81 +110,36 @@ obtenerQ=async(idUsuario,idQuincena)=>{
 
         const responseJson = await response.json().then(r => {
             //  console.log(`Response1: ${r}`)
+            let data = [];
+            if (r.contribuyenteu) {
+             r.contribuyenteu.forEach(e => {
+                data.push({
+                  key: `${e.CTA}u`,
+                  cta: e.CTA,
+                  NOMBRE: e.contribuyente,
+                  tp: 'URBANO',
+                 // total: e.total,
+                 // terreno: e.m1,
+                 // construccion: e.m2
+                })
+             })
 
-            if (r.quincenas !== undefined && r.quincenas.length > 0) {
-              const data = {}
-              data.labels = [
-                "Q1","Q2","Q3","Q4","Q5","Q6","Q7","Q8","Q9","Q10","Q11","Q12",
-                "Q13","Q14","Q15","Q16","Q17","Q18","Q19","Q20","Q21","Q22","Q23","Q24"
-              ]
-              data.series = [[]]
-              
-              var totalC = 0.0
-              var totalS = 0.0
-              var sumaQC = r.quincenas
-              var sumaQS = []
-              var cont = 0
-              var cont2 = 0.0
-              var porcentajeC = 0.0
-              var porcentajeS = 0.0
-              
-              sumaQC.forEach(e1 => {
-                e1.suma = 0.0
-                sumaQS[cont] = 0.0 
-                cont++
-                /*if(cont===0){
-                   cont2 = e1.idQuincena
-                   
-                }
-                if(cont===1){
-                  e1.idQuincena = cont2
-                  cont=0
-                }else{
-                  cont++
-                }*/
-                
-              });
-              r.data.forEach(e => {
-                totalC += parseFloat(e.desc_credito_fovisste.toString().replace('.', '').replace(',', '.'))
-                totalS += parseFloat(e.desc_seguro_de_daños_fovisste.toString().replace('.', '').replace(',', '.'))
-                cont = 0
-                sumaQC.forEach(e1 => {
-                  if (e1.idQuincena === e.idQuincena) {
-                    e1.suma += parseFloat(e.desc_credito_fovisste.toString().replace('.', '').replace(',', '.'))
-                    sumaQS[cont] += parseFloat(e.desc_seguro_de_daños_fovisste.toString().replace('.', '').replace(',', '.'))
-                    if (cont2 < sumaQS[cont]){
-                      cont2 = sumaQS[cont]
-                    }
-                  }
-                  cont++
-                });
-              });
-              data.series = [[]]
-              cont = 0.0
-              sumaQC.forEach(e1 => {
-                if (cont < e1.suma){
-                  cont = e1.suma
-                }
-                data.series[0].push(e1.suma)
-              });
-              porcentajeC = cont / totalC * 100
-              porcentajeC=this.round(porcentajeC)
-              porcentajeS = cont2 / totalS * 100
-              porcentajeS = this.round(porcentajeS)
-              totalC = totalC.toString().replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-              totalS = totalS.toString().replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-
-              creditoFovisste.data = data
-              creditoFovisste.options.high = cont
-              seguroFovisste.options.high = cont2
-              seguroFovisste.data.series=[sumaQS]
-              this.setState({totalC: totalC})
-              this.setState({totalS: totalS})
-              this.setState({porcentajeC: porcentajeC})
-              this.setState({porcentajeS: porcentajeS})
-              this.setState({dataTable: r.data})
             }
-            
+            if (r.contribuyenter) {
+              r.contribuyenter.forEach(e => {
+                data.push({
+                  key: `${e.CTA}r`,
+                  cta: e.CTA,
+                  NOMBRE: e.contribuyente,
+                  tp: 'RUSTICO',
+                  // total: e.total,
+                  // terreno: e.m1,
+                  // construccion: e.m2
+                })
+              })
+
+            }
+            this.setState({dataTable: data});
             /*else if (r.error.name === "error01") {
                        this.removeCookies()
                        confirmAlert({
@@ -211,7 +154,6 @@ obtenerQ=async(idUsuario,idQuincena)=>{
                        });
                      }*/
         });
-        return page
     } catch (e) {
         console.log(`Error: ${e}`);
     }
@@ -226,14 +168,7 @@ getParameterByName=(name, url) => {
   if (!results[2]) return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
-//upBand = false
-handleKup = event => {
-  //console.log(event.which)
-  if (event.which===13){
-  //  this.upBand = true
-    //this.setState({openDash: event.currentTarget});
-  }
-}
+
 
 changeDash = event => {
   const {openDash} = this.state;
@@ -249,39 +184,50 @@ changeDash = event => {
 handleClickDash = event => {
   this.changeDash(event);
 };
+selectionStartNombre = null
+selectionEndNombre = null
+handleUpper = e => {
+  if (e.which === 32 || e.which > 39) {
+    this.selectionStartNombre = e.target.selectionStart
+    this.selectionEndNombre = e.target.selectionEnd
+    e.target.value = e.target.value.toUpperCase()
+    e.target.setSelectionRange(this.selectionStartNombre, this.selectionEndNombre);
+  }
+  //if (e.target.value === '') {
+    this.allPadrones(e.target.value)
+  //}
+}
 
-searchU = () => {
-    //const idEmpleado = document.getElementById('idEmpleado').value
-    const {idUsuario} = this.state
-    if(idUsuario!==''){
-      const idQuincena = this.getParameterByName('idQuincena');
-      if(idQuincena!==''){
-        window.history.pushState(null, 'Buscar usuario', `#/admin/creditos?idQuincena=${idQuincena}&idUsuario=${idUsuario}`)
-      }else{
-        window.history.pushState(null, 'Buscar usuario', `#/admin/creditos?idUsuario=${idUsuario}`)
-      }
-    }else{
-      window.history.pushState(null, 'Buscar usuario', `#/admin/creditos`)
-    }
-    window.history.go()
+buscarCTA = (key) => (event) => {
+  const CTAnombre = document.getElementById('CTANM').value;
+  //const checkU = document.getElementById('check0');
+  this.tipoB = key
+  const labelB = key===0?'CTA':'NOMBRE'
+  this.setState({labelB})
+  //if (CTAnombre !== '') {
+  this.allPadrones(CTAnombre)    
+ // }
+}
+
+
+componentDidMount(){
+  this.allPadrones('')
 }
 
 render() {
-  const {dataTable} = this.state
-  const {classes} = this.state;
-  const {openDash} = this.state;
-  //const {setOpenDash} = this.state;
-  const {totalC} = this.state;
-  const {totalS} = this.state;
-  const {lastD} = this.state;
-  const {porcentajeC} = this.state;
-  const {porcentajeS} = this.state;
+  const {
+    dataTable,
+    classes,
+    classesM,
+    openDash,
+    labelB
+  } = this.state;
   const headCells = [
-    { id: 'idEmpleado', numeric: true, disablePadding: true, label: 'CTE' },
+    { id: 'cta', numeric: true, disablePadding: true, label: 'CTA' },
     { id: 'NOMBRE', numeric: false, disablePadding: false, label: 'Nombre' },
-    { id: 'descripcion', numeric: false, disablePadding: false, label: 'Quincena' },
-    { id: 'desc_credito_fovisste', numeric: true, disablePadding: false, label: 'Crédito FOVISSTE' },
-    { id: 'desc_seguro_de_daños_fovisste', numeric: true, disablePadding: false, label: 'Seguro de daños' },
+    { id: 'tp', numeric: false, disablePadding: false, label: 'Tipo' },
+   // { id: 'terreno', numeric: true, disablePadding: false, label: 'Terreno' },
+   // { id: 'construccion', numeric: true, disablePadding: false, label: 'Construccion' },
   ]
   return (
     <CardIcon>
@@ -291,7 +237,7 @@ render() {
             <CardHeader color="warning">
               <h4 className={classes.cardTitleWhite}>Impuesto predial</h4>
               <p className={classes.cardCategoryWhite}>
-                Búsqueda de propietarios
+                Lista de padrones
               </p>
             </CardHeader>
             <CardBody>
@@ -304,74 +250,84 @@ render() {
               />*/              
               }
               <div className={classes.searchWrapper}>
-                <CustomInput
-                  formControlProps={{
-                    className: classes.margin + " " + classes.search
-                  }}
-                  id='idEmpleado'
-                  inputProps={{
-                    placeholder: "CTA O NOMBRE",
-                    type: 'text',
-                    /*onKeyUp: this.handleKup,*/
-                    //value: idUsuario,
-                    inputProps: {
-                      "aria-label": "Search"
-                    }
-                  }}
-                />
-                <Button color="white" onClick={this.handleClickDash} aria-label="edit"
-                aria-owns={openDash ? "profile-menu-list-grow" : null}
-                aria-haspopup="true"
-                justIcon round>
-                  <Search />
-                </Button>
-                
-                <Poppers
-                  open={Boolean(openDash)}
-                  anchorEl={openDash}
-                  transition
-                  disablePortal
-                  className={
-                    classNames({ [classes.popperClose]: !openDash }) +
-                    " " +
-                    classes.popperNav
-                  }
-                >
-                  {({ TransitionProps, placement }) => (
-                    <Grow
-                      {...TransitionProps}
-                      id="profile-menu-list-grow"
-                      style={{
-                        transformOrigin:
-                          placement === "bottom" ? "center top" : "center bottom"
+                <GridContainer>
+                  <GridItem xs={12} sm={12} md={3}>
+                    <CustomInput
+                      formControlProps={{
+                        className: classes.margin + " " + classes.search
                       }}
-                    >
-                      <Paper>
-                        <ClickAwayListener onClickAway={this.handleCloseDash}>
-                            <MenuList role="menu">
-                              <MenuItem key={'cuenta'}
-                                className={classes.dropdownItem}
-                                //onClick={this.irA(key)}
-                              >
-                                Por CTE. 
-                              </MenuItem>
-                              <MenuItem key={'nombre'}
-                                className={classes.dropdownItem}
-                                //onClick={this.irA(key)}
-                              >
-                                Por nombre 
-                              </MenuItem>
-                            </MenuList>
-                        </ClickAwayListener>
-                      </Paper>
-                    </Grow>
-                  )}
-                </Poppers>
+                      id="CTANM"
+                      inputProps={{
+                        placeholder: labelB,
+                        type: "text",
+                        onKeyUp: this.handleUpper,
+                        //value: idUsuario,
 
+                        inputProps: {
+                          "aria-label": "Search"
+                        }
+                      }}
+                    />
+                    <Button
+                      color="white"
+                      onClick={this.handleClickDash}
+                      aria-label="edit"
+                      aria-owns={openDash ? "profile-menu-list-grow" : null}
+                      aria-haspopup="true"
+                      justIcon
+                      round
+                    >
+                      <Search />
+                    </Button>
+
+                    <Poppers
+                      open={Boolean(openDash)}
+                      anchorEl={openDash}
+                      transition
+                      disablePortal
+                      className={
+                        classNames({ [classesM.popperClose]: !openDash }) +
+                        " " +
+                        classesM.popperNav
+                      }
+                      style={{ zIndex: 9999 }}
+                    >
+                      {({ TransitionProps, placement }) => (
+                        <Grow
+                          {...TransitionProps}
+                          id="profile-menu-list-grow"
+                          style={{
+                            transformOrigin:
+                              placement === "bottom" ? "center top" : "center bottom"
+                          }}
+                        >
+                          <Paper>
+                            <ClickAwayListener onClickAway={this.handleCloseDash}>
+                              <MenuList role="menu">
+                                <MenuItem
+                                  key={"cuenta"}
+                                  className={classesM.dropdownItem}
+                                  onClick={this.buscarCTA(0)}
+                                >
+                                  Por CTA.
+                                </MenuItem>
+                                <MenuItem
+                                  key={"nombre"}
+                                  className={classesM.dropdownItem}
+                                  onClick={this.buscarCTA(1)}
+                                >
+                                  Por nombre
+                                </MenuItem>
+                              </MenuList>
+                            </ClickAwayListener>
+                          </Paper>
+                        </Grow>
+                      )}
+                    </Poppers>
+                  </GridItem>
+                </GridContainer>
               </div>
-              <br />
-              <br />
-              <Table
+              <TablePadrones
                 tableHeaderColor="warning"
                 tableHead={headCells}
                 tableData={dataTable}
@@ -403,7 +359,7 @@ render() {
               </div>
             </CardFooter>
           </Card>
-        </GridItem>*/}
+        </GridItem>
         
         <GridItem xs={12} sm={6} md={6}>
           <Card>
@@ -473,7 +429,7 @@ render() {
             </CardFooter>
           </Card>
         </GridItem>
-        */}
+        
       </GridContainer>
       <GridContainer>
         <GridItem xs={12} sm={12} md={12}>

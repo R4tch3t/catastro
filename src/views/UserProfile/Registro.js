@@ -20,6 +20,7 @@ import CheckCircle from "@material-ui/icons/CheckCircle"
 import Snackbar from "components/Snackbar/Snackbar.js";
 
 import avatar from "assets/img/faces/login.jpg";
+import ip from "variables/ip";
 
 const styles = {
   cardCategoryWhite: {
@@ -84,8 +85,8 @@ export default function Registro() {
         setTRA(true);
         setTimeout(function () {
           setTRA(false);
-          window.history.pushState(null, 'Accesar', '#/inicio/acceso')
-          window.history.go()
+         // window.history.pushState(null, 'Accesar', '#/inicio/acceso')
+         // window.history.go()
           
         }, 3000);
       }
@@ -213,8 +214,9 @@ const validarDatos = () => {
 const getinfoReg = async () => {
   try {
     //const sendUri = 'http://localhost:3010/'
-    const sendUri = "http://34.66.54.10:3010/";
+    //const sendUri = "http://34.66.54.10:3010/";
     //const sendUri = "http://35.222.167.128:3010/";
+    const sendUri = ip("3010");
     const CVE_ID = document.getElementById('idUsuario').value
     console.log(CVE_ID)
     const bodyJSON = {
@@ -249,12 +251,12 @@ const registrar = async () => {
     // console.log(this.nombre)
     //  console.log(this.nombre.current.value)
 
-    const sendUri = "http://34.66.54.10:3011/";
+    //const sendUri = "http://34.66.54.10:3011/";
      //const sendUri = 'http://localhost:3011/'
     //const sendUri = "http://192.168.1.74:3011/";
-    
+    const sendUri = ip("3011");
     const CVE_ID = document.getElementById('idUsuario').value
-    const nombre = document.getElementById('nombre').value
+    const nombre = document.getElementById('nombre').value.toUpperCase()
     const correo = document.getElementById('correo').value
     const edad = document.getElementById('edad').value
     const pass = document.getElementById('pass').value
@@ -376,8 +378,8 @@ const registrar = async () => {
                     }}
                     inputProps = {{
                       type: 'number',
-                      onClick: getinfoReg,
-                      onChange: getinfoReg
+                      //onClick: getinfoReg,
+                      //onChange: getinfoReg
                     }}
                   />
                 </GridItem>
@@ -389,7 +391,7 @@ const registrar = async () => {
                       fullWidth: true
                     }}
                     inputProps={{
-                      defaultValue: ' ',
+                    //  defaultValue: ' ',
                     }}
                   />
                 </GridItem>
@@ -414,7 +416,7 @@ const registrar = async () => {
                     }}
                     inputProps = {{
                       type: 'number',
-                      defaultValue: ' '
+                     // defaultValue: ' '
                     }}
                   />
                 </GridItem>

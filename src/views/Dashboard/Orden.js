@@ -30,6 +30,9 @@ export default () => {
   let urlDec = getParameterByName('v');
   urlDec = decrypt(urlDec);
   let bandPdf = getParameterByName('bandPdf', urlDec);
+  let bandCTA = getParameterByName('bandCTA', urlDec);
+  let genCTA = getParameterByName('genCTA', urlDec);
+  let tp = getParameterByName('tp', urlDec);
   bandPdf=bandPdf === '' ? '0' : bandPdf
   let CTA = getParameterByName('CTA', urlDec);
   let nombre = getParameterByName('nombre', urlDec);
@@ -75,6 +78,9 @@ export default () => {
   return (
    <FormOrden classes={classes} classesM={classesM} 
           bandPdf={bandPdf} 
+          bandCTA={bandCTA}
+          genCTA={genCTA}
+          tp={tp}
           CTA={CTA} 
           nombre={nombre} 
           calle={calle}

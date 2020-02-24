@@ -121,8 +121,8 @@ export class MapContainer extends React.Component {
                      let name = place.address_components
                      let title = ''
                      const su = document.getElementById('su').value.split(',')
-                     let street = ''
-                     let barr = ''
+                     c.street = ''
+                     c.barr = ''
                      let calle = document.getElementById('calle')
                      let numCalle = document.getElementById('numCalle')
                      numCalle.value = 0
@@ -144,28 +144,28 @@ export class MapContainer extends React.Component {
                          if (name.length === 7) {
                             infowindowContent.children['place-name'].textContent += `#${name[0].long_name}`;
                             title += `#${name[0].long_name} `
-                            street = name[1].long_name
+                            c.street = name[1].long_name
                             numCalle.value = name[0].long_name
                            
                          }else{
                             infowindowContent.children['place-name'].textContent = `${name[0].long_name}`;
                             title += `${name[0].long_name} `
-                            street = name[0].long_name
+                            c.street = name[0].long_name
                            
                          }
-                         calle.value=street.toUpperCase()
+                         calle.value = c.street.toUpperCase()
                      }
                      if (name[2]) {
                          if(name.length===7){
                             infowindowContent.children['place-barr'].textContent = `Barrio de ${name[2].long_name}`;
                             title += `Barrio de ${name[2].long_name}, `
-                            barr = name[2].long_name
+                            c.barr = name[2].long_name
                          }else{
                              infowindowContent.children['place-barr'].textContent = `Colonia ${name[1].long_name}`;
                              title += `Colonia ${name[1].long_name}, `
-                             barr = name[1].long_name
+                             c.barr = name[1].long_name
                          }
-                         colonia.value=barr.toUpperCase()
+                         colonia.value = c.barr.toUpperCase()
                      }
                      if (name[3]) {
                          if(name.length===7){
@@ -209,7 +209,7 @@ export class MapContainer extends React.Component {
                      //c.markerInfo.setTitle(`${infowindowContent.children['place-name'].textContent}`)
                      c.markerInfo.setTitle(`${title}`)
                      c.infoWindow.open(map, c.markerInfo);
-                     getZone(street,barr,c)
+                     getZone(c.street, c.barr, c)
                  } else {
                      console.log('Resultados no encontrados');
                  }
@@ -435,7 +435,7 @@ export class MapContainer extends React.Component {
         let path = c.polyC.getPath()
         e.target.style.borderColor = "transparent"
         e.target.style.fontWeight = 'normal'
-        c.polygonC = new google.maps.Polygon({
+        /*c.polygonC = new google.maps.Polygon({
             path: c.polyC.getPath(),
             strokeColor: 'blue',
             fillColor: 'blue',
@@ -448,16 +448,24 @@ export class MapContainer extends React.Component {
             editable: true,
             //draggable: true,
             geodesic: true
-        });
-        while(i<c.markersC.length){
+        });*/
+        while (0 < path.length) {
+            //path.removeAt(path.length - 1)
             path.pop()
+        }
+        while(i<c.markersC.length){
+            //path.pop()
             c.markersC[i].setMap(null)
             i++
         }
         i=0
         path = c.polyT.getPath()
+        while (0 < path.length) {
+          //  path.removeAt(path.length - 1)
+          path.pop()
+        }
         while(i<c.markersT.length){
-            path.pop()
+          //  path.pop()
             c.markersT[i].setMap(null)
             i++
         }
@@ -476,8 +484,9 @@ export class MapContainer extends React.Component {
 
     setMap = (position)=>{
         const {google, c} = this.props
+        c.google=google
         const a = this
-        let map = new google.maps.Map(document.getElementById('map'), {
+        c.map = new google.maps.Map(document.getElementById('map'), {
             center: position,
             zoom: 14,
             rotateControl: true,
@@ -507,10 +516,10 @@ export class MapContainer extends React.Component {
 
         search.onfocus = (e) => {search.style.borderColor = "#4d90fe"}
         search.onblur = (e) => {search.style.borderColor = "transparent"}
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(search);
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(tbm);
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(cbm);
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(et);
+        c.map.controls[google.maps.ControlPosition.TOP_LEFT].push(search);
+        c.map.controls[google.maps.ControlPosition.TOP_LEFT].push(tbm);
+        c.map.controls[google.maps.ControlPosition.TOP_LEFT].push(cbm);
+        c.map.controls[google.maps.ControlPosition.TOP_LEFT].push(et);
        // map.setTilt(45);
         let bounds = {
             north: position.lat - 0.0010000,
@@ -544,13 +553,13 @@ export class MapContainer extends React.Component {
                 west: position.lng() - 0.0010000
             };
            // map.setZoom(16);
-            map.setCenter(position);
+            c.map.setCenter(position);
             rectangle.setBounds(bounds);
         });
-        map.addListener('mousemove', function () {
+        c.map.addListener('mousemove', function () {
             console.log('biien?')
 
-            map.setOptions({ draggableCursor: 'crosshair' });
+            c.map.setOptions({ draggableCursor: 'crosshair' });
         })
         const showNewRect = () => {
             var ne = rectangle.getBounds().getNorthEast();
@@ -567,7 +576,7 @@ export class MapContainer extends React.Component {
             infoWindow.setContent(contentString);
             infoWindow.setPosition(bounds);
 
-            infoWindow.open(map);
+            infoWindow.open(c.map);
         }
         rectangle.addListener('bounds_changed', showNewRect);
 
@@ -588,8 +597,8 @@ export class MapContainer extends React.Component {
             editable: true,
             draggable: true,
         });
-        c.polyC.setMap(map);
-        c.polyT.setMap(map);
+        c.polyC.setMap(c.map);
+        c.polyT.setMap(c.map);
 
         const polygonC = new google.maps.Polygon({
             path: c.polyC.getPath(),
@@ -597,13 +606,13 @@ export class MapContainer extends React.Component {
             fillColor: 'blue',
             editable: true,
             //draggable: true,
-            geodesic: true
+           // geodesic: true
         });
         const polygonT = new google.maps.Polygon({
             path: c.polyT.getPath(),
             editable: true,
             //draggable: true,
-            geodesic: true
+           // geodesic: true
         });
         c.polygonC = polygonC;
         c.polygonT = polygonT;
@@ -646,6 +655,8 @@ export class MapContainer extends React.Component {
             });
 
             let distance = google.maps.geometry.spherical.computeDistanceBetween(needle.latlng, needle2.latlng);
+            const area = google.maps.geometry.spherical.computeArea(poly.getPath())
+            console.log(`area: ${area}`)
             // The closest point in the polyline
             console.log("Closest index: " + needle.index);
             console.log("Closest2 index: " + needle2.index);
@@ -653,11 +664,11 @@ export class MapContainer extends React.Component {
             console.log("maxD: " + needle2.maxDistance);
             console.log("distance: " + Math.round(distance));
             let infowindow = new google.maps.InfoWindow();
-            infowindow.setContent(`${Math.round(distance)} Metros`);
-
+            infowindow.setContent(`<div><b>Area: ${c.round(area,3)}</b></div>${c.round(distance,3)} Metros`);
+            
             // infowindow.position = event.latLng;
             infowindow.setPosition(latlng);
-            infowindow.open(map);
+            infowindow.open(c.map);
 
             // The clicked point on the polyline
             console.log(latlng);
@@ -685,9 +696,9 @@ export class MapContainer extends React.Component {
          let infowindowContent = document.getElementById('infowindow-content');
          c.infoWindow.setContent(infowindowContent);
          function getIMarker(e) {
-             a.getInfoMarker(map, e.latLng, infowindowContent);
+             a.getInfoMarker(c.map, e.latLng, infowindowContent);
          }
-         this.searchAddr(map);
+         this.searchAddr(c.map);
          google.maps.event.addListener(c.markerInfo, 'mouseup', getIMarker);
         function addLatLng(event) {
             let path = null
@@ -709,7 +720,7 @@ export class MapContainer extends React.Component {
                 c.markersT.push(marker)
             }else{
                // c.markerInfo.setMap(map)
-                a.getInfoMarker(map, event.latLng, infowindowContent);
+                a.getInfoMarker(c.map, event.latLng, infowindowContent);
                 return;
             }
             let l = path.getLength();
@@ -717,31 +728,35 @@ export class MapContainer extends React.Component {
             // Because path is an MVCArray, we can simply append a new coordinate
             // and it will automatically appear.
             path.push(event.latLng);
-            marker.setMap(map);
+            marker.setMap(c.map);
             if(l>0){
                // const latlng = `(${path.getAt(l).getLat()}, ${path.getAt(l).getLng()})`
                // const latlng2 = `(${path.getAt(l-1).getLat()}, ${path.getAt(l-1).getLng()})`
                 //console.log(path.getAt(l - 1))
                 let distance = google.maps.geometry.spherical.computeDistanceBetween(event.latLng, path.getAt(l - 1));
+                //const area = google.maps.geometry.spherical.computeArea(path)
                 let infowindow = new google.maps.InfoWindow();
-                infowindow.setContent(`${Math.round(distance)} Metros`);
+                infowindow.setContent(`${c.round(distance,3)} Metros`);
 
                 // infowindow.position = event.latLng;
                 infowindow.setPosition(event.latLng);
-                infowindow.open(map);
+                infowindow.open(c.map);
             }
             const onMarkerClick = (e) => {
                 console.log(`markerCl ${c.polyT.getPath().getLength()} : ${l}`)
                 if (c.polyC.getPath().getLength() > 2 && c.bandC && l===0) {
-                    path.push(e.latLng);
-                    c.polygonC.setMap(map);
+                  //  path.push(e.latLng);
+                    c.polygonC.setMap(c.map);
+                    google.maps.event.clearListeners(c.polygonC, 'mouseup')
                     google.maps.event.addListener(c.polygonC, 'mouseup', onPathUpC)
-                    c.markersC.push(c.markersC[0]);
+
+                    //c.markersC.push(c.markersC[0]);
                 }else if (c.polyT.getPath().getLength() > 2 && l===0){
-                    path.push(e.latLng);
-                    c.polygonT.setMap(map);
+                   // path.push(e.latLng);
+                    c.polygonT.setMap(c.map);
+                    google.maps.event.clearListeners(c.polygonT, 'mouseup')
                     google.maps.event.addListener(c.polygonT, 'mouseup', onPathUpT)
-                    c.markersT.push(c.markersT[0]);
+                   // c.markersT.push(c.markersT[0]);
                 }
                 
             }
@@ -768,31 +783,37 @@ export class MapContainer extends React.Component {
                 }
                 
             }
-            const onMarkerUp = (e) => {
-                let l2 = null 
-                path.removeAt(l);
-                path.insertAt(l, e.latLng);
-                if(c.polygon){
-                    c.polygon.setPath(path);
+            const calcArea = () => {
+                if (c.polyT.getPath().getLength() > 2) {
+                    const area = google.maps.geometry.spherical.computeArea(c.polyT.getPath())
+                    document.getElementById('m1').value = Math.round(c.round(area, 3))
+                }
+                if (c.polyC.getPath().getLength() > 2) {
+                    const area = google.maps.geometry.spherical.computeArea(c.polyC.getPath())
+                    document.getElementById('m2').value = Math.round(c.round(area, 3))
                 }
                 
-                
+            }
+            const onMarkerUp = (e) => {
+                path.removeAt(l);
+                path.insertAt(l, e.latLng);
+                calcArea()
             }
             
             marker.addListener('click', onMarkerClick)
             marker.addListener('dblclick', onMarkerDb)
             marker.addListener('mouseup', onMarkerUp)
             //polyC.addListener('mouseup', onPathUp)
-            
+            calcArea()
             console.log(c.polyC)
         }
        
         // Add a listener for the click event
         //map.addListener('click', getInfoMarker);
-        map.addListener('click', addLatLng);
-        this.setState({
+        c.map.addListener('click', addLatLng);
+        /*this.setState({
             map
-        })
+        })*/
     }
     componentDidMount(){
        // this.getLocation()

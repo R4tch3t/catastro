@@ -29,11 +29,13 @@ import ip from "variables/ip.js";
 //import { Crypt, RSA } from "hybrid-crypto-js";
 import encrypt from "./encrypt";
 import setZona from "./setZona";
+import saveDataL from "./saveDataL";
 import setTC from "./setTC";
 import setBg from "./setBg";
 import GridsOrden from "./GridsOrden";
 
-import genImp from './genImp.js';
+//import genImp from './genImp.js';
+import getPredial from './getPredial';
 import clearCheck from './clearCheck.js';
 import sumaT from './sumaT.js';
 
@@ -82,20 +84,25 @@ state={
     totalN: 0,
     CBG: true,
     zona: 0,
-    tc: 0
+    tc: 0,
 }
+map = null;
+google = null;
 markersC = [];
 markersT = [];
 markerInfo = null;
 infoWindow=null;
 polylines = [];
-widthPol = []
+widthPol = [];
 polygonC = null;
 polygonT = null;
 bandC = false;
 bandT = false;
 polyC=null;
 polyT=null;
+street = '';
+barr = '';
+saveZ = 0;
 constructor(props){
     super(props);
     const date = new Date()
@@ -124,7 +131,34 @@ constructor(props){
       totalN: 0.0,
       CBG: true,
       zona: 0,
-      tc: 0
+      tc: 0,/*
+      checkeds: {
+        I0020401: false,
+        I0020402: false,
+        I0020403: false,
+        I0020801: false,
+        I0020802: false,
+        I0020803: false,
+        I0020804: false,
+        I0030101: false,
+        I0070101: false,
+        I0070201: false,
+        I0070202: false,
+        I0070203: false,
+        I0090101: false,
+        I0090106: false,
+        I0090107: false,
+        I0090701: false,
+        I0090702: false,
+        I0090703: false,
+        I0090704: false,
+        I00913: false,
+        I0091301: false,
+        I0010804: false,
+        I0010101: false,
+        I21173001001: false
+
+      }*/
     };
 //    this.obtenerQ(this.state.idUsuario,this.state.idQuincena)
 }
@@ -198,11 +232,11 @@ padrones=async(CTAnombre, tp, tipoB)=>{
         const responseJson = await response.json().then(r => {
             //console.log(`Response1: ${r}`)
 
-            if (r.contribuyente !== undefined) {
+            if (r.contribuyente) {
               const contribuyente = r.contribuyente[0]
               const ubicacion = r.ubicacion[0]
               const orden = r.orden
-              const predial = r.predial
+              //const predial = r.predial
               
                 this.setState({
                  // nombre: contribuyente.contribuyente,
@@ -256,8 +290,9 @@ padrones=async(CTAnombre, tp, tipoB)=>{
                 //if(checkU.checked){
                 
                 bg.value = orden.bg;
+                getPredial(orden.idOrden,tp,this)
                 //console.log(predial);
-                genImp(predial,this);
+              //  genImp(predial,this);
                 //if (parseInt(orden.zona) > 0) {
                  // this.setZona(orden.zona); 
                 //}
@@ -552,6 +587,7 @@ registrarO=async()=>{
                 url += `?v=${encrypt(subUrl)}`;
                 const win = window.open(url, '_blank');
                 win.focus();
+                saveDataL(CTA,this.street,this.barr,this.state.zona,tipoPredio,this)
                // orden.style.display = 'none'
                // ReactDOM.render(<Pdf calle='11 Norte' />,document.getElementById("pdfView"))
               }             
@@ -751,14 +787,13 @@ blurCalle = e => {
 buscarCTA = (key) => (event) => {
   const CTAnombre = document.getElementById('CTANM').value;
   const checkU = document.getElementById('check0');
-  
-  if (checkU.checked){
-    if (CTAnombre!==''){
-      this.padrones(CTAnombre,'u',key)
-    }
-  }else{
-    if (CTAnombre!==''){
-      this.padrones(CTAnombre,'r',key)
+  if (CTAnombre !== '') {
+    if (checkU.checked){
+      
+        this.padrones(CTAnombre,'u',key)
+    }else{
+        this.padrones(CTAnombre,'r',key)
+      
     }
   }
 }
@@ -838,6 +873,14 @@ setZero=async(id)=>{
   i.blur();
   i.value = 0;
   sumaT(this);
+}
+
+componentDidMount(){
+  const {bandCTA,genCTA,tp} = this.props
+  if (bandCTA==='1'){
+    document.getElementById('CTANM').value=genCTA
+    this.padrones(genCTA, tp, 0)
+  }
 }
 
 render() {
