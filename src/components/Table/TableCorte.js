@@ -123,21 +123,9 @@ function EnhancedTableHead(props) {
               </TableCell>
               <TableCell
                     className={classes.tableCell + " " + classes.tableHeadCell}
-                    colSpan='2'
-                    align='center'
-              >
-                    {'Propiedad'}
-              </TableCell>
-              
-            </TableRow>
-            <TableRow className={classes.tableHeadRow}>
-              
-              <TableCell
-                    className={classes.tableCell + " " + classes.tableHeadCell}
                     key={tableHead[4].id}
                     sortDirection={orderBy === tableHead[4].id ? order : false}
                     rowSpan='2'
-                    align='center'
                   >
                     <TableSortLabel
                       active={orderBy === tableHead[4].id}
@@ -149,10 +137,21 @@ function EnhancedTableHead(props) {
               </TableCell>
               <TableCell
                     className={classes.tableCell + " " + classes.tableHeadCell}
+                    colSpan='2'
+                    align='center'
+              >
+                    {'Propiedad'}
+              </TableCell>
+              
+            </TableRow>
+            <TableRow className={classes.tableHeadRow}>
+              
+              <TableCell
+                    className={classes.tableCell + " " + classes.tableHeadCell}
                     key={tableHead[5].id}
                     sortDirection={orderBy === tableHead[5].id ? order : false}
                     rowSpan='2'
-                    align = 'center'
+                    align='center'
                   >
                     <TableSortLabel
                       active={orderBy === tableHead[5].id}
@@ -160,6 +159,21 @@ function EnhancedTableHead(props) {
                       onClick={createSortHandler(tableHead[5].id)} 
                       >
                     {tableHead[5].label}
+                    </TableSortLabel>
+              </TableCell>
+              <TableCell
+                    className={classes.tableCell + " " + classes.tableHeadCell}
+                    key={tableHead[6].id}
+                    sortDirection={orderBy === tableHead[6].id ? order : false}
+                    rowSpan='2'
+                    align = 'center'
+                  >
+                    <TableSortLabel
+                      active={orderBy === tableHead[6].id}
+                      direction={order}
+                      onClick={createSortHandler(tableHead[6].id)} 
+                      >
+                    {tableHead[6].label}
                     </TableSortLabel>
               </TableCell>
               
@@ -224,6 +238,9 @@ export default function CustomTable(props) {
                 </TableCell>
                 <TableCell className={classes.tableCell}>
                   {row.tp}
+                </TableCell>
+                <TableCell className={classes.tableCell}>
+                  {row.fecha}
                 </TableCell>
                 <TableCell className={classes.tableCell}>
                   {row.total}

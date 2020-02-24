@@ -68,10 +68,11 @@ handleCloseDash = () => {
 };
 constructor(props){
     super(props);
-    const date = new Date()
+    let tzoffset = (new Date()).getTimezoneOffset() * 60000;
+    const date = new Date(Date.now() - tzoffset)
+    let dateSI = new Date(Date.now() - tzoffset)
+    let dateSF = new Date(Date.now() - tzoffset)
     const lastD = date.getMonth()
-    let dateSI = new Date()
-    let dateSF = new Date()
     dateSI.setHours(0,0,0,0)
     dateSF.setHours(0,0,0,0)
     console.log(date.toJSON())
@@ -105,8 +106,6 @@ round = (num, decimales = 2)=>{
 
 obtenerOF=async(fi,ff)=>{
     try {
-
-       // const sendUri = "http://localhost:3015/";
         const sendUri = ip("3014");
         let tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
         fi = (new Date(fi - tzoffset))//.toISOString()//.slice(0, -1);
@@ -116,7 +115,6 @@ obtenerOF=async(fi,ff)=>{
             fi: fi,
             ff: ff
         };
-        var page = []
         const response = await fetch(sendUri, {
             method: "POST",
             headers: {
@@ -142,12 +140,17 @@ obtenerOF=async(fi,ff)=>{
               //dateSI.toLocaleDateString()
               const {dateSI} = this.state
               let dateLabel = new Date(dateSI)
-              r.ordenesu.forEach(e => {
+              r.ordenesu.forEach(e => { 
+               // tzoffset = (new Date()).getTimezoneOffset() * 60000;
+                e.dateUp = new Date(e.dateUp) - tzoffset
+                e.dateUp = new Date(e.dateUp)
+                
                 data.push({
                   key: `${e.CTA}u`,
                   cta: e.CTA,
                   NOMBRE: e.contribuyente,
                   tp: 'URBANO',
+                  fecha: e.dateUp.toISOString().slice(0, -1),
                   total: e.total,
                   terreno: e.m1,
                   construccion: e.m2
@@ -172,11 +175,16 @@ obtenerOF=async(fi,ff)=>{
               dateLabel = new Date(dateSI)
               totalD=0
               r.ordenesr.forEach(e => {
+               // tzoffset = (new Date()).getTimezoneOffset() * 60000;
+                e.dateUp = new Date(e.dateUp) - tzoffset
+                e.dateUp = new Date(e.dateUp)
+                
                 data.push({
                   key: `${e.CTA}r`,
                   cta: e.CTA,
                   NOMBRE: e.contribuyente,
                   tp: 'RUSTICO',
+                  fecha: e.dateUp.toISOString().slice(0, -1),
                   total: e.total,
                   terreno: e.m1,
                   construccion: e.m2
@@ -202,7 +210,7 @@ obtenerOF=async(fi,ff)=>{
                 totalD += parseInt(e.total);
               });
               console.log(data.objects)
-              const objects = Object.entries(data.objects)
+              const objects = Object.entries(data.objects).sort();
               if (objects.length<16){
                 for (let [key, value] of objects) {
                   console.log(`key: ${key} e: ${value}`)
@@ -273,13 +281,24 @@ obtenerOF=async(fi,ff)=>{
                 }
               }
 
+              
+              porcentaje = ((total/(porcentaje))/total)*100
+              if (isNaN(porcentaje)){
+                porcentaje = 0
+                data.totales = [1]
+                console.log('nan')
+              }else{
+                porcentaje = this.round(porcentaje)
+              }
               console.log(high)
+              console.log(data.labels)
+              console.log(data.totales)
               corte.options.high = high
               corte.data.labels = data.labels
               corte.data.series = [data.totales]
               console.log(`${porcentaje}/${total}`)
-              porcentaje = ((total/(porcentaje))/total)*100
-              porcentaje = this.round(porcentaje)
+              
+              //porcentaje = isNaN(porcentaje) ? 0:this.round(porcentaje)
               this.setState({dataTable: data, total: total, porcentaje});
               
               /*data.labels = [
@@ -363,7 +382,6 @@ obtenerOF=async(fi,ff)=>{
                        });
                      }*/
         });
-        return page
     } catch (e) {
         console.log(`Error: ${e}`);
     }
@@ -402,21 +420,6 @@ handleClickDash = event => {
   this.changeDash(event);
 };
 
-searchU = () => {
-    //const idEmpleado = document.getElementById('idEmpleado').value
-    const {idUsuario} = this.state
-    if(idUsuario!==''){
-      const idQuincena = this.getParameterByName('idQuincena');
-      if(idQuincena!==''){
-        window.history.pushState(null, 'Buscar usuario', `#/admin/creditos?idQuincena=${idQuincena}&idUsuario=${idUsuario}`)
-      }else{
-        window.history.pushState(null, 'Buscar usuario', `#/admin/creditos?idUsuario=${idUsuario}`)
-      }
-    }else{
-      window.history.pushState(null, 'Buscar usuario', `#/admin/creditos`)
-    }
-    window.history.go()
-}
 
 onChangeDI = date => {
   const {dateSF} = this.state
@@ -456,6 +459,7 @@ render() {
     { id: 'cta', numeric: true, disablePadding: true, label: 'CTA' },
     { id: 'NOMBRE', numeric: false, disablePadding: false, label: 'Nombre' },
     { id: 'tp', numeric: false, disablePadding: false, label: 'Tipo' },
+    { id: 'fecha', numeric: false, disablePadding: false, label: 'Fecha' },
     { id: 'total', numeric: false, disablePadding: false, label: 'Total' },
     { id: 'terreno', numeric: true, disablePadding: false, label: 'Terreno' },
     { id: 'construccion', numeric: true, disablePadding: false, label: 'Construcción' },
@@ -616,7 +620,7 @@ render() {
               <CardIcon color="success">
                 <LocalAtm />
               </CardIcon>
-              <p className={classes.cardCategory}>CORTE TOTAL: </p>
+              <p className={classes.cardCategory}>SUMA TOTAL DEL CORTE: </p>
               <h3 className={classes.cardTitle}>{`$`}{total}</h3>
             </CardHeader>
             <CardFooter stats>
