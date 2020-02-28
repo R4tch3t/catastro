@@ -9,6 +9,7 @@ import TableRow from "@material-ui/core/TableRow";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableSortLabel from '@material-ui/core/TableSortLabel';
+import cookie from "react-cookies";
 // core components
 import styles from "assets/jss/material-dashboard-react/components/tableStyle.js";
 import encrypt from "views/Dashboard/encrypt";
@@ -170,7 +171,8 @@ function EnhancedTableHead(props) {
   );
 }
 const genCTA = (CTA, tp) => {
-  let url = `#/admin/orden`
+  const idRol = cookie.load('idRol')
+  let url = idRol === '1' ? `#/admin/orden` : `#/usuario/orden`
   let subUrl = `?bandCTA=1&genCTA=${CTA}&tp=${tp}`
   url += `?v=${encrypt(subUrl)}`;
   const win = window.open(url, '_blank');

@@ -1,10 +1,8 @@
 import React from "react";
 import FormOrden from "./FormOrden.js";
 import cookie from "react-cookies";
-import CustomInput from "components/CustomInput/CustomInput.js";
 // @material-ui/core
 import { makeStyles } from "@material-ui/core/styles";
-import Search from "@material-ui/icons/Search";
 
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
 import stylesM from "assets/jss/material-dashboard-react/components/listItemStyle.js";
@@ -33,8 +31,10 @@ export default () => {
   let bandCTA = getParameterByName('bandCTA', urlDec);
   let genCTA = getParameterByName('genCTA', urlDec);
   let tp = getParameterByName('tp', urlDec);
+  let dateUp = getParameterByName('dateUp', urlDec);
   bandPdf=bandPdf === '' ? '0' : bandPdf
   let CTA = getParameterByName('CTA', urlDec);
+  let folio = getParameterByName('folio', urlDec);
   let nombre = getParameterByName('nombre', urlDec);
   let calle = getParameterByName('calle', urlDec);
   let numero = getParameterByName('numero', urlDec);
@@ -70,18 +70,19 @@ export default () => {
   let V0010804 = getParameterByName('V0010804', urlDec);
   let V0010101 = getParameterByName('V0010101', urlDec);
   let V21173001001 = getParameterByName('V21173001001', urlDec);
+  const idRol = cookie.load('idRol')
   
-  if(cookie.load('idRol')==='0'){
-  //  idUsuario = cookie.load('idUsuario')
-  }
 
   return (
    <FormOrden classes={classes} classesM={classesM} 
+          idRol={idRol}
           bandPdf={bandPdf} 
           bandCTA={bandCTA}
           genCTA={genCTA}
           tp={tp}
-          CTA={CTA} 
+          dateUp={dateUp}
+          CTA={CTA}
+          folio={folio} 
           nombre={nombre} 
           calle={calle}
           numero={numero}

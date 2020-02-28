@@ -11,6 +11,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 // core components
 import styles from "assets/jss/material-dashboard-react/components/tableStyle.js";
+import encrypt from "views/Dashboard/encrypt";
 
 const useStyles = makeStyles(styles);
 function desc(a, b, orderBy) {
@@ -181,7 +182,13 @@ function EnhancedTableHead(props) {
           </TableHead>
   );
 }
-
+const genDate = (CTA, tp, dateUp) => {
+  let url = `#/admin/orden`
+  let subUrl = `?bandCTA=1&genCTA=${CTA}&tp=${tp}&dateUp=${dateUp}`
+  url += `?v=${encrypt(subUrl)}`;
+  const win = window.open(url, '_blank');
+  win.focus();
+}
 export default function CustomTable(props) {
   
   const classes = useStyles();
@@ -230,25 +237,39 @@ export default function CustomTable(props) {
               try{
             return (
               <TableRow key={row.key} className={classes.tableBodyRow}>
-                <TableCell className={classes.tableCell}>
+                <TableCell className={classes.tableCell}
+                  onMouseEnter={(e)=>{e.target.style.cursor='pointer'}}
+                  onMouseUp={(e)=>{genDate(row.cta,row.key[row.key.length-1],row.fecha)}}>
                   {row.cta}
                 </TableCell>
-                <TableCell className={classes.tableCell}>
+                <TableCell className={classes.tableCell} 
+                  onMouseEnter={(e)=>{e.target.style.cursor='pointer'}}
+                  onMouseUp={(e)=>{genDate(row.cta,row.key[row.key.length-1],row.fecha)}}>
                   {row.NOMBRE}
                 </TableCell>
-                <TableCell className={classes.tableCell}>
+                <TableCell className={classes.tableCell}
+                  onMouseEnter={(e)=>{e.target.style.cursor='pointer'}}
+                  onMouseUp={(e)=>{genDate(row.cta,row.key[row.key.length-1],row.fecha)}}>
                   {row.tp}
                 </TableCell>
-                <TableCell className={classes.tableCell}>
+                <TableCell className={classes.tableCell}
+                  onMouseEnter={(e)=>{e.target.style.cursor='pointer'}}
+                  onMouseUp={(e)=>{genDate(row.cta,row.key[row.key.length-1],row.fecha)}}>
                   {row.fecha}
                 </TableCell>
-                <TableCell className={classes.tableCell}>
+                <TableCell className={classes.tableCell} 
+                  onMouseEnter={(e)=>{e.target.style.cursor='pointer'}}
+                  onMouseUp={(e)=>{genDate(row.cta,row.key[row.key.length-1],row.fecha)}}>
                   {row.total}
                 </TableCell>
-                <TableCell align="center" className={classes.tableCell}>
+                <TableCell align="center" className={classes.tableCell}
+                  onMouseEnter={(e)=>{e.target.style.cursor='pointer'}}
+                  onMouseUp={(e)=>{genDate(row.cta,row.key[row.key.length-1],row.fecha)}}>
                   {row.terreno}
                 </TableCell>
-                <TableCell align="center" className={classes.tableCell}>
+                <TableCell align="center" className={classes.tableCell}
+                  onMouseEnter={(e)=>{e.target.style.cursor='pointer'}}
+                  onMouseUp={(e)=>{genDate(row.cta,row.key[row.key.length-1],row.fecha)}}>
                   {row.construccion}
                 </TableCell>
               </TableRow>

@@ -56,7 +56,7 @@ state={
     setOpenDash: null,
     labelB: null
 }
-tipoB = 0
+tipoB = 1
 handleCloseDash = () => {
  // setOpenDash(null);
  //const {setOpenDash} = this.state
@@ -70,7 +70,7 @@ constructor(props){
         classesM: props.classesM,
         openDash: null,
         setOpenDash: null,
-        labelB: 'CTA'
+        labelB: 'NOMBRE'
     };
     
 }
@@ -237,7 +237,7 @@ render() {
             <CardHeader color="warning">
               <h4 className={classes.cardTitleWhite}>Impuesto predial</h4>
               <p className={classes.cardCategoryWhite}>
-                Lista de padrones
+                Lista de contribuyentes
               </p>
             </CardHeader>
             <CardBody>

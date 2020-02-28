@@ -50,9 +50,9 @@ export default async(CTA, street, barr, zona, tp, c) => {
             //console.log(`Response1: ${r}`)
 
             if (r.exito !== undefined) {
-                console.log('exito')
+              //  console.log('exito')
             }
-             
+             c.setState({disabledReg: false})
             /*else if (r.error.name === "error01") {
                        this.removeCookies()
                        confirmAlert({

@@ -1,7 +1,6 @@
 export default (port) => {
-    //const sendUri = "http://localhost:3015/";
-    //const sendUri = `http://localhost:${port}/`;
     const ip = 'localhost'
+    //const ip = '192.168.1.80'
     const sendUri = `http://${ip}:${port}/`;
     return sendUri
 }

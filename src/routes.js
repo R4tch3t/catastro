@@ -28,9 +28,9 @@ import Language from "@material-ui/icons/Language";*/
 import Corte from "views/Predial/Corte.js";
 import Padrones from "views/Predial/Padrones.js";
 import Orden from "views/Dashboard/Orden.js";
-import Pdf from "views/Dashboard/renderPDF.js";
 import Editar from "views/UserProfile/Editar.js";
 import Registro from "views/UserProfile/Registro.js";
+import RegistrarP from "views/Predial/RegistrarP";
 /*import TableList from "views/TableList/TableList.js";
 import Typography from "views/Typography/Typography.js";
 import Icons from "views/Icons/Icons.js";
@@ -50,6 +50,14 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
+    path: "/padron",
+    name: "Lista de contribuyentes",
+    rtlName: "لوحة القيادة",
+    icon: Dashboard,
+    component: Padrones,
+    layout: "/admin"
+  },
+  {
     path: "/corte",
     name: "Corte de caja",
     rtlName: "لوحة القيادة",
@@ -58,11 +66,11 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
-    path: "/padrones",
-    name: "Lista de Padrones",
-    rtlName: "لوحة القيادة",
-    icon: Dashboard,
-    component: Padrones,
+    path: "/registrarPredio",
+    name: "Registrar contribuyente",
+    rtlName: "قائمة الجدول",
+    icon: "content_paste",
+    component: RegistrarP,
     layout: "/admin"
   },
   {
@@ -80,6 +88,7 @@ const dashboardRoutes = [
     component: Registro,
     layout: "/admin"
   }
+  
 ];
 
 export default dashboardRoutes;

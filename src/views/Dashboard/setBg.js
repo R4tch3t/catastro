@@ -22,7 +22,7 @@ export default (c) => {
   //subStr = pro1.toString().split(".");
   //pro1 = parseInt(subStr[0]);
   const pro2 = pro1;
-  const t = pb + pro1 + pro2;
+  let t = pb + pro1 + pro2;
   
   if (checkU.checked){
     const urb = document.getElementById('0020401');
@@ -59,7 +59,33 @@ export default (c) => {
     ['RECARGOS PREDIAL',
       '15% PRO EDUCACION Y ASISTENCIA SOCIAL'
     ], ['0070101', '0070201'], c);
-  renderCI('subAcc1', task, 6, [0], ['41171001', '41171001'],
+
+  let checkeds = [0]
+  let d = new Date()
+  const vi = document.getElementById('0070203')
+  if(d.getMonth()===0){
+    pb = pb * 0.12
+    pb = redondeo(pb)
+    vi.value = -pb
+    t-=pb
+    checkeds = [0,1]
+  }else
+  if(d.getMonth()===1){
+    pb = pb * 0.10
+    pb = redondeo(pb)
+    vi.value = -pb
+    t-=pb
+    checkeds = [0,1]
+  }else
+  if(d.getMonth()===2){
+    pb = pb * 0.08
+    pb = redondeo(pb)
+    vi.value = -pb
+    t-=pb
+    checkeds = [0,1]
+  }
+  
+  renderCI('subAcc1', task, 6, checkeds, ['41171001', '41171001'],
     ['15% PRO CAMINOS',
       'DESCUENTO PREDIAL DE NATURALEZA DEUDORA'
     ], ['0070202', '0070203'], c);

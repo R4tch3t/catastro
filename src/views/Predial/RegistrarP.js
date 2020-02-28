@@ -1,5 +1,5 @@
 import React from "react";
-import TablesCorte from "./TablesCorte.js";
+import TablesRP from "./TablesRP.js";
 import cookie from "react-cookies";
 import CustomInput from "components/CustomInput/CustomInput.js";
 // @material-ui/core
@@ -7,9 +7,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import Search from "@material-ui/icons/Search";
 
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
+import stylesM from "assets/jss/material-dashboard-react/components/listItemStyle.js";
 import Button from "components/CustomButtons/Button.js";
 
 const useStyles = makeStyles(styles);
+const useStylesM = makeStyles(stylesM);
 function getParameterByName(name, url) {
   if (!url) url = window.location.href;
   name = name.replace(/[\[\]]/g, '\\$&');
@@ -21,14 +23,12 @@ function getParameterByName(name, url) {
 }
 export default () => {
   const classes = useStyles();
-  if(cookie.load('idRol')==='0'){
-  //  idUsuario = cookie.load('idUsuario')
-  }
-  
+  const classesM = useStylesM();
 
+  
  
   return (
-   <TablesCorte
-                classes={classes} />
+   <TablesRP 
+                classes={classes} classesM={classesM} />
   );
 }

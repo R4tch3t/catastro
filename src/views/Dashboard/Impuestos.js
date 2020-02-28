@@ -21,6 +21,7 @@ componentDidMount(){
 }
 render(){
     const {classes, c} = this.props
+    const {readOnly} = c.state
     const fb = c.sumaT
     return (
         <>
@@ -61,7 +62,8 @@ render(){
                             inputProps = {{
                               type: 'number',
                               defaultValue: 0,
-                              onBlur: fb
+                              onBlur: fb,
+                              readOnly: readOnly
                             }}
                           />
                         </GridItem>
@@ -75,7 +77,8 @@ render(){
                             inputProps = {{
                               type: 'number',
                               defaultValue: 0,
-                              onBlur: fb
+                              onBlur: fb,
+                              readOnly: readOnly
                             }}
                           />
                         </GridItem>
@@ -89,7 +92,8 @@ render(){
                             inputProps = {{
                               type: 'number',
                               defaultValue: 0,
-                              onBlur: fb
+                              onBlur: fb,
+                              readOnly: readOnly
                             }}
                           />
                         </GridItem>
@@ -103,7 +107,8 @@ render(){
                             inputProps = {{
                               type: 'number',
                               defaultValue: 0,
-                              onBlur: fb
+                              onBlur: fb,
+                              readOnly: readOnly
                             }}
                           />
                         </GridItem>
@@ -121,7 +126,8 @@ render(){
                             inputProps = {{
                               type: 'number',
                               defaultValue: 0,
-                              onBlur: fb
+                              onBlur: fb,
+                              readOnly: readOnly
                             }}
                           />
                         </GridItem>
@@ -135,7 +141,8 @@ render(){
                             inputProps = {{
                               type: 'number',
                               defaultValue: 0,
-                              onBlur: fb
+                              onBlur: fb,
+                              readOnly: readOnly
                             }}
                           />
                         </GridItem>
@@ -149,7 +156,8 @@ render(){
                             inputProps = {{
                               type: 'number',
                               defaultValue: 0,
-                              onBlur: fb
+                              onBlur: fb,
+                              readOnly: readOnly
                             }}
                           />
                         </GridItem>
@@ -163,7 +171,8 @@ render(){
                             inputProps = {{
                               type: 'number',
                               defaultValue: 0,
-                              onBlur: fb
+                              onBlur: fb,
+                              readOnly: readOnly
                             }}
                           />
                         </GridItem>
@@ -205,7 +214,8 @@ render(){
                             inputProps = {{
                               type: 'number',
                               defaultValue: 0,
-                              onBlur: fb
+                              onBlur: fb,
+                              readOnly: readOnly
                             }}
                           />
                         </GridItem>
@@ -219,7 +229,8 @@ render(){
                             inputProps = {{
                               type: 'number',
                               defaultValue: 0,
-                              onBlur: fb
+                              onBlur: fb,
+                              readOnly: readOnly
                             }}
                           />
                         </GridItem>
@@ -233,7 +244,8 @@ render(){
                             inputProps = {{
                               type: 'number',
                               defaultValue: 0,
-                              onBlur: fb
+                              onBlur: fb,
+                              readOnly: readOnly
                             }}
                           />
                         </GridItem>
@@ -247,7 +259,8 @@ render(){
                             inputProps = {{
                               type: 'number',
                               defaultValue: 0,
-                              onBlur: fb
+                              onBlur: fb,
+                              readOnly: readOnly
                             }}
                           />
                         </GridItem>
@@ -261,7 +274,8 @@ render(){
                             inputProps = {{
                               type: 'number',
                               defaultValue: 0,
-                              onBlur: fb
+                              onBlur: fb,
+                              readOnly: readOnly
                             }}
                           />
                         </GridItem>
@@ -297,7 +311,8 @@ render(){
                             inputProps = {{
                               type: 'number',
                               defaultValue: 0,
-                              onBlur: fb
+                              onBlur: fb,
+                              readOnly: readOnly
                             }}
                           />
                         </GridItem>
@@ -311,7 +326,8 @@ render(){
                             inputProps = {{
                               type: 'number',
                               defaultValue: 0,
-                              onBlur: fb
+                              onBlur: fb,
+                              readOnly: readOnly
                             }}
                           />
                         </GridItem>
@@ -355,7 +371,8 @@ render(){
                             inputProps = {{
                               type: 'number',
                               defaultValue: 0,
-                              onBlur: fb
+                              onBlur: fb,
+                              readOnly: readOnly
                             }}
                           />
                         </GridItem>
@@ -369,7 +386,8 @@ render(){
                             inputProps = {{
                               type: 'number',
                               defaultValue: 0,
-                              onBlur: fb
+                              onBlur: fb,
+                              readOnly: readOnly
                             }}
                           />
                         </GridItem>
@@ -383,7 +401,8 @@ render(){
                             inputProps = {{
                               type: 'number',
                               defaultValue: 0,
-                              onBlur: fb
+                              onBlur: fb,
+                              readOnly: readOnly
                             }}
                           />
                         </GridItem>
@@ -401,7 +420,8 @@ render(){
                             inputProps = {{
                               type: 'number',
                               defaultValue: 0,
-                              onBlur: fb
+                              onBlur: fb,
+                              readOnly: readOnly
                               
                             }}
                           />
@@ -416,7 +436,8 @@ render(){
                             inputProps = {{
                               type: 'number',
                               defaultValue: 0,
-                              onBlur: fb
+                              onBlur: fb,
+                              readOnly: readOnly
                             }}
                           />
                         </GridItem>
@@ -430,7 +451,8 @@ render(){
                             inputProps = {{
                               type: 'number',
                               defaultValue: 0,
-                              onBlur: fb
+                              onBlur: fb,
+                              readOnly: readOnly
                             }}
                           />
                         </GridItem>
@@ -466,7 +488,8 @@ render(){
                         inputProps = {{
                           type: 'number',
                           defaultValue: 0,
-                          onBlur: fb
+                          onBlur: fb,
+                          readOnly: readOnly
                         }}
                       />
                     </GridItem>                      
@@ -502,7 +525,8 @@ render(){
                         inputProps = {{
                           type: 'number',
                           defaultValue: 0,
-                          onBlur: fb
+                          onBlur: fb,
+                          readOnly: readOnly
                         }}
                       />
                     </GridItem>                      
@@ -538,7 +562,8 @@ render(){
                         inputProps = {{
                           type: 'number',
                           defaultValue: 0,
-                          onBlur: fb
+                          onBlur: fb,
+                          readOnly: readOnly
                         }}
                       />
                     </GridItem>                      

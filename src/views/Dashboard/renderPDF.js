@@ -144,6 +144,7 @@ class App extends React.Component {
     const {mes} = this.state
     const {año} = this.state
     const {CTA} = this.props
+    const {folio} = this.props
     const nDoc = `ORDEN_CTA_${CTA}_${dia}${mes}${año}`
     const {nombre} = this.props
     const {calle} = this.props
@@ -155,6 +156,7 @@ class App extends React.Component {
     const {tipoP} = this.props
     const {bg} = this.props
     const {periodo} = this.props
+    const {dateUp} = this.props
     const {total} = this.props
     const {V0020401,V0020402,V0020403,V0020801,V0020802,
            V0020803,V0020804,V0030101,V0070101,V0070201,
@@ -193,7 +195,7 @@ class App extends React.Component {
                           H. Ayuntamiento Municipal Constitucional
                         </Text>
                         <Text style={this.styles.headT} >
-                          Chilapa de Alvarez, Gro.
+                          Chilapa de Álvarez, Gro.
                         </Text>
                         <Text style={this.styles.headT} >
                           2018-2021
@@ -202,14 +204,17 @@ class App extends React.Component {
                           ORDEN DE PAGO
                         </Text>
                         <Text >
-                          DIRECCION DE CATASTRO MUNICIPAL
+                          DIRECCIÓN DE CATASTRO MUNICIPAL
                         </Text>
                       </View>
-
+                      <View style={{position:'absolute', top: '125px', right: '50px'}} >
+                        <Text style={[this.styles.labelR,{position: 'absolute', fontSize: 10, right: '100px'}]}>FOLIO </Text>
+                        <Text style={[this.styles.labelR,{position: 'absolute', fontSize: 10, color: 'red', right: '50px'}]}>{folio}</Text>
+                      </View>
                       <View style={this.styles.table}> 
                         <View style={this.styles.tableRow}> 
                           <View style={this.styles.tableCol}> 
-                            <Text style={this.styles.tableCell}>NOMBRE O RAZON SOCIAL DEL CONTRIBUYENTE: <Text style={[this.styles.tableCell,this.styles.labelR]}>{nombre}</Text> </Text> 
+                            <Text style={this.styles.tableCell}>NOMBRE O RAZÓN SOCIAL DEL CONTRIBUYENTE: <Text style={[this.styles.tableCell,this.styles.labelR]}>{nombre}</Text> </Text> 
                           </View> 
                         </View>
 
@@ -218,7 +223,7 @@ class App extends React.Component {
                             <Text style={this.styles.tableCell}>CALLE: <Text style={[this.styles.tableCell,this.styles.labelR]}>{calle}</Text> </Text>
                           </View>
                           <View style={this.styles.tableCol3} >  
-                              <Text style={this.styles.tableCell}>NUM: <Text style={[this.styles.tableCell,this.styles.labelR]}>{numero}</Text></Text> 
+                              <Text style={this.styles.tableCell}>NÚM: <Text style={[this.styles.tableCell,this.styles.labelR]}>{numero}</Text></Text> 
                             </View> 
                         </View>
 
@@ -242,7 +247,7 @@ class App extends React.Component {
 
                         <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol2, {width: '70%'}]}> 
-                            <Text style={this.styles.tableCell}>PAGUESE A LA SECRETARIA DE FINANZAS MUNICIPAL LA CANTIDAD DE:</Text> 
+                            <Text style={this.styles.tableCell}>PÁGUESE A LA SECRETARÍA DE FINANZAS MUNICIPAL LA CANTIDAD DE:</Text> 
                           </View> 
                           <View style={[this.styles.tableCol3, {width: '30%'}]} >  
                               <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{total}</Text> 
@@ -257,7 +262,7 @@ class App extends React.Component {
 
                         <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '30%'}]}> 
-                            <Text style={this.styles.tableCell}>NUMERO DE CUENTA:</Text> 
+                            <Text style={this.styles.tableCell}>NÚMERO DE CUENTA:</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '20%'}]} >  
                               <Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{CTA}</Text>
@@ -271,52 +276,59 @@ class App extends React.Component {
                         </View>
 
                         <View style={this.styles.tableRow}> 
-                          <View style={this.styles.tableCol}> 
-                            <Text style={this.styles.tableCell}>PERIODO DE PAGO: <Text style={[this.styles.tableCell,this.styles.labelR]}>{periodo}</Text></Text> 
+                          <View style={[this.styles.tableCol,{width: '50%'}]}> 
+                            <Text style={this.styles.tableCell}>PERÍODO DE PAGO: <Text style={[this.styles.tableCell,this.styles.labelR]}>{periodo}</Text></Text> 
+                          </View> 
+                          <View style={[this.styles.tableCol,{width: '50%'}]}> 
+                            <Text style={this.styles.tableCell}>FECHA Y HORA DE REGISTRO: <Text style={[this.styles.tableCell,this.styles.labelR]}>{dateUp}</Text></Text> 
                           </View> 
                         </View>
                       </View>
 
                       <Text style={[this.styles.tableCell,this.styles.headO,{left: 30}]}>41121001  IMPUESTOS</Text> 
                       
-                      <View style={this.styles.table}> 
-                        <View style={this.styles.tableRow}> 
+                       <View style={this.styles.table}> 
+                        
+                        {V0020401 !== '0' &&<View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '15%'}]}> 
                             <Text style={this.styles.tableCell}>411210010020401</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
-                            <Text style={this.styles.tableCell}>URBANOS EDIFICADOS DESTINADOS A CASA HABITACION</Text> 
+                            <Text style={this.styles.tableCell}>URBANOS EDIFICADOS DESTINADOS A CASA HABITACIÓN</Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '20%'}]}> 
-                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0020401==='0'?'':V0020401}</Text>
+                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0020401}</Text>
                           </View>
                         </View>
+                        }
                         
-                        <View style={this.styles.tableRow}> 
+                        {V0020402 !== '0' && <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '15%'}]}> 
                             <Text style={this.styles.tableCell}>411210010020402</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
-                            <Text style={this.styles.tableCell}>SUB URBANOS EDIFICADOS DESTINADOS A CASA HABITACION</Text> 
+                            <Text style={this.styles.tableCell}>SUB URBANOS EDIFICADOS DESTINADOS A CASA HABITACIÓN</Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '20%'}]}> 
-                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0020402==='0'?'':V0020402}</Text> 
+                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0020402}</Text> 
                           </View>
                         </View>
+                        }
 
-                        <View style={this.styles.tableRow}> 
+                        {V0020403 !== '0' && <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '15%'}]}> 
                             <Text style={this.styles.tableCell}>411210010020403</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
-                            <Text style={this.styles.tableCell}>RUSTICOS EDIFICADOS DESTINADOS A CASA HABITACION</Text> 
+                            <Text style={this.styles.tableCell}>RÚSTICOS EDIFICADOS DESTINADOS A CASA HABITACIÓN</Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '20%'}]}> 
-                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0020403==='0'?'':V0020403}</Text>  
+                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0020403}</Text>  
                           </View>
                         </View>
+                        }
 
-                        <View style={this.styles.tableRow}> 
+                        {V0020801 !== '0' && <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '15%'}]}> 
                             <Text style={this.styles.tableCell}>411210010020801</Text> 
                           </View> 
@@ -324,11 +336,11 @@ class App extends React.Component {
                             <Text style={this.styles.tableCell}>PENSIONADOS Y JUBILADOS</Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '20%'}]}> 
-                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0020801==='0'?'':V0020801}</Text>   
+                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0020801}</Text>   
                           </View>
-                        </View>
+                        </View>}
 
-                        <View style={this.styles.tableRow}> 
+                        {V0020802 !== '0' && <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '15%'}]}> 
                             <Text style={this.styles.tableCell}>411210010020802</Text> 
                           </View> 
@@ -336,11 +348,12 @@ class App extends React.Component {
                             <Text style={this.styles.tableCell}>INSEN</Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '20%'}]}> 
-                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0020802==='0'?'':V0020802}</Text>    
+                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0020802}</Text>    
                           </View>
                         </View>
+                        }
 
-                        <View style={this.styles.tableRow}> 
+                        {V0020803 !== '0' && <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '15%'}]}> 
                             <Text style={this.styles.tableCell}>411210010020803</Text> 
                           </View> 
@@ -348,11 +361,12 @@ class App extends React.Component {
                             <Text style={this.styles.tableCell}>PERSONAS DE CAPACIDADES DIFERENTES</Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '20%'}]}> 
-                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0020803==='0'?'':V0020803}</Text>     
+                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0020803}</Text>     
                           </View>
                         </View>
+                        }
 
-                        <View style={this.styles.tableRow}> 
+                        {V0020804 !== '0' && <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '15%'}]}> 
                             <Text style={this.styles.tableCell}>411210010020804</Text> 
                           </View> 
@@ -360,11 +374,12 @@ class App extends React.Component {
                             <Text style={this.styles.tableCell}>MADRES Y/O PADRES SOLTEROS JEFES DE FAMILIA</Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '20%'}]}> 
-                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0020804==='0'?'':V0020804}</Text> 
+                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0020804}</Text> 
                           </View>
                         </View>
+                        }
 
-                        <View style={this.styles.tableRow}> 
+                        {V0030101 !== '0' && <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '15%'}]}> 
                             <Text style={this.styles.tableCell}>411310010030101</Text> 
                           </View> 
@@ -372,10 +387,11 @@ class App extends React.Component {
                             <Text style={this.styles.tableCell}>SOBRE ADQUISICIONES DE BIENES INMUEBLES</Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '20%'}]}> 
-                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0030101==='0'?'':V0030101}</Text>  
+                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0030101}</Text>  
                           </View>
                         </View>
-
+                        }
+                        {(V0070101 !== '0' || V0070201 !== '0' || V0070202 !== '0' || V0070203 !== '0' || V0090101 !== '0' ) && 
                         <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '15%'}]}> 
                             <Text style={[this.styles.tableCell,this.styles.headO]}>41171001007</Text> 
@@ -386,9 +402,9 @@ class App extends React.Component {
                           <View style={[this.styles.tableCol,{width: '20%'}]}> 
                             <Text style={this.styles.tableCell}></Text> 
                           </View>
-                        </View>
+                        </View>}
 
-                        <View style={this.styles.tableRow}> 
+                        {V0070101 !== '0' && <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '15%'}]}> 
                             <Text style={this.styles.tableCell}>411710010070101</Text> 
                           </View> 
@@ -396,23 +412,24 @@ class App extends React.Component {
                             <Text style={this.styles.tableCell}>RECARGOS PREDIAL</Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '20%'}]}> 
-                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0070101==='0'?'':V0070101}</Text>   
+                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0070101}</Text>   
                           </View>
                         </View>
+                        }
 
-                        <View style={this.styles.tableRow}> 
+                        {V0070201 !== '0' && <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '15%'}]}> 
                             <Text style={this.styles.tableCell}>411710010070201</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
-                            <Text style={this.styles.tableCell}>15% PRO EDUCACION Y ASISTENCIA SOCIAL</Text> 
+                            <Text style={this.styles.tableCell}>15% PRO EDUCACIÓN Y ASISTENCIA SOCIAL</Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '20%'}]}> 
-                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0070201==='0'?'':V0070201}</Text>    
+                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0070201}</Text>    
                           </View>
-                        </View>
+                        </View>}
 
-                        <View style={this.styles.tableRow}> 
+                        {V0070202 !== '0' && <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '15%'}]}> 
                             <Text style={this.styles.tableCell}>411710010070202</Text> 
                           </View> 
@@ -420,11 +437,11 @@ class App extends React.Component {
                             <Text style={this.styles.tableCell}>15% PRO CAMINOS</Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '20%'}]}> 
-                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0070202==='0'?'':V0070202}</Text>     
+                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0070202}</Text>     
                           </View>
-                        </View>                        
+                        </View>}                        
                         
-                        <View style={this.styles.tableRow}> 
+                        {V0070203 !== '0' && <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '15%'}]}> 
                             <Text style={this.styles.tableCell}>411710010070203</Text> 
                           </View> 
@@ -432,11 +449,11 @@ class App extends React.Component {
                             <Text style={this.styles.tableCell}>DESCUENTO DE IMPUESTO PREDIAL DE NATURALEZA DEUDORA</Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '20%'}]}> 
-                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0070203==='0'?'':V0070203}</Text>      
+                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0070203}</Text>      
                           </View>
-                        </View>
+                        </View>}
 
-                        <View style={this.styles.tableRow}> 
+                        {V0090101 !== '0' && <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '15%'}]}> 
                             <Text style={this.styles.tableCell}>411910010090101</Text> 
                           </View> 
@@ -444,10 +461,10 @@ class App extends React.Component {
                             <Text style={this.styles.tableCell}>REZAGOS IMPUESTO PREDIAL</Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '20%'}]}> 
-                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0090101==='0'?'':V0090101}</Text>      
+                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0090101}</Text>      
                           </View>
-                        </View>
-
+                        </View>}
+                        {(V0090106 !== '0' || V0090107 !== '0') &&
                         <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '15%'}]}> 
                             <Text style={[this.styles.tableCell,this.styles.headO]}>414</Text> 
@@ -458,45 +475,46 @@ class App extends React.Component {
                           <View style={[this.styles.tableCol,{width: '20%'}]}> 
                             <Text style={this.styles.tableCell}></Text> 
                           </View>
-                        </View>
+                        </View>}
 
-                        <View style={this.styles.tableRow}> 
+                        {V0090106 !== '0' && <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '15%'}]}> 
                             <Text style={this.styles.tableCell}>414910040090106</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
-                            <Text style={this.styles.tableCell}>POR LA AUTORIZACION PARA LA FUSION DE PREDIOS</Text> 
+                            <Text style={this.styles.tableCell}>POR LA AUTORIZACIÓN PARA LA FUSIÓN DE PREDIOS</Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '20%'}]}> 
-                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0090106==='0'?'':V0090106}</Text>       
+                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0090106}</Text>       
                           </View>
-                        </View>
+                        </View>}
 
-                        <View style={this.styles.tableRow}> 
+                        {V0090107 !== '0' && <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '15%'}]}> 
                             <Text style={this.styles.tableCell}>414910040090107</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
-                            <Text style={this.styles.tableCell}>POR LA AUTORIZACION PARA SUBDIVISION, LOTIFICACION Y RELOTIFICACION DE PREDIOS</Text> 
+                            <Text style={this.styles.tableCell}>POR LA AUTORIZACIÓN PARA SUBDIVISIÓN, LOTIFICACIÓN Y RELOTIFICACIÓN DE PREDIOS</Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '20%'}]}> 
-                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0090107==='0'?'':V0090107}</Text>        
+                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0090107}</Text>        
                           </View>
-                        </View>
+                        </View>}
 
+                        {(V0090701 !== '0' || V0090702 !== '0' || V0090703 !== '0' || V0090704 !== '0' || V00913 !== '0' || V0091301 !== '0' ) && 
                         <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '15%'}]}> 
                             <Text style={[this.styles.tableCell,this.styles.headO]}>4149100400907</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
-                            <Text style={[this.styles.tableCell,this.styles.headO]}>DERECHOS POR COPIAS DE PLANOS, AVALUOS Y SERVICIOS CATASTRALES</Text> 
+                            <Text style={[this.styles.tableCell,this.styles.headO]}>DERECHOS POR COPIAS DE PLANOS, AVALÚOS Y SERVICIOS CATASTRALES</Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '20%'}]}> 
                             <Text style={this.styles.tableCell}></Text> 
                           </View>
-                        </View>
+                        </View>}
 
-                        <View style={this.styles.tableRow}> 
+                        {V0090701 !== '0' && <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '15%'}]}> 
                             <Text style={this.styles.tableCell}>414910040090701</Text> 
                           </View> 
@@ -504,11 +522,11 @@ class App extends React.Component {
                             <Text style={this.styles.tableCell}>CONSTANCIAS</Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '20%'}]}> 
-                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0090701==='0'?'':V0090701}</Text>         
+                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0090701}</Text>         
                           </View>
-                        </View>
+                        </View>}
 
-                        <View style={this.styles.tableRow}> 
+                        {V0090702 !== '0' && <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '15%'}]}> 
                             <Text style={this.styles.tableCell}>414910040090702</Text> 
                           </View> 
@@ -516,11 +534,11 @@ class App extends React.Component {
                             <Text style={this.styles.tableCell}>CERTIFICACIONES</Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '20%'}]}> 
-                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0090702==='0'?'':V0090702}</Text>
+                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0090702}</Text>
                           </View>
-                        </View>
+                        </View>}
 
-                        <View style={this.styles.tableRow}> 
+                        {V0090703 !== '0' && <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '15%'}]}> 
                             <Text style={this.styles.tableCell}>414910040090703</Text> 
                           </View> 
@@ -528,11 +546,11 @@ class App extends React.Component {
                             <Text style={this.styles.tableCell}>DUPLICADOS Y COPIAS</Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '20%'}]}> 
-                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0090703==='0'?'':V0090703}</Text> 
+                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0090703}</Text> 
                           </View>
-                        </View>
+                        </View>}
 
-                        <View style={this.styles.tableRow}> 
+                        {V0090704 !== '0' && <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '15%'}]}> 
                             <Text style={this.styles.tableCell}>414910040090704</Text> 
                           </View> 
@@ -540,34 +558,36 @@ class App extends React.Component {
                             <Text style={this.styles.tableCell}>OTROS SERVICIOS</Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '20%'}]}> 
-                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0090704==='0'?'':V0090704}</Text>  
+                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0090704}</Text>  
                           </View>
-                        </View>
+                        </View>}
 
-                        <View style={this.styles.tableRow}> 
+                        {V00913 !== '0' && <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '15%'}]}> 
                             <Text style={this.styles.tableCell}>4149100400913</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
-                            <Text style={this.styles.tableCell}>PRO-BOMBEROS Y PROTECCION CIVIL</Text> 
+                            <Text style={this.styles.tableCell}>PRO-BOMBEROS Y PROTECCIÓN CIVIL</Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '20%'}]}> 
-                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V00913==='0'?'':V00913}</Text>   
+                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V00913}</Text>   
                           </View>
-                        </View>
+                        </View>}
 
-                        <View style={[this.styles.tableRow, {height: 'auto'}]}> 
+                        {V0091301 !== '0' && <View style={[this.styles.tableRow, {height: 'auto'}]}> 
                           <View style={[this.styles.tableCol,{width: '15%'}]}> 
                             <Text style={[this.styles.tableCell,{top: 3}]}>414910040091301</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
-                            <Text style={this.styles.tableCell}>LICENCIAS PARA CONSTRUCCION DE EDIFICIOS O CASAS HABITACION, RESTAURACION O REPARACION, URBANIZACION, FRACCIONAMIENTO LOTIFICACION, RELOTIFICACION, FUSION Y SUB-DIVISION</Text> 
+                            <Text style={this.styles.tableCell}>LICENCIAS PARA CONSTRUCCIÓN DE EDIFICIOS O CASAS HABITACIÓN, RESTAURACIÓN O REPARACIÓN, URBANIZACIÓN, FRACCIONAMIENTO LOTIFICACIÓN, RELOTIFICACIÓN, FUSIÓN Y SUB-DIVISIÓN</Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '20%'}]}> 
-                            <Text style={[this.styles.tableCell,{position: 'absolute', marginTop: 5}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0091301==='0'?'':V0091301}</Text>   
+                            <Text style={[this.styles.tableCell,{position: 'absolute', marginTop: 5}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0091301}</Text>   
                           </View>
-                        </View>
-
+                        </View>}
+                        
+                        {V0010804 !== '0' &&
+                        <>
                         <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '15%'}]}> 
                             <Text style={[this.styles.tableCell,this.styles.headO]}>41591</Text> 
@@ -580,7 +600,7 @@ class App extends React.Component {
                           </View>
                         </View>
 
-                        <View style={this.styles.tableRow}> 
+                         <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '15%'}]}> 
                             <Text style={this.styles.tableCell}>415910050010804</Text> 
                           </View> 
@@ -588,10 +608,13 @@ class App extends React.Component {
                             <Text style={this.styles.tableCell}>VENTAS DE FORMAS IMPRESAS POR JUEGOS (FORMA 3DCC)</Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '20%'}]}> 
-                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0010804==='0'?'':V0010804}</Text>   
+                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0010804}</Text>   
                           </View>
                         </View>
+                        </>}
 
+                        {V0010101 !== '0' &&
+                        <>
                         <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '15%'}]}> 
                             <Text style={[this.styles.tableCell,this.styles.headO]}>416</Text> 
@@ -604,7 +627,7 @@ class App extends React.Component {
                           </View>
                         </View>
 
-                        <View style={this.styles.tableRow}> 
+                         <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '15%'}]}> 
                             <Text style={this.styles.tableCell}>416210060010101</Text> 
                           </View> 
@@ -612,10 +635,13 @@ class App extends React.Component {
                             <Text style={this.styles.tableCell}>MULTAS FISCALES (FALTA DE CUMPLIMIENTO DE OBLIGACIONES FISCALES)</Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '20%'}]}> 
-                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0010101==='0'?'':V0010101}</Text>    
+                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0010101}</Text>    
                           </View>
                         </View>
-
+                        </>}
+                        
+                        {V21173001001 !== '0' &&
+                        <>
                         <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '15%'}]}> 
                             <Text style={[this.styles.tableCell,this.styles.headO]}></Text> 
@@ -633,12 +659,14 @@ class App extends React.Component {
                             <Text style={this.styles.tableCell}>21173001001</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
-                            <Text style={this.styles.tableCell}>15% DE CONTRIBUCION ESTATAL (FUSION Y SUBDIVISION DE PREDIOS)</Text> 
+                            <Text style={this.styles.tableCell}>15% DE CONTRIBUCIÓN ESTATAL (FUSIÓN Y SUBDIVISIÓN DE PREDIOS)</Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '20%'}]}> 
-                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V21173001001==='0'?'':V21173001001}</Text>     
+                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V21173001001}</Text>     
                           </View>
                         </View>
+                        </>
+                        }
 
                         <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '60%'}]}> 
@@ -653,19 +681,25 @@ class App extends React.Component {
                         </View>
 
                       </View>
-
+                      
                       <View>
                         <Text style={[this.styles.tableCell,{margin: 'auto',top: 10}]}>CANTIDAD CON LETRA:   (  <Text style={this.styles.labelR}>{spellNumber(total)}</Text>  )</Text>
-                        <Text style={[this.styles.tableCell,{margin: 'auto',top: 20}]}>CHILAPA DE ALVAREZ, GRO., A     <Text style={this.styles.labelR}>{dia}</Text>      DE          <Text style={this.styles.labelR}>{mes}</Text>          DEL          <Text style={this.styles.labelR}>{año}</Text></Text>
+                      </View>
+
+                      <View style={{position:'absolute', bottom: '65px', left: '25%'}} >
+                      <View>
+                        <Text style={[this.styles.tableCell,{margin: 'auto',top: 20}]}>CHILAPA DE ÁLVAREZ, GRO., A     <Text style={this.styles.labelR}>{dia}</Text>      DE          <Text style={this.styles.labelR}>{mes}</Text>          DEL          <Text style={this.styles.labelR}>{año}</Text></Text>
                       </View>
                       <View style={{top: 25}} >  
-                        <Text style={[this.styles.tableCell,this.styles.headO,{margin: 'auto'}]}>AUTORIZO:</Text>
+                        <Text style={[this.styles.tableCell,this.styles.headO,{margin: 'auto'}]}>AUTORIZÓ:</Text>
                         <Text style={[this.styles.tableCell,{margin: 'auto'}]}>DIRECTOR DE CATASTRO MUNICIPAL</Text>
                       </View>
                       <View style={{top: 40}} >  
                         <Text style={[this.styles.tableCell,{margin: 'auto'}]}>________________________________________________________________________</Text>
                         <Text style={[this.styles.tableCell,{margin: 'auto'}]}>NOMBRE, FIRMA Y SELLO</Text>
                       </View>
+                      </View>
+
                     </Page>
                   </Document>
                   </PDFViewer>

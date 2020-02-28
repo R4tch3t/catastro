@@ -11,7 +11,7 @@ import Poppers from "@material-ui/core/Popper";
 import MenuItem from "@material-ui/core/MenuItem";
 import classNames from "classnames";
 import Grow from "@material-ui/core/Grow";
-import Map from "./Map";
+//import Map from "./Map";
 import Maps from "./Maps2";
 import Checker from "./Checker.js";
 import Impuestos from "./Impuestos"
@@ -19,7 +19,7 @@ export default (props) => {
     const {c} = props
     const {classes, classesM} = c.props
     const {center, zoom, nombre, openDash, CBG, zona, openZona, tc, openTC, 
-           CTA, openCTA, ctasIndexes, Y, totalN} = c.state
+           CTA, openCTA, ctasIndexes, Y, totalN, disabledReg} = c.state
     const controls = {
       backgroundColor: "#fff",
       borderRadius: "2px",
@@ -48,7 +48,7 @@ export default (props) => {
                 }}
                 id="CTANM"
                 inputProps={{
-                  placeholder: "CTA O NOMBRE",
+                  placeholder: "CTA",
                   type: "text",
                   onKeyUp: c.handleUpper,
                   //value: idUsuario,
@@ -115,13 +115,13 @@ export default (props) => {
                 )}
               </Poppers>
             </GridItem>
-            <GridContainer>
-              <Checker
+            <GridContainer id='checkerCP' >
+              {/*<Checker
                 checkedIndexes={[0]}
                 tasksIndexes={[0, 1]}
                 strs={["URBANO", "RUSTICO"]}
                 ids={["check", "check"]}
-              />
+              />*/}
             </GridContainer>
           </GridContainer>
         </div>
@@ -143,6 +143,21 @@ export default (props) => {
                   onKeyUp: c.handleUpper
                   /* onClick: getinfoReg,
                         onChange: getinfoReg*/
+                }}
+              />
+            </GridItem>
+            <GridItem xs={12} sm={12} md={3}>
+              <CustomInput
+                labelText="Fecha de registro:"
+                id="dateUp"
+                formControlProps={{
+                  fullWidth: true
+                }}
+                inputProps={{
+                  type: "text",
+                  defaultValue: "\0",
+                  readOnly: true,
+                  
                 }}
               />
             </GridItem>
@@ -183,7 +198,7 @@ export default (props) => {
             </GridItem>
             <GridItem xs={12} sm={12} md={2}>
               <CustomInput
-                labelText="NUMERO:"
+                labelText="NUMERO O LOTE:"
                 id="numCalle"
                 formControlProps={{
                   fullWidth: true
@@ -758,6 +773,7 @@ export default (props) => {
                 alignItems: "center"
               }}
               onClick={c.registrarO}
+              disabled={disabledReg}
             >
               GENERAR ORDEN DE PAGO
             </Button>

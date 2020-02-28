@@ -75,7 +75,9 @@ constructor(props){
     const lastD = date.getMonth()
     dateSI.setHours(0,0,0,0)
     dateSF.setHours(0,0,0,0)
-    console.log(date.toJSON())
+    corte.options.high = 1000000
+    corte.data.labels = ["ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO", "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"]
+    corte.data.series = [[]]
     this.state = {
       dataTable: [],
       classes: props.classes,
@@ -87,7 +89,7 @@ constructor(props){
       total: 0,
       porcentaje: 0
     };
-  
+    
     //this.obtenerQ(this.state.idUsuario,this.state.idQuincena)
 }
 
@@ -103,7 +105,34 @@ round = (num, decimales = 2)=>{
   num = num.toString().split('e');
   return signo * (num[0] + 'e' + (num[1] ? (+num[1] - decimales) : -decimales));
 }
-
+mes = (i) => {
+  switch(i){
+    case 0:
+      return 'ENERO'
+    case 1:
+      return 'FEBRERO'
+    case 2:
+      return 'MARZO'
+    case 3:
+      return 'ABRIL'
+    case 4:
+      return 'MAYO'
+    case 5:
+      return 'JUNIO'
+    case 6:
+      return 'JULIO'
+    case 7:
+      return 'AGOSTO'
+    case 8:
+      return 'SEPTIEMBRE'
+    case 9:
+      return 'OCTUBRE'
+    case 10:
+      return 'NOVIEMBRE'
+    default:
+      return 'DICIEMBRE'
+  }
+}
 obtenerOF=async(fi,ff)=>{
     try {
         const sendUri = ip("3014");
@@ -139,18 +168,19 @@ obtenerOF=async(fi,ff)=>{
               data.totales = []
               //dateSI.toLocaleDateString()
               const {dateSI} = this.state
-              let dateLabel = new Date(dateSI)
+              let dateLabel = dateSI
+              console.log(`dateSI: ${dateLabel}`)
               r.ordenesu.forEach(e => { 
                // tzoffset = (new Date()).getTimezoneOffset() * 60000;
-                e.dateUp = new Date(e.dateUp) - tzoffset
+               // e.dateUp = new Date(e.dateUp) - tzoffset
                 e.dateUp = new Date(e.dateUp)
                 
                 data.push({
-                  key: `${e.CTA}u`,
+                  key: `${e.CTA}${i}u`,
                   cta: e.CTA,
                   NOMBRE: e.contribuyente,
                   tp: 'URBANO',
-                  fecha: e.dateUp.toISOString().slice(0, -1),
+                  fecha: new Date(e.dateUp-tzoffset).toISOString().slice(0, -1),
                   total: e.total,
                   terreno: e.m1,
                   construccion: e.m2
@@ -163,7 +193,9 @@ obtenerOF=async(fi,ff)=>{
                   if (i === r.ordenesu.length) {
                     totalD += parseInt(e.total);
                   }
-                  dateLabel = new Date(e.dateUp)
+                  
+                  dateLabel = e.dateUp
+                  
                   data.objects[`${dateLabel.toLocaleDateString()}`] = totalD
                   totalD=0
                 }
@@ -172,19 +204,19 @@ obtenerOF=async(fi,ff)=>{
                 totalD += parseInt(e.total);
               });
               i=0
-              dateLabel = new Date(dateSI)
+              dateLabel = dateSI
               totalD=0
               r.ordenesr.forEach(e => {
                // tzoffset = (new Date()).getTimezoneOffset() * 60000;
-                e.dateUp = new Date(e.dateUp) - tzoffset
+               // e.dateUp = new Date(e.dateUp) - tzoffset
                 e.dateUp = new Date(e.dateUp)
                 
                 data.push({
-                  key: `${e.CTA}r`,
+                  key: `${e.CTA}${i}r`,
                   cta: e.CTA,
                   NOMBRE: e.contribuyente,
                   tp: 'RUSTICO',
-                  fecha: e.dateUp.toISOString().slice(0, -1),
+                  fecha: new Date(e.dateUp - tzoffset).toISOString().slice(0, -1),
                   total: e.total,
                   terreno: e.m1,
                   construccion: e.m2
@@ -197,7 +229,8 @@ obtenerOF=async(fi,ff)=>{
                   if (i === r.ordenesr.length){
                     totalD += parseInt(e.total);
                   }
-                  dateLabel = new Date(e.dateUp)
+                  dateLabel = e.dateUp
+                  
                   if (data.objects[`${dateLabel.toLocaleDateString()}`]) {
                     data.objects[`${dateLabel.toLocaleDateString()}`] += totalD
                   }else{
@@ -264,7 +297,7 @@ obtenerOF=async(fi,ff)=>{
                       if (totalD > high) {
                         high = totalD
                       }
-                      data.labels.push(`MES ${i}`)
+                      data.labels.push(this.mes(dateLabel.getMonth()))
                       data.totales.push(totalD)
                       totalD = 0
                       dateLabel = new Date(key)
@@ -296,7 +329,6 @@ obtenerOF=async(fi,ff)=>{
               corte.options.high = high
               corte.data.labels = data.labels
               corte.data.series = [data.totales]
-              console.log(`${porcentaje}/${total}`)
               
               //porcentaje = isNaN(porcentaje) ? 0:this.round(porcentaje)
               this.setState({dataTable: data, total: total, porcentaje});
@@ -437,33 +469,30 @@ onChangeDF = date => {
 }
 
 recorte = () => {
-    const {dateSF} = this.state
-    const {dateSI} = this.state
-    let dateNSF = new Date(dateSF);
-    dateNSF.setDate(dateSF.getDate() + 1);
-    this.obtenerOF(dateSI, dateNSF);
+  const {dateSF} = this.state
+  const {dateSI} = this.state
+  let dateNSF = new Date(dateSF);
+  dateNSF.setDate(dateSF.getDate() + 1);
+  this.obtenerOF(dateSI, dateNSF);
 }
 
 render() {
   const {dataTable} = this.state
   const {classes} = this.state;
-  const {openDash} = this.state;
   const {dateSI, dateSF} = this.state;
   //const {setOpenDash} = this.state;
   const {total} = this.state;
-  const {totalS} = this.state;
-  const {lastD} = this.state;
   const {porcentaje} = this.state;
-  const {porcentajeS} = this.state;
   const headCells = [
     { id: 'cta', numeric: true, disablePadding: true, label: 'CTA' },
     { id: 'NOMBRE', numeric: false, disablePadding: false, label: 'Nombre' },
     { id: 'tp', numeric: false, disablePadding: false, label: 'Tipo' },
-    { id: 'fecha', numeric: false, disablePadding: false, label: 'Fecha' },
+    { id: 'fecha', numeric: false, disablePadding: false, label: 'Fecha y hora' },
     { id: 'total', numeric: false, disablePadding: false, label: 'Total' },
     { id: 'terreno', numeric: true, disablePadding: false, label: 'Terreno' },
     { id: 'construccion', numeric: true, disablePadding: false, label: 'Construcción' },
   ]
+
   return (
     <CardIcon>
       <GridContainer>

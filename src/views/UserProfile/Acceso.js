@@ -50,6 +50,7 @@ export default function Acceso() {
   const [trA, setTRA] = React.useState(false);
   const [trE1, setTRE1] = React.useState(false);
   const [trE2, setTRE2] = React.useState(false);
+  const [trE3, setTRE3] = React.useState(false);
   const classes = useStyles();
   const showNotification = place => {
     switch (place) {
@@ -100,6 +101,14 @@ export default function Acceso() {
         setTRE2(true);
         setTimeout(function () {
           setTRE2(false);
+        }, 6000);
+      }
+      break;
+      case "trE3":
+      if (!trE3) {
+        setTRE3(true);
+        setTimeout(function () {
+          setTRE3(false);
         }, 6000);
       }
       break;
@@ -177,6 +186,7 @@ const accesoKey = (e) =>{
        }
      });
    } catch (e) {
+     showNotification("trE3")
      console.log(`Error: ${e}`);
    }
  };
@@ -227,6 +237,15 @@ const accesoKey = (e) =>{
           message="Error, el N° de empleado no existe"
           open={trE2}
           closeNotification={() => setTRE2(false)}
+          close
+        />
+        <Snackbar
+          place="tr"
+          color="danger"
+          icon={E}
+          message="Error en la conexión"
+          open={trE3}
+          closeNotification={() => setTRE3(false)}
           close
         />
         <Snackbar

@@ -38,15 +38,42 @@ export class MapContainer extends React.Component {
         
     }
     getLocation = ()=>{
-        console.log('???')
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(this.showPosition);
+
+         if (navigator.geolocation) {
+             navigator.geolocation.getCurrentPosition((position) => {
+                 const center = {lat: position.coords.latitude,
+                        lng: position.coords.longitude}
+                        this.setMap(center)
+                        this.setState({position: center})
+             }, ()=> {
+                 this.handleLocationError(true);
+             });
+         } else {
+             // Browser doesn't support Geolocation
+             this.handleLocationError(false);
+         }
+         
+
+        /*if (navigator.geolocation) {
+           // navigator.geolocation.getCurrentPosition(this.showPosition);
+            
         } else {
             //x.innerHTML = "Geolocation is not supported by this browser.";
-        }
+            console.log('Geolocation is not supported by this browser.')
+        }*/
+    }
+
+    handleLocationError=(browserHasGeolocation)=>{
+        console.log(browserHasGeolocation ?
+            'Error: The Geolocation service failed.' :
+            'Error: Your browser doesn\'t support geolocation.');
+        const {c} = this.props
+        const {center} = c.state
+        this.setMap(center)
     }
 
     showPosition = (position) => {
+        
         const center = {lat: position.coords.latitude,
                         lng: position.coords.longitude}
                         this.setMap(center)
@@ -816,8 +843,8 @@ export class MapContainer extends React.Component {
         })*/
     }
     componentDidMount(){
-       // this.getLocation()
-        this.findCoordinates();
+        this.getLocation()
+       // this.findCoordinates();
     }
     render() {
         const {position} = this.state

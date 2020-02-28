@@ -7,6 +7,7 @@ import React from 'react';
 import LocalAtm from "@material-ui/icons/LocalAtm";
 //import Warning from "@material-ui/icons/Warning";
 import DateRange from "@material-ui/icons/DateRange";
+import CheckCircle from "@material-ui/icons/CheckCircle"
 //import LocalOffer from "@material-ui/icons/LocalOffer";
 //import Update from "@material-ui/icons/Update";
 import Pdf from "./renderPDF.js";
@@ -17,6 +18,7 @@ import Pdf from "./renderPDF.js";
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
+import Snackbar from 'components/Snackbar/Snackbar';
 //import Tasks from "components/Tasks/Tasks.js";
 //import CustomTabs from "components/CustomTabs/CustomTabs.js";
 //import Danger from "components/Typography/Danger.js";
@@ -38,6 +40,8 @@ import GridsOrden from "./GridsOrden";
 import getPredial from './getPredial';
 import clearCheck from './clearCheck.js';
 import sumaT from './sumaT.js';
+import changeI from './changeI.js';
+import clearCheckCP from './clearCheckCP.js';
 
 
 if (!String.prototype.splice) {
@@ -85,6 +89,9 @@ state={
     CBG: true,
     zona: 0,
     tc: 0,
+    readOnly: false,
+    disabledReg: false,
+    trA: false
 }
 map = null;
 google = null;
@@ -131,7 +138,11 @@ constructor(props){
       totalN: 0.0,
       CBG: true,
       zona: 0,
-      tc: 0,/*
+      tc: 0,
+      readOnly: this.props.idRol==='0',
+      disabledReg: false,
+      trA: false
+      /*
       checkeds: {
         I0020401: false,
         I0020402: false,
@@ -210,7 +221,7 @@ round = (num, decimales = 2)=>{
   return signo * (num[0] + 'e' + (num[1] ? (+num[1] - decimales) : -decimales));
 }
 
-padrones=async(CTAnombre, tp, tipoB)=>{
+padrones=async(CTAnombre, tp, tipoB, dateUp)=>{
     try {
 
        //const sendUri = "http://localhost:3015/";
@@ -218,7 +229,8 @@ padrones=async(CTAnombre, tp, tipoB)=>{
         const bodyJSON = {
           CTAnombre: CTAnombre,
           tp: tp,
-          tipoB: tipoB
+          tipoB: tipoB,
+          dateUp: dateUp
         }
         const response = await fetch(sendUri, {
             method: "POST",
@@ -236,6 +248,7 @@ padrones=async(CTAnombre, tp, tipoB)=>{
               const contribuyente = r.contribuyente[0]
               const ubicacion = r.ubicacion[0]
               const orden = r.orden
+              const {Y} = this.state
               //const predial = r.predial
               
                 this.setState({
@@ -255,6 +268,8 @@ padrones=async(CTAnombre, tp, tipoB)=>{
                 const m1 = document.getElementById('m1');
                 const m2 = document.getElementById('m2');
                 const periodo = document.getElementById('periodo');
+                const dateUpL = document.getElementById('dateUp');
+                dateUpL.style.color = 'red'
                 //const checkU = document.getElementById('check0');
 
                 calle.value = ubicacion.calle;
@@ -276,15 +291,22 @@ padrones=async(CTAnombre, tp, tipoB)=>{
                   m2.value = 0
                   bg.value = 0;
                   clearCheck(this)
-                  //periodo.value = orden.periodo
+                  dateUpL.value = ''
                   this.setState({tc: 0, zona: 0, totalN: 0});
 
                   return false;
                 }
                 m1.value = orden.m1
                 m2.value = orden.m2
+                let tzoffset = (new Date()).getTimezoneOffset() * 60000;
+                dateUp = new Date(orden.dateUp)-tzoffset
+                dateUp = new Date(dateUp)
+                if ((parseInt(Y)) > parseInt(dateUp.getFullYear())){
+                 // dateUp = new Date(Date.now() - tzoffset)
+                }else{
+                  dateUpL.value = dateUp.toISOString().slice(0, -1)
+                }
                 periodo.value = orden.periodo
-                
                 this.setState({tc: orden.tc, zona: orden.zona, totalN: orden.total});
                // this.setState({totalN: orden.total});
                 //if(checkU.checked){
@@ -325,6 +347,7 @@ registrarO=async()=>{
     try {
 
         //const sendUri = "http://localhost:3016/";
+        this.setState({disabledReg:true})
         const sendUri = ip('3016');
         const CTA = document.getElementById('CTA').value;
         const calle = document.getElementById('calle').value;
@@ -335,6 +358,7 @@ registrarO=async()=>{
         const localidad = document.getElementById('localidad').value;
         const bg = document.getElementById('baseGravable').value;
         const periodo = document.getElementById('periodo').value;
+        const dateUp = document.getElementById('dateUp');
         const {totalN} = this.state;
         const m1 = document.getElementById('m1').value;
         const m2 = document.getElementById('m2').value;
@@ -522,6 +546,7 @@ registrarO=async()=>{
           municipio: municipio,
           localidad: localidad,
           periodo: periodo,
+          dateUp: dateUp.value,
           m1: m1,
           m2: m2,
           tc: tc,
@@ -532,6 +557,7 @@ registrarO=async()=>{
           idImpuestos: idImpuestos,
           removI: removI
         }
+        
         const response = await fetch(sendUri, {
             method: "POST",
             headers: {
@@ -543,8 +569,9 @@ registrarO=async()=>{
 
         const responseJson = await response.json().then(r => {
             //console.log(`Response1: ${r}`)
-
+            console.log(r)
             if (r.exito !== undefined) {
+              
               if(r.exito===0){
                 //let pubKey = publicKey();
                 
@@ -569,15 +596,23 @@ registrarO=async()=>{
                   console.log(decrypted.message);
                 });*/
 
-                
+                this.showNotification("trA")
                 const nombre = document.getElementById('nombre').value;
                 const tipoP = tipoPredio === 'u' ? 'URBANO' : 'RUSTICO'
                 let url = `#/admin/orden`
                 numCalle = numCalle === '0' ? '' : numCalle
                 cp = cp === '0' ? '' : cp
-                let subUrl = `?bandPdf=1&CTA=${CTA}&nombre=${nombre}&calle=${calle}&numero=${numCalle}`
+                let folio = r.folio ? r.folio.toString():''
+                while (folio.length<5){
+                  folio = `0${folio}`
+                }
+                let tzoffset = (new Date()).getTimezoneOffset() * 60000; 
+                let d = new Date(r.dateUp) - tzoffset
+                d = new Date(d)
+                dateUp.value = d.toISOString().slice(0, -1)
+                let subUrl = `?bandPdf=1&CTA=${CTA}&folio=${folio}&nombre=${nombre}&calle=${calle}&numero=${numCalle}`
                 subUrl += `&colonia=${colonia}&cp=${cp}&municipio=${municipio}&localidad=${localidad}&tipoP=${tipoP}`
-                subUrl += `&bg=${bg}&total=${totalN}&periodo=${periodo}&V0020401=${V0020401}&V0020402=${V0020402}&V0020403=${V0020403}`
+                subUrl += `&bg=${bg}&total=${totalN}&periodo=${periodo}&dateUp=${dateUp.value}&V0020401=${V0020401}&V0020402=${V0020402}&V0020403=${V0020403}`
                 subUrl += `&V0020801=${V0020801}&V0020802=${V0020802}&V0020803=${V0020803}&V0020804=${V0020804}&V0030101=${V0030101}`
                 subUrl += `&V0070101=${V0070101}&V0070201=${V0070201}&V0070202=${V0070202}&V0070203=${V0070203}&V0090101=${V0090101}`
                 subUrl += `&V0090106=${V0090106}&V0090107=${V0090107}&V0090701=${V0090701}&V0090702=${V0090702}&V0090703=${V0090703}`
@@ -785,15 +820,15 @@ blurCalle = e => {
 }
 
 buscarCTA = (key) => (event) => {
-  const CTAnombre = document.getElementById('CTANM').value;
+  let CTAnombre = document.getElementById('CTANM');
   const checkU = document.getElementById('check0');
+  CTAnombre.placeholder = key===0?'CTA':'NOMBRE'
+  
   if (CTAnombre !== '') {
     if (checkU.checked){
-      
-        this.padrones(CTAnombre,'u',key)
+        this.padrones(CTAnombre.value, 'u', key, '')
     }else{
-        this.padrones(CTAnombre,'r',key)
-      
+        this.padrones(CTAnombre.value, 'r', key, '')
     }
   }
 }
@@ -848,7 +883,7 @@ addImpuesto = (id) => {
       let t = (bg * 0.004)*0.15;
       t = Math.round(t)
       vi.value=t;
-    }
+    }else
     if (id === '0020401' || id === '0020402' || id === '0020403') {
         const {tipoPredio} = this.state;
         const bg = document.getElementById('baseGravable').value;
@@ -860,7 +895,9 @@ addImpuesto = (id) => {
         } else if (tipoPredio === 'r' && id !== '0020401' && id !== '0020402') {
           vi.value = t;
         }
-    }
+    } else {
+      changeI(id,this)
+    } 
     sumaT(this)
 }
 
@@ -875,12 +912,34 @@ setZero=async(id)=>{
   sumaT(this);
 }
 
+showNotification = place => {
+const {trA} = this.state
+  switch (place) {
+      case "trA":
+      if (!trA) {
+        this.setState({trA: true})
+        setTimeout(() => {
+          this.setState({trA: false})
+        }, 6000);
+      }
+      break;
+    default:
+      break;
+  }
+};
+
 componentDidMount(){
-  const {bandCTA,genCTA,tp} = this.props
+  const {bandPdf,bandCTA,genCTA,tp,dateUp} = this.props
+  const checks = tp && tp === 'u' ? [0] : [1]
+  if (bandPdf !== '1') {
+    clearCheckCP(checks)
+  }
   if (bandCTA==='1'){
     document.getElementById('CTANM').value=genCTA
-    this.padrones(genCTA, tp, 0)
+    this.padrones(genCTA, tp, 0,dateUp)
+    
   }
+  
 }
 
 render() {
@@ -888,6 +947,7 @@ render() {
   const {classes} = this.props;
   if(bandPdf==='1'){
     const {CTA} = this.props;
+    const {folio} = this.props;
     const {nombre} = this.props;
     const {calle} = this.props;
     const {numero} = this.props;
@@ -898,6 +958,7 @@ render() {
     const {tipoP} = this.props;
     const {bg} = this.props;
     const {periodo} = this.props;
+    const {dateUp} = this.props;
     const {total} = this.props;
     const {V0020401,V0020402,V0020403,V0020801,V0020802,
            V0020803,V0020804,V0030101,V0070101,V0070201,
@@ -905,10 +966,10 @@ render() {
            V0090701,V0090702,V0090703,V0090704,V00913,
            V0091301,V0010804,V0010101,V21173001001} = this.props;
     
-     return(<Pdf classes={classes} CTA={CTA} nombre={nombre} 
+     return(<Pdf classes={classes} CTA={CTA} folio={folio} nombre={nombre} 
                  calle={calle} numero={numero} colonia={colonia}
                  cp={cp} municipio={municipio} localidad={localidad}
-                 tipoP={tipoP} bg={bg} periodo={periodo} total={total}
+                 tipoP={tipoP} bg={bg} periodo={periodo} dateUp={dateUp} total={total}
                  V0020401={V0020401} V0020402={V0020402} V0020403={V0020403}
                  V0020801={V0020801} V0020802={V0020802} V0020803={V0020803}
                  V0020804={V0020804} V0030101={V0030101} V0070101={V0070101}
@@ -919,10 +980,19 @@ render() {
                  V0010804={V0010804} V0010101={V0010101} V21173001001={V21173001001} /> )
   }else
   if(bandPdf==='0'){
-    const {Y} = this.state;
+    const {Y, trA} = this.state;
     const {totalN} = this.state;
     return (
       <CardIcon>
+        <Snackbar
+          place="tr"
+          color="success"
+          icon={CheckCircle}
+          message='Orden registrada con éxito'
+          open={trA}
+          closeNotification={() => this.setState({trA: false})}
+          close
+        />
         <GridContainer>
           <GridItem xs={12} sm={12} md={12}>
             <Card>
