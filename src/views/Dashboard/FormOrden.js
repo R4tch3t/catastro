@@ -625,7 +625,6 @@ registrarO=async()=>{
                 subUrl += `&V0090106=${V0090106}&V0090107=${V0090107}&V0090701=${V0090701}&V0090702=${V0090702}&V0090703=${V0090703}`
                 subUrl += `&V0090704=${V0090704}&V00913=${V00913}&V0091301=${V0091301}&V0010804=${V0010804}&V0010101=${V0010101}`
                 subUrl += `&V21173001001=${V21173001001}`
-                console.log(subUrl)
                 url += `?v=${encrypt(subUrl)}`;
                 const win = window.open(url, '_blank');
                 win.focus();
