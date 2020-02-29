@@ -17,11 +17,8 @@
 */
 // @material-ui/icons
 import Person from "@material-ui/icons/Person";
-import Notifications from "@material-ui/icons/Notifications";
 // core components/views for Admin layout
 import Acceso from "views/UserProfile/Acceso.js";
-import Registro from "views/UserProfile/Registro.js";
-import NotificationsPage from "views/Notifications/Notifications.js";
 
 const dashboardRoutes = [
   {

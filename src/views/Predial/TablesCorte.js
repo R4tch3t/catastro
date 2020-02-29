@@ -170,6 +170,8 @@ obtenerOF=async(fi,ff)=>{
               const {dateSI} = this.state
               let dateLabel = dateSI
               console.log(`dateSI: ${dateLabel}`)
+              let dateLast = ''
+              
               r.ordenesu.forEach(e => { 
                // tzoffset = (new Date()).getTimezoneOffset() * 60000;
                // e.dateUp = new Date(e.dateUp) - tzoffset
@@ -189,23 +191,28 @@ obtenerOF=async(fi,ff)=>{
                // data.labels.push(`${dateLabel.toLocaleDateString()}`)
                // dateLabel.setDate(dateLabel.getDate() + 1);
                 i++
-                if (e.dateUp > dateLabel || i === r.ordenesu.length) {
+                console.log(e.dateUp)
+                console.log(dateLabel)
+                console.log(i)
+                console.log(r.ordenesu.length)
+                if ((dateLast!==''&&e.dateUp.toLocaleDateString() !== dateLast) || i === r.ordenesu.length) {
                   if (i === r.ordenesu.length) {
                     totalD += parseInt(e.total);
                   }
                   
-                  dateLabel = e.dateUp
+                  //dateLabel = e.dateUp
                   
-                  data.objects[`${dateLabel.toLocaleDateString()}`] = totalD
+                  data.objects[`${dateLast}`] = totalD
                   totalD=0
                 }
-                
+                dateLast = e.dateUp.toLocaleDateString()
                 total += parseInt(e.total); 
                 totalD += parseInt(e.total);
               });
               i=0
               dateLabel = dateSI
               totalD=0
+              dateLast = ''
               r.ordenesr.forEach(e => {
                // tzoffset = (new Date()).getTimezoneOffset() * 60000;
                // e.dateUp = new Date(e.dateUp) - tzoffset
@@ -225,11 +232,11 @@ obtenerOF=async(fi,ff)=>{
                 //data.labels.push(`${dateLabel.toLocaleDateString()}`)
                 //dateLabel.setDate(dateLabel.getDate() + 1);
                 i++
-                if (e.dateUp > dateLabel || i === r.ordenesr.length) {
+                if ((dateLast !== '' && e.dateUp.toLocaleDateString() !== dateLast) || i === r.ordenesr.length) {
                   if (i === r.ordenesr.length){
                     totalD += parseInt(e.total);
                   }
-                  dateLabel = e.dateUp
+                 // dateLabel = e.dateUp
                   
                   if (data.objects[`${dateLabel.toLocaleDateString()}`]) {
                     data.objects[`${dateLabel.toLocaleDateString()}`] += totalD
@@ -238,6 +245,7 @@ obtenerOF=async(fi,ff)=>{
                   }
                   totalD = 0
                 }
+                dateLast = e.dateUp.toLocaleDateString()
                // data.totales.push(e.total)
                 total += parseInt(e.total); 
                 totalD += parseInt(e.total);

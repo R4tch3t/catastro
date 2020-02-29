@@ -7,7 +7,6 @@ export default async(CTA, street, barr, zona, tp, c) => {
         let pc = []
         let pt = []
         let mInfo = []
-        console.log(path)
         if(path){
             while(i<path.length){
                 pc.push({lat: path.g[i].lat(), lng: path.g[i].lng()})

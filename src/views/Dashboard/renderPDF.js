@@ -82,11 +82,12 @@ class App extends React.Component {
     headT: {
       fontFamily: "Roboto",
       fontStyle: 'italic',
-      fontWeight: 50
+      fontWeight: 50,
+      fontSize: 15
     },
     headO: {
       fontFamily: "Roboto",
-      fontWeight: 'bold'
+      fontWeight: 'bold',
     },
     labelR: {
       fontFamily: "Roboto",
@@ -104,7 +105,7 @@ class App extends React.Component {
     }, 
     tableRow: { 
       margin: "auto",
-      height: 13, 
+      height: 15, 
       flexDirection: "row" 
     }, 
     tableCol: { 
@@ -132,7 +133,7 @@ class App extends React.Component {
       marginLeft: 10, 
       marginTop: 2,
       marginBottom: 1,
-      fontSize: 7,
+      fontSize: 9,
       textAlign: 'left'
     }
 
@@ -200,14 +201,14 @@ class App extends React.Component {
                         <Text style={this.styles.headT} >
                           2018-2021
                         </Text>
-                        <Text style={this.styles.headO} >
+                        <Text style={[this.styles.headO,{fontSize: 15}]} >
                           ORDEN DE PAGO
                         </Text>
-                        <Text >
+                        <Text style={{fontSize: 15}} >
                           DIRECCIÓN DE CATASTRO MUNICIPAL
                         </Text>
                       </View>
-                      <View style={{position:'absolute', top: '125px', right: '50px'}} >
+                      <View style={{position:'absolute', top: '110px', right: '40px'}} >
                         <Text style={[this.styles.labelR,{position: 'absolute', fontSize: 10, right: '100px'}]}>FOLIO </Text>
                         <Text style={[this.styles.labelR,{position: 'absolute', fontSize: 10, color: 'red', right: '50px'}]}>{folio}</Text>
                       </View>
@@ -290,298 +291,298 @@ class App extends React.Component {
                        <View style={this.styles.table}> 
                         
                         {V0020401 !== '0' &&<View style={this.styles.tableRow}> 
-                          <View style={[this.styles.tableCol,{width: '15%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '16%'}]}> 
                             <Text style={this.styles.tableCell}>411210010020401</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
                             <Text style={this.styles.tableCell}>URBANOS EDIFICADOS DESTINADOS A CASA HABITACIÓN</Text> 
                           </View>
-                          <View style={[this.styles.tableCol,{width: '20%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
                             <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0020401}</Text>
                           </View>
                         </View>
                         }
                         
                         {V0020402 !== '0' && <View style={this.styles.tableRow}> 
-                          <View style={[this.styles.tableCol,{width: '15%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '16%'}]}> 
                             <Text style={this.styles.tableCell}>411210010020402</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
                             <Text style={this.styles.tableCell}>SUB URBANOS EDIFICADOS DESTINADOS A CASA HABITACIÓN</Text> 
                           </View>
-                          <View style={[this.styles.tableCol,{width: '20%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
                             <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0020402}</Text> 
                           </View>
                         </View>
                         }
 
                         {V0020403 !== '0' && <View style={this.styles.tableRow}> 
-                          <View style={[this.styles.tableCol,{width: '15%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '16%'}]}> 
                             <Text style={this.styles.tableCell}>411210010020403</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
                             <Text style={this.styles.tableCell}>RÚSTICOS EDIFICADOS DESTINADOS A CASA HABITACIÓN</Text> 
                           </View>
-                          <View style={[this.styles.tableCol,{width: '20%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
                             <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0020403}</Text>  
                           </View>
                         </View>
                         }
 
                         {V0020801 !== '0' && <View style={this.styles.tableRow}> 
-                          <View style={[this.styles.tableCol,{width: '15%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '16%'}]}> 
                             <Text style={this.styles.tableCell}>411210010020801</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
                             <Text style={this.styles.tableCell}>PENSIONADOS Y JUBILADOS</Text> 
                           </View>
-                          <View style={[this.styles.tableCol,{width: '20%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
                             <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0020801}</Text>   
                           </View>
                         </View>}
 
                         {V0020802 !== '0' && <View style={this.styles.tableRow}> 
-                          <View style={[this.styles.tableCol,{width: '15%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '16%'}]}> 
                             <Text style={this.styles.tableCell}>411210010020802</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
                             <Text style={this.styles.tableCell}>INSEN</Text> 
                           </View>
-                          <View style={[this.styles.tableCol,{width: '20%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
                             <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0020802}</Text>    
                           </View>
                         </View>
                         }
 
                         {V0020803 !== '0' && <View style={this.styles.tableRow}> 
-                          <View style={[this.styles.tableCol,{width: '15%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '16%'}]}> 
                             <Text style={this.styles.tableCell}>411210010020803</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
                             <Text style={this.styles.tableCell}>PERSONAS DE CAPACIDADES DIFERENTES</Text> 
                           </View>
-                          <View style={[this.styles.tableCol,{width: '20%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
                             <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0020803}</Text>     
                           </View>
                         </View>
                         }
 
                         {V0020804 !== '0' && <View style={this.styles.tableRow}> 
-                          <View style={[this.styles.tableCol,{width: '15%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '16%'}]}> 
                             <Text style={this.styles.tableCell}>411210010020804</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
                             <Text style={this.styles.tableCell}>MADRES Y/O PADRES SOLTEROS JEFES DE FAMILIA</Text> 
                           </View>
-                          <View style={[this.styles.tableCol,{width: '20%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
                             <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0020804}</Text> 
                           </View>
                         </View>
                         }
 
                         {V0030101 !== '0' && <View style={this.styles.tableRow}> 
-                          <View style={[this.styles.tableCol,{width: '15%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '16%'}]}> 
                             <Text style={this.styles.tableCell}>411310010030101</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
                             <Text style={this.styles.tableCell}>SOBRE ADQUISICIONES DE BIENES INMUEBLES</Text> 
                           </View>
-                          <View style={[this.styles.tableCol,{width: '20%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
                             <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0030101}</Text>  
                           </View>
                         </View>
                         }
                         {(V0070101 !== '0' || V0070201 !== '0' || V0070202 !== '0' || V0070203 !== '0' || V0090101 !== '0' ) && 
                         <View style={this.styles.tableRow}> 
-                          <View style={[this.styles.tableCol,{width: '15%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '16%'}]}> 
                             <Text style={[this.styles.tableCell,this.styles.headO]}>41171001007</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
                             <Text style={[this.styles.tableCell,this.styles.headO]}>ACCESORIOS DE IMPUESTOS</Text> 
                           </View>
-                          <View style={[this.styles.tableCol,{width: '20%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
                             <Text style={this.styles.tableCell}></Text> 
                           </View>
                         </View>}
 
                         {V0070101 !== '0' && <View style={this.styles.tableRow}> 
-                          <View style={[this.styles.tableCol,{width: '15%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '16%'}]}> 
                             <Text style={this.styles.tableCell}>411710010070101</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
                             <Text style={this.styles.tableCell}>RECARGOS PREDIAL</Text> 
                           </View>
-                          <View style={[this.styles.tableCol,{width: '20%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
                             <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0070101}</Text>   
                           </View>
                         </View>
                         }
 
                         {V0070201 !== '0' && <View style={this.styles.tableRow}> 
-                          <View style={[this.styles.tableCol,{width: '15%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '16%'}]}> 
                             <Text style={this.styles.tableCell}>411710010070201</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
                             <Text style={this.styles.tableCell}>15% PRO EDUCACIÓN Y ASISTENCIA SOCIAL</Text> 
                           </View>
-                          <View style={[this.styles.tableCol,{width: '20%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
                             <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0070201}</Text>    
                           </View>
                         </View>}
 
                         {V0070202 !== '0' && <View style={this.styles.tableRow}> 
-                          <View style={[this.styles.tableCol,{width: '15%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '16%'}]}> 
                             <Text style={this.styles.tableCell}>411710010070202</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
                             <Text style={this.styles.tableCell}>15% PRO CAMINOS</Text> 
                           </View>
-                          <View style={[this.styles.tableCol,{width: '20%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
                             <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0070202}</Text>     
                           </View>
                         </View>}                        
                         
                         {V0070203 !== '0' && <View style={this.styles.tableRow}> 
-                          <View style={[this.styles.tableCol,{width: '15%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '16%'}]}> 
                             <Text style={this.styles.tableCell}>411710010070203</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
                             <Text style={this.styles.tableCell}>DESCUENTO DE IMPUESTO PREDIAL DE NATURALEZA DEUDORA</Text> 
                           </View>
-                          <View style={[this.styles.tableCol,{width: '20%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
                             <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0070203}</Text>      
                           </View>
                         </View>}
 
                         {V0090101 !== '0' && <View style={this.styles.tableRow}> 
-                          <View style={[this.styles.tableCol,{width: '15%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '16%'}]}> 
                             <Text style={this.styles.tableCell}>411910010090101</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
                             <Text style={this.styles.tableCell}>REZAGOS IMPUESTO PREDIAL</Text> 
                           </View>
-                          <View style={[this.styles.tableCol,{width: '20%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
                             <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0090101}</Text>      
                           </View>
                         </View>}
                         {(V0090106 !== '0' || V0090107 !== '0') &&
                         <View style={this.styles.tableRow}> 
-                          <View style={[this.styles.tableCol,{width: '15%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '16%'}]}> 
                             <Text style={[this.styles.tableCell,this.styles.headO]}>414</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
                             <Text style={[this.styles.tableCell,this.styles.headO]}>DERECHOS</Text> 
                           </View>
-                          <View style={[this.styles.tableCol,{width: '20%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
                             <Text style={this.styles.tableCell}></Text> 
                           </View>
                         </View>}
 
                         {V0090106 !== '0' && <View style={this.styles.tableRow}> 
-                          <View style={[this.styles.tableCol,{width: '15%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '16%'}]}> 
                             <Text style={this.styles.tableCell}>414910040090106</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
-                            <Text style={this.styles.tableCell}>POR LA AUTORIZACIÓN PARA LA FUSIÓN DE PREDIOS</Text> 
+                            <Text style={this.styles.tableCell}>FUSIÓN DE PREDIOS</Text> 
                           </View>
-                          <View style={[this.styles.tableCol,{width: '20%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
                             <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0090106}</Text>       
                           </View>
                         </View>}
 
-                        {V0090107 !== '0' && <View style={this.styles.tableRow}> 
-                          <View style={[this.styles.tableCol,{width: '15%'}]}> 
+                        {V0090107 !== '0' && <View style={[this.styles.tableRow,{height: 'auto'}]}> 
+                          <View style={[this.styles.tableCol,{width: '16%'}]}> 
                             <Text style={this.styles.tableCell}>414910040090107</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
-                            <Text style={this.styles.tableCell}>POR LA AUTORIZACIÓN PARA SUBDIVISIÓN, LOTIFICACIÓN Y RELOTIFICACIÓN DE PREDIOS</Text> 
+                            <Text style={this.styles.tableCell}>SUBDIVISIÓN, LOTIFICACIÓN Y RELOTIFICACIÓN DE PREDIOS</Text> 
                           </View>
-                          <View style={[this.styles.tableCol,{width: '20%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
                             <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0090107}</Text>        
                           </View>
                         </View>}
 
                         {(V0090701 !== '0' || V0090702 !== '0' || V0090703 !== '0' || V0090704 !== '0' || V00913 !== '0' || V0091301 !== '0' ) && 
                         <View style={this.styles.tableRow}> 
-                          <View style={[this.styles.tableCol,{width: '15%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '16%'}]}> 
                             <Text style={[this.styles.tableCell,this.styles.headO]}>4149100400907</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
                             <Text style={[this.styles.tableCell,this.styles.headO]}>DERECHOS POR COPIAS DE PLANOS, AVALÚOS Y SERVICIOS CATASTRALES</Text> 
                           </View>
-                          <View style={[this.styles.tableCol,{width: '20%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
                             <Text style={this.styles.tableCell}></Text> 
                           </View>
                         </View>}
 
                         {V0090701 !== '0' && <View style={this.styles.tableRow}> 
-                          <View style={[this.styles.tableCol,{width: '15%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '16%'}]}> 
                             <Text style={this.styles.tableCell}>414910040090701</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
                             <Text style={this.styles.tableCell}>CONSTANCIAS</Text> 
                           </View>
-                          <View style={[this.styles.tableCol,{width: '20%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
                             <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0090701}</Text>         
                           </View>
                         </View>}
 
                         {V0090702 !== '0' && <View style={this.styles.tableRow}> 
-                          <View style={[this.styles.tableCol,{width: '15%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '16%'}]}> 
                             <Text style={this.styles.tableCell}>414910040090702</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
                             <Text style={this.styles.tableCell}>CERTIFICACIONES</Text> 
                           </View>
-                          <View style={[this.styles.tableCol,{width: '20%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
                             <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0090702}</Text>
                           </View>
                         </View>}
 
                         {V0090703 !== '0' && <View style={this.styles.tableRow}> 
-                          <View style={[this.styles.tableCol,{width: '15%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '16%'}]}> 
                             <Text style={this.styles.tableCell}>414910040090703</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
                             <Text style={this.styles.tableCell}>DUPLICADOS Y COPIAS</Text> 
                           </View>
-                          <View style={[this.styles.tableCol,{width: '20%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
                             <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0090703}</Text> 
                           </View>
                         </View>}
 
                         {V0090704 !== '0' && <View style={this.styles.tableRow}> 
-                          <View style={[this.styles.tableCol,{width: '15%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '16%'}]}> 
                             <Text style={this.styles.tableCell}>414910040090704</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
                             <Text style={this.styles.tableCell}>OTROS SERVICIOS</Text> 
                           </View>
-                          <View style={[this.styles.tableCol,{width: '20%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
                             <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0090704}</Text>  
                           </View>
                         </View>}
 
                         {V00913 !== '0' && <View style={this.styles.tableRow}> 
-                          <View style={[this.styles.tableCol,{width: '15%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '16%'}]}> 
                             <Text style={this.styles.tableCell}>4149100400913</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
                             <Text style={this.styles.tableCell}>PRO-BOMBEROS Y PROTECCIÓN CIVIL</Text> 
                           </View>
-                          <View style={[this.styles.tableCol,{width: '20%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
                             <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V00913}</Text>   
                           </View>
                         </View>}
 
                         {V0091301 !== '0' && <View style={[this.styles.tableRow, {height: 'auto'}]}> 
-                          <View style={[this.styles.tableCol,{width: '15%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '16%'}]}> 
                             <Text style={[this.styles.tableCell,{top: 3}]}>414910040091301</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
                             <Text style={this.styles.tableCell}>LICENCIAS PARA CONSTRUCCIÓN DE EDIFICIOS O CASAS HABITACIÓN, RESTAURACIÓN O REPARACIÓN, URBANIZACIÓN, FRACCIONAMIENTO LOTIFICACIÓN, RELOTIFICACIÓN, FUSIÓN Y SUB-DIVISIÓN</Text> 
                           </View>
-                          <View style={[this.styles.tableCol,{width: '20%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
                             <Text style={[this.styles.tableCell,{position: 'absolute', marginTop: 5}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0091301}</Text>   
                           </View>
                         </View>}
@@ -589,25 +590,25 @@ class App extends React.Component {
                         {V0010804 !== '0' &&
                         <>
                         <View style={this.styles.tableRow}> 
-                          <View style={[this.styles.tableCol,{width: '15%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '16%'}]}> 
                             <Text style={[this.styles.tableCell,this.styles.headO]}>41591</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
                             <Text style={[this.styles.tableCell,this.styles.headO]}>PRODUCTOS</Text> 
                           </View>
-                          <View style={[this.styles.tableCol,{width: '20%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
                             <Text style={this.styles.tableCell}></Text> 
                           </View>
                         </View>
 
                          <View style={this.styles.tableRow}> 
-                          <View style={[this.styles.tableCol,{width: '15%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '16%'}]}> 
                             <Text style={this.styles.tableCell}>415910050010804</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
                             <Text style={this.styles.tableCell}>VENTAS DE FORMAS IMPRESAS POR JUEGOS (FORMA 3DCC)</Text> 
                           </View>
-                          <View style={[this.styles.tableCol,{width: '20%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
                             <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0010804}</Text>   
                           </View>
                         </View>
@@ -616,25 +617,25 @@ class App extends React.Component {
                         {V0010101 !== '0' &&
                         <>
                         <View style={this.styles.tableRow}> 
-                          <View style={[this.styles.tableCol,{width: '15%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '16%'}]}> 
                             <Text style={[this.styles.tableCell,this.styles.headO]}>416</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
                             <Text style={[this.styles.tableCell,this.styles.headO]}>APROVECHAMIENTO DE TIPO DE CORRIENTE</Text> 
                           </View>
-                          <View style={[this.styles.tableCol,{width: '20%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
                             <Text style={this.styles.tableCell}></Text> 
                           </View>
                         </View>
 
                          <View style={this.styles.tableRow}> 
-                          <View style={[this.styles.tableCol,{width: '15%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '16%'}]}> 
                             <Text style={this.styles.tableCell}>416210060010101</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
                             <Text style={this.styles.tableCell}>MULTAS FISCALES (FALTA DE CUMPLIMIENTO DE OBLIGACIONES FISCALES)</Text> 
                           </View>
-                          <View style={[this.styles.tableCol,{width: '20%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
                             <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0010101}</Text>    
                           </View>
                         </View>
@@ -643,25 +644,25 @@ class App extends React.Component {
                         {V21173001001 !== '0' &&
                         <>
                         <View style={this.styles.tableRow}> 
-                          <View style={[this.styles.tableCol,{width: '15%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '16%'}]}> 
                             <Text style={[this.styles.tableCell,this.styles.headO]}></Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
                             <Text style={[this.styles.tableCell,this.styles.headO]}>DERECHOS ESTATALES</Text> 
                           </View>
-                          <View style={[this.styles.tableCol,{width: '20%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
                             <Text style={this.styles.tableCell}></Text> 
                           </View>
                         </View>
 
                         <View style={this.styles.tableRow}> 
-                          <View style={[this.styles.tableCol,{width: '15%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '16%'}]}> 
                             <Text style={this.styles.tableCell}>21173001001</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
                             <Text style={this.styles.tableCell}>15% DE CONTRIBUCIÓN ESTATAL (FUSIÓN Y SUBDIVISIÓN DE PREDIOS)</Text> 
                           </View>
-                          <View style={[this.styles.tableCol,{width: '20%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
                             <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V21173001001}</Text>     
                           </View>
                         </View>
@@ -672,10 +673,10 @@ class App extends React.Component {
                           <View style={[this.styles.tableCol,{width: '60%'}]}> 
                             <Text style={this.styles.tableCell}></Text> 
                           </View> 
-                          <View style={[this.styles.tableCol,{width: '20%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '21%'}]}> 
                             <Text style={[this.styles.tableCell, this.styles.headO, {margin: 'auto'}]}>IMPORTE NETO</Text> 
                           </View>
-                          <View style={[this.styles.tableCol,{width: '20%'}]}> 
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
                             <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{total}</Text>      
                           </View>
                         </View>
@@ -683,10 +684,10 @@ class App extends React.Component {
                       </View>
                       
                       <View>
-                        <Text style={[this.styles.tableCell,{margin: 'auto',top: 10}]}>CANTIDAD CON LETRA:   (  <Text style={this.styles.labelR}>{spellNumber(total)}</Text>  )</Text>
+                        <Text style={[this.styles.tableCell,{margin: 'auto',top: 1}]}>CANTIDAD CON LETRA:   (  <Text style={this.styles.labelR}>{spellNumber(total)}00/100 M.N.</Text>  )</Text>
                       </View>
 
-                      <View style={{position:'absolute', bottom: '65px', left: '25%'}} >
+                      <View style={{position:'absolute', bottom: '60px', left: '20%'}} >
                       <View>
                         <Text style={[this.styles.tableCell,{margin: 'auto',top: 20}]}>CHILAPA DE ÁLVAREZ, GRO., A     <Text style={this.styles.labelR}>{dia}</Text>      DE          <Text style={this.styles.labelR}>{mes}</Text>          DEL          <Text style={this.styles.labelR}>{año}</Text></Text>
                       </View>

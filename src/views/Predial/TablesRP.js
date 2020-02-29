@@ -15,11 +15,11 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
-import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
 import ip from 'variables/ip';
-import Checker from './Checker'
+
 import Snackbar from 'components/Snackbar/Snackbar';
+import FormRegistro from './FormRegistro';
 
 
 
@@ -29,7 +29,9 @@ state={
     trE: false,
     classes: null,
 }
-
+//dValue = "\0"
+dValue = ""
+dValInt = ''
 constructor(props){
     super(props);
     this.state = {
@@ -85,6 +87,12 @@ registrarC=async()=>{
        const sendUri = ip("3024");
        const CTA = document.getElementById('CTA').value
        const nombre = document.getElementById('nombre').value
+       const calle = document.getElementById('calle').value
+       const numCalle = document.getElementById('numCalle').value
+       const colonia = document.getElementById('colonia').value
+       const cp = document.getElementById('cp').value
+       const municipio = document.getElementById('municipio').value
+       const localidad = document.getElementById('localidad').value
        const check0 = document.getElementById('check0')
        const tp = check0.checked ? 'u':'r'
        // const sendUri = "http://localhost:3015/";
@@ -92,6 +100,12 @@ registrarC=async()=>{
        const bodyJSON = {
          CTA: CTA,
          nombre: nombre,
+         calle: calle,
+         numCalle: numCalle,
+         colonia: colonia,
+         cp: cp,
+         municipio: municipio,
+         localidad: localidad,
          tp: tp
        }
         const response = await fetch(sendUri, {
@@ -161,20 +175,7 @@ changeDash = event => {
 handleClickDash = event => {
   this.changeDash(event);
 };
-selectionStartNombre = null
-selectionEndNombre = null
-handleUpper = e => {
-  if (e.which === 32 || e.which > 39) {
-    this.selectionStartNombre = e.target.selectionStart
-    this.selectionEndNombre = e.target.selectionEnd
-    e.target.value = e.target.value.toUpperCase()
-    e.target.setSelectionRange(this.selectionStartNombre, this.selectionEndNombre);
-  }
-}
 
-handleMUpper = e => {
-   this.setState({disabledReg: false})
-}
 
 buscarCTA = (key) => (event) => {
   const CTAnombre = document.getElementById('CTANM').value;
@@ -282,47 +283,7 @@ render() {
               </p>
             </CardHeader>
             <CardBody>
-  
-              <GridContainer>
-                 
-                <GridItem xs={12} sm={12} md={3}>
-                  <CustomInput
-                    
-                    labelText="CTA"
-                    id="CTA"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps = {{
-                      type: 'number',
-                      //onClick: getinfoReg,
-                      //onChange: getinfoReg
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={6}>
-                  <CustomInput
-                    labelText="Nombre"
-                    id="nombre"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps={{
-                    onKeyUp: this.handleUpper,
-                    onMouseUp: this.handleMUpper
-                    }}
-                  />
-                </GridItem>
-                <GridContainer>
-                <Checker
-                  checkedIndexes={[0]}
-                  tasksIndexes={[0, 1]}
-                  strs={["URBANO", "RUSTICO"]}
-                  ids={["check", "check"]}
-                />
-              </GridContainer>
-              </GridContainer>
-              
+              <FormRegistro c={this} />
               <CardFooter>
               <Button id = 'regP'
                 color="success"  

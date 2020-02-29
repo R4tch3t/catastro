@@ -41,6 +41,7 @@ import getPredial from './getPredial';
 import clearCheck from './clearCheck.js';
 import sumaT from './sumaT.js';
 import changeI from './changeI.js';
+import rezago from './rezago.js';
 import clearCheckCP from './clearCheckCP.js';
 
 
@@ -269,6 +270,8 @@ padrones=async(CTAnombre, tp, tipoB, dateUp)=>{
                 const m2 = document.getElementById('m2');
                 const periodo = document.getElementById('periodo');
                 const dateUpL = document.getElementById('dateUp');
+                const regB=document.getElementById('regB')
+                regB.innerHTML = 'GENERAR ORDEN DE PAGO'
                 dateUpL.style.color = 'red'
                 //const checkU = document.getElementById('check0');
 
@@ -287,6 +290,9 @@ padrones=async(CTAnombre, tp, tipoB, dateUp)=>{
                 //  this.setState({tipoPredio: tp})
                 //}
                 if(!orden){
+                  if (calle.value===''){
+                    calle.value = contribuyente.ubicacion
+                  }
                   m1.value = 0
                   m2.value = 0
                   bg.value = 0;
@@ -305,6 +311,7 @@ padrones=async(CTAnombre, tp, tipoB, dateUp)=>{
                  // dateUp = new Date(Date.now() - tzoffset)
                 }else{
                   dateUpL.value = dateUp.toISOString().slice(0, -1)
+                  regB.innerHTML = 'ACTUALIZAR ORDEN DE PAGO'
                 }
                 periodo.value = orden.periodo
                 this.setState({tc: orden.tc, zona: orden.zona, totalN: orden.total});
@@ -618,7 +625,7 @@ registrarO=async()=>{
                 subUrl += `&V0090106=${V0090106}&V0090107=${V0090107}&V0090701=${V0090701}&V0090702=${V0090702}&V0090703=${V0090703}`
                 subUrl += `&V0090704=${V0090704}&V00913=${V00913}&V0091301=${V0091301}&V0010804=${V0010804}&V0010101=${V0010101}`
                 subUrl += `&V21173001001=${V21173001001}`
-                
+                console.log(subUrl)
                 url += `?v=${encrypt(subUrl)}`;
                 const win = window.open(url, '_blank');
                 win.focus();
@@ -927,6 +934,11 @@ const {trA} = this.state
       break;
   }
 };
+
+blurPeriodo=(e)=>{
+  rezago(this,e.target.value)
+  sumaT(this);
+}
 
 componentDidMount(){
   const {bandPdf,bandCTA,genCTA,tp,dateUp} = this.props

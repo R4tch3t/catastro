@@ -234,7 +234,7 @@ export default (props) => {
                 }}
                 inputProps={{
                   type: "number",
-                  defaultValue: 0
+                  defaultValue: 41100
                 }}
               />
             </GridItem>
@@ -247,7 +247,7 @@ export default (props) => {
                 }}
                 inputProps={{
                   type: "text",
-                  defaultValue: "\0",
+                  defaultValue: "CHILAPA DE ÁLVAREZ",
                   onKeyUp: c.handleUpper
                 }}
               />
@@ -734,7 +734,8 @@ export default (props) => {
                 }}
                 inputProps={{
                   type: "text",
-                  defaultValue: Y
+                  defaultValue: Y,
+                  onBlur: c.blurPeriodo
                   /* onClick: getinfoReg,
                     onChange: getinfoReg*/
                 }}
