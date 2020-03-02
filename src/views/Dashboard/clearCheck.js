@@ -2,14 +2,14 @@ import renderCI from "./renderCI";
 export default (fa) => {
     const task = [0,1]
      renderCI('subIm0', task, 6, [], ['41121001', '41121001'],
-       ['URBANOS EDIFICADOS DESTINADOS A CASA HABITACION',
-         'SUB URBANOS EDIFICADOS DESTINADOS A CASA HABITACION'
+       ['URBANOS EDIFICADOS DESTINADOS A CASA HABITACIÓN',
+         'SUB URBANOS EDIFICADOS DESTINADOS A CASA HABITACIÓN'
        ], ['0020401', '0020402'], fa);
        document.getElementById('0020401').value = 0
        document.getElementById('0020402').value = 0
    
      renderCI('subIm1', task, 6, [], ['41121001', '41121001'],
-       ['RUSTICOS EDIFICADOS DESTINADOS A CASA HABITACION',
+       ['RÚSTICOS EDIFICADOS DESTINADOS A CASA HABITACIÓN',
          'PENSIONADOS Y JUBILADOS'
        ], ['0020403', '0020801'], fa);
        document.getElementById('0020403').value = 0
@@ -30,7 +30,7 @@ export default (fa) => {
        document.getElementById('0030101').value = 0
 
      renderCI('subAcc0', task, 6, [], ['41171001', '41171001'],
-       ['RECARGOS PREDIAL', '15% PRO EDUCACION Y ASISTENCIA SOCIAL'],
+       ['RECARGOS PREDIAL', '15% PRO EDUCACIÓN Y ASISTENCIA SOCIAL'],
        ['0070101', '0070201'], fa);
        document.getElementById('0070101').value = 0
        document.getElementById('0070201').value = 0
@@ -47,8 +47,8 @@ export default (fa) => {
        document.getElementById('0090101').value = 0
    
      renderCI('subDer0', task, 6, [], ['41491004', '41491004'],
-       ['POR LA AUTORIZACION PARA LA FUSION DE PREDIOS',
-         'POR LA AUTORIZACION PARA SUBDIVISION, LOTIFICACION Y RELOTIFICACION DE PREDIOS'
+       ['POR LA AUTORIZACIÓN PARA LA FUSIÓN DE PREDIOS',
+         'POR LA AUTORIZACIÓN PARA SUBDIVISIÓN, LOTIFICACIÓN Y RELOTIFICACIÓN DE PREDIOS'
        ],
        ['0090106', '0090107'], fa);
        document.getElementById('0090106').value = 0
@@ -72,7 +72,7 @@ export default (fa) => {
 
      renderCI('subCop2', task, 6, [], ['41491004', '41491004'],
        ['PRO-BOMBEROS Y PROTECCION CIVIL',
-         'LICENCIAS PARA CONSTRUCCION DE EDIFICIOS O CASAS HABITACION, RESTAURACION O REPARACION, URBANIZACION, FRACCIONAMIENTO LOTIFICACION, RELOTIFICACION, FUSION Y SUB-DIVISION'
+         'LICENCIAS PARA CONSTRUCCIÓN DE EDIFICIOS O CASAS HABITACIÓN, RESTAURACIÓN O REPARACIÓN, URBANIZACIÓN, FRACCIONAMIENTO LOTIFICACIÓN, RELOTIFICACIÓN, FUSIÓN Y SUB-DIVISIÓN'
        ],
        ['00913', '0091301'], fa);
        document.getElementById('00913').value = 0
@@ -89,7 +89,7 @@ export default (fa) => {
        document.getElementById('0010101').value = 0
 
      renderCI('subDee0', [0], 12, [], [''],
-       ['15% DE CONTRIBUCION ESTATAL (APLICADO POR AUTORIZACION DE FUSION Y SUBDIVISION DE PREDIOS)'],
+       ['15% DE CONTRIBUCIÓN ESTATAL (APLICADO POR AUTORIZACIÓN DE FUSIÓN Y SUBDIVISIÓN DE PREDIOS)'],
        ['21173001001'], fa);
        document.getElementById('21173001001').value = 0
 }

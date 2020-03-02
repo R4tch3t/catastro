@@ -88,9 +88,15 @@ registrarC=async()=>{
        const CTA = document.getElementById('CTA').value
        const nombre = document.getElementById('nombre').value
        const calle = document.getElementById('calle').value
-       const numCalle = document.getElementById('numCalle').value
+       let lote = document.getElementById('lote').value
+       lote = lote === '' ? 0 : lote
+       let manzana = document.getElementById('manzana').value
+       manzana = manzana === '' ? 0 : manzana
+       let numCalle = document.getElementById('numCalle').value
+       numCalle = numCalle === ''? 0:numCalle
        const colonia = document.getElementById('colonia').value
-       const cp = document.getElementById('cp').value
+       let cp = document.getElementById('cp').value
+       cp = cp === ''? 0:cp
        const municipio = document.getElementById('municipio').value
        const localidad = document.getElementById('localidad').value
        const check0 = document.getElementById('check0')
@@ -101,6 +107,8 @@ registrarC=async()=>{
          CTA: CTA,
          nombre: nombre,
          calle: calle,
+         lote: lote,
+         manzana: manzana,
          numCalle: numCalle,
          colonia: colonia,
          cp: cp,

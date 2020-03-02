@@ -61,92 +61,119 @@ return(
         </GridContainer>
     </GridContainer>
     <GridContainer>
-            <GridItem xs={12} sm={12} md={3}>
-              <CustomInput
-                labelText="CALLE:"
-                id="calle"
-                formControlProps={{
-                  fullWidth: true
-                }}
-                inputProps={{
-                  type: "text",
-                  defaultValue: c.dValue,
-                  //style: {"textTransform": "uppercase"}
-                  onKeyUp: handleUpper
-                }}
-              />
-            </GridItem>
-            <GridItem xs={12} sm={12} md={2}>
-              <CustomInput
-                labelText="NUMERO O LOTE:"
-                id="numCalle"
-                formControlProps={{
-                  fullWidth: true
-                }}
-                inputProps={{
-                  type: "number",
-                  defaultValue: c.dValInt
-                }}
-              />
-            </GridItem>
-            <GridItem xs={12} sm={12} md={3}>
-              <CustomInput
-                labelText="COLONIA:"
-                id="colonia"
-                formControlProps={{
-                  fullWidth: true
-                }}
-                inputProps={{
-                  type: "text",
-                  defaultValue: c.dValue,
-                  onKeyUp: handleUpper
-                  /* onClick: getinfoReg,
-                        onChange: getinfoReg*/
-                }}
-              />
-            </GridItem>
-            <GridItem xs={12} sm={12} md={2}>
-              <CustomInput
-                labelText="C.P:"
-                id="cp"
-                formControlProps={{
-                  fullWidth: true
-                }}
-                inputProps={{
-                  type: "number",
-                  defaultValue: 41100
-                }}
-              />
-            </GridItem>
-            <GridItem xs={12} sm={12} md={3}>
-              <CustomInput
-                labelText="MUNICIPIO:"
-                id="municipio"
-                formControlProps={{
-                  fullWidth: true
-                }}
-                inputProps={{
-                  type: "text",
-                  defaultValue: 'CHILAPA DE ÁLVAREZ',
-                  onKeyUp: handleUpper
-                }}
-              />
-            </GridItem>
-            <GridItem xs={12} sm={12} md={3}>
-              <CustomInput
-                labelText="LOCALIDAD:"
-                id="localidad"
-                formControlProps={{
-                  fullWidth: true
-                }}
-                inputProps={{
-                  type: "text",
-                  defaultValue: c.dValue,
-                  onKeyUp: handleUpper
-                }}
-              />
-            </GridItem>
-          </GridContainer>        
+        <GridItem xs={12} sm={12} md={3}>
+            <CustomInput
+            labelText="CALLE:"
+            id="calle"
+            formControlProps={{
+                fullWidth: true
+            }}
+            inputProps={{
+                type: "text",
+                defaultValue: c.dValue,
+                //style: {"textTransform": "uppercase"}
+                onKeyUp: handleUpper
+            }}
+            />
+        </GridItem>
+         <GridItem xs={12} sm={12} md={2}>
+            <CustomInput
+            labelText="LOTE:"
+            id="lote"
+            formControlProps={{
+                fullWidth: true
+            }}
+            inputProps={{
+                defaultValue: c.dValue,
+                onKeyUp: handleUpper
+            }}
+            />
+        </GridItem>
+        <GridItem xs={12} sm={12} md={2}>
+            <CustomInput
+            labelText="MANZANA:"
+            id="manzana"
+            formControlProps={{
+                fullWidth: true
+            }}
+            inputProps={{
+                type: "text",
+                defaultValue: c.dValue,
+                onKeyUp: handleUpper
+            }}
+            />
+        </GridItem>
+        <GridItem xs={12} sm={12} md={2}>
+            <CustomInput
+            labelText="NUMERO EXT:"
+            id="numCalle"
+            formControlProps={{
+                fullWidth: true
+            }}
+            inputProps={{
+                type: "number",
+                defaultValue: c.dValInt
+            }}
+            />
+        </GridItem>
+        <GridItem xs={12} sm={12} md={3}>
+            <CustomInput
+            labelText="COLONIA:"
+            id="colonia"
+            formControlProps={{
+                fullWidth: true
+            }}
+            inputProps={{
+                type: "text",
+                defaultValue: c.dValue,
+                onKeyUp: handleUpper
+                /* onClick: getinfoReg,
+                    onChange: getinfoReg*/
+            }}
+            />
+        </GridItem>
+        <GridItem xs={12} sm={12} md={2}>
+            <CustomInput
+            labelText="C.P:"
+            id="cp"
+            formControlProps={{
+                fullWidth: true
+            }}
+            inputProps={{
+                type: "number",
+                defaultValue: 41100
+            }}
+            />
+        </GridItem>
+        <GridItem xs={12} sm={12} md={3}>
+            <CustomInput
+            labelText="MUNICIPIO:"
+            id="municipio"
+            formControlProps={{
+                fullWidth: true
+            }}
+            inputProps={{
+                type: "text",
+                defaultValue: 'CHILAPA DE ÁLVAREZ',
+                onKeyUp: handleUpper
+            }}
+            />
+        </GridItem>
+        <GridItem xs={12} sm={12} md={3}>
+            <CustomInput
+            labelText="LOCALIDAD:"
+            id="localidad"
+            formControlProps={{
+                fullWidth: true
+            }}
+            inputProps={{
+                type: "text",
+                defaultValue: c.dValue,
+                onKeyUp: handleUpper
+            }}
+            />
+        </GridItem>
+    </GridContainer>        
     </>
 )
 }

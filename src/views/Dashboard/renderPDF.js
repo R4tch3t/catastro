@@ -149,6 +149,8 @@ class App extends React.Component {
     const nDoc = `ORDEN_CTA_${CTA}_${dia}${mes}${año}`
     const {nombre} = this.props
     const {calle} = this.props
+    const {lote} = this.props
+    const {manzana} = this.props
     const {numero} = this.props
     const {colonia} = this.props
     const {cp} = this.props
@@ -223,9 +225,15 @@ class App extends React.Component {
                           <View style={this.styles.tableCol2}> 
                             <Text style={this.styles.tableCell}>CALLE: <Text style={[this.styles.tableCell,this.styles.labelR]}>{calle}</Text> </Text>
                           </View>
-                          <View style={this.styles.tableCol3} >  
-                              <Text style={this.styles.tableCell}>NÚM: <Text style={[this.styles.tableCell,this.styles.labelR]}>{numero}</Text></Text> 
-                            </View> 
+                          <View style={[this.styles.tableCol,{width: '20%'}]}>  
+                            <Text style={this.styles.tableCell}>LTE: <Text style={[this.styles.tableCell,this.styles.labelR]}>{lote}</Text></Text> 
+                          </View>
+                          <View style={[this.styles.tableCol,{width: '15%'}]}>  
+                            <Text style={this.styles.tableCell}>MZA: <Text style={[this.styles.tableCell,this.styles.labelR]}>{manzana}</Text></Text> 
+                          </View>
+                          <View style={[this.styles.tableCol,{width: '15%'}]}>  
+                            <Text style={this.styles.tableCell}>NÚM: <Text style={[this.styles.tableCell,this.styles.labelR]}>{numero}</Text></Text> 
+                          </View> 
                         </View>
 
                         <View style={this.styles.tableRow}> 

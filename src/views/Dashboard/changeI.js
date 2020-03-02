@@ -120,4 +120,11 @@ export default (id,c) => {
     pb = Math.round(pb)
     vi.value = -pb
   }
+  if (id === '0030101') {
+    const bg = document.getElementById('baseGravable');
+    let pb = bg.value * 0.70;
+    pb = Math.round(pb)
+    const vi = document.getElementById(id);
+    vi.value = pb
+  }
 }

@@ -260,6 +260,8 @@ padrones=async(CTAnombre, tp, tipoB, dateUp)=>{
                 nombre.value = contribuyente.contribuyente;
                 nombre.focus();
                 const calle = document.getElementById('calle');
+                const lote = document.getElementById('lote');
+                const manzana = document.getElementById('manzana');
                 const numCalle = document.getElementById('numCalle');
                 const colonia = document.getElementById('colonia');
                 const cp = document.getElementById('cp');
@@ -276,11 +278,13 @@ padrones=async(CTAnombre, tp, tipoB, dateUp)=>{
                 //const checkU = document.getElementById('check0');
 
                 calle.value = ubicacion.calle;
+                lote.value = ubicacion.lote;
+                manzana.value = ubicacion.manzana;
                 numCalle.value = ubicacion.numero;
                 colonia.value = ubicacion.colonia;
-                cp.value = ubicacion.cp;
-                municipio.value = ubicacion.municipio;
-                localidad.value = ubicacion.localidad;
+                cp.value = ubicacion.cp === 0 ? 41100 : ubicacion.cp;
+                municipio.value = ubicacion.municipio === '' ? 'CHILAPA DE ÁLVAREZ' : ubicacion.municipio;
+                localidad.value = ubicacion.localidad === '' ? 'CHILAPA DE ÁLVAREZ' : ubicacion.localidad;;
                 const ctasIndexes = []
                 while (ctasIndexes.length < r.contribuyente.length && ctasIndexes.length < 20) {
                   ctasIndexes.push(r.contribuyente[ctasIndexes.length])
@@ -358,6 +362,8 @@ registrarO=async()=>{
         const sendUri = ip('3016');
         const CTA = document.getElementById('CTA').value;
         const calle = document.getElementById('calle').value;
+        let lote = document.getElementById('lote').value;
+        let manzana = document.getElementById('manzana').value;
         let numCalle = document.getElementById('numCalle').value;
         const colonia = document.getElementById('colonia').value;
         let cp = document.getElementById('cp').value;
@@ -547,6 +553,8 @@ registrarO=async()=>{
         const bodyJSON = {
           CTA: CTA,
           calle: calle,
+          lote: lote,
+          manzana: manzana,
           numero: numCalle,
           colonia: colonia,
           cp: cp,
@@ -607,8 +615,18 @@ registrarO=async()=>{
                 const nombre = document.getElementById('nombre').value;
                 const tipoP = tipoPredio === 'u' ? 'URBANO' : 'RUSTICO'
                 let url = `#/admin/orden`
-                numCalle = numCalle === '0' ? '' : numCalle
-                cp = cp === '0' ? '' : cp
+                if(lote==='0'){
+                  lote=''
+                }
+                if(manzana==='0'){
+                  manzana=''
+                }
+                if(numCalle==='0'){
+                  numCalle = ''
+                }
+                if(cp==='0'){
+                  cp = ''
+                }
                 let folio = r.folio ? r.folio.toString():''
                 while (folio.length<5){
                   folio = `0${folio}`
@@ -617,7 +635,7 @@ registrarO=async()=>{
                 let d = new Date(r.dateUp) - tzoffset
                 d = new Date(d)
                 dateUp.value = d.toISOString().slice(0, -1)
-                let subUrl = `?bandPdf=1&CTA=${CTA}&folio=${folio}&nombre=${nombre}&calle=${calle}&numero=${numCalle}`
+                let subUrl = `?bandPdf=1&CTA=${CTA}&folio=${folio}&nombre=${nombre}&calle=${calle}&lote=${lote}&manzana=${manzana}&numero=${numCalle}`
                 subUrl += `&colonia=${colonia}&cp=${cp}&municipio=${municipio}&localidad=${localidad}&tipoP=${tipoP}`
                 subUrl += `&bg=${bg}&total=${totalN}&periodo=${periodo}&dateUp=${dateUp.value}&V0020401=${V0020401}&V0020402=${V0020402}&V0020403=${V0020403}`
                 subUrl += `&V0020801=${V0020801}&V0020802=${V0020802}&V0020803=${V0020803}&V0020804=${V0020804}&V0030101=${V0030101}`
@@ -941,7 +959,7 @@ blurPeriodo=(e)=>{
 
 componentDidMount(){
   const {bandPdf,bandCTA,genCTA,tp,dateUp} = this.props
-  const checks = tp && tp === 'u' ? [0] : [1]
+  const checks = tp === 'u' || tp === '' ? [0] : [1]
   if (bandPdf !== '1') {
     clearCheckCP(checks)
   }
@@ -961,6 +979,8 @@ render() {
     const {folio} = this.props;
     const {nombre} = this.props;
     const {calle} = this.props;
+    const {lote} = this.props;
+    const {manzana} = this.props;
     const {numero} = this.props;
     const {colonia} = this.props;
     const {cp} = this.props;
@@ -978,7 +998,7 @@ render() {
            V0091301,V0010804,V0010101,V21173001001} = this.props;
     
      return(<Pdf classes={classes} CTA={CTA} folio={folio} nombre={nombre} 
-                 calle={calle} numero={numero} colonia={colonia}
+                 calle={calle} lote={lote} manzana={manzana} numero={numero} colonia={colonia}
                  cp={cp} municipio={municipio} localidad={localidad}
                  tipoP={tipoP} bg={bg} periodo={periodo} dateUp={dateUp} total={total}
                  V0020401={V0020401} V0020402={V0020402} V0020403={V0020403}

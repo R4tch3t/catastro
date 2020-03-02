@@ -129,7 +129,7 @@ export default (props) => {
           <GridContainer>
             <GridItem xs={12} sm={12} md={5}>
               <CustomInput
-                labelText="NOMBRE O RAZON SOCIAL:"
+                labelText="NOMBRE O RAZÓN SOCIAL:"
                 id="nombre"
                 formControlProps={{
                   fullWidth: true
@@ -148,7 +148,7 @@ export default (props) => {
             </GridItem>
             <GridItem xs={12} sm={12} md={3}>
               <CustomInput
-                labelText="Fecha de registro:"
+                labelText="FECHA DE REGISTRO:"
                 id="dateUp"
                 formControlProps={{
                   fullWidth: true
@@ -198,7 +198,34 @@ export default (props) => {
             </GridItem>
             <GridItem xs={12} sm={12} md={2}>
               <CustomInput
-                labelText="NUMERO O LOTE:"
+              labelText="LOTE:"
+              id="lote"
+              formControlProps={{
+                  fullWidth: true
+              }}
+              inputProps={{
+                  defaultValue: "\0",
+                  onKeyUp: c.handleUpper
+              }}
+              />
+            </GridItem>
+            <GridItem xs={12} sm={12} md={2}>
+              <CustomInput
+              labelText="MANZANA:"
+              id="manzana"
+              formControlProps={{
+                  fullWidth: true
+              }}
+              inputProps={{
+                  type: "text",
+                  defaultValue: "\0",
+                  onKeyUp: c.handleUpper
+              }}
+              />
+            </GridItem>
+            <GridItem xs={12} sm={12} md={2}>
+              <CustomInput
+                labelText="NÚMERO EXT:"
                 id="numCalle"
                 formControlProps={{
                   fullWidth: true
@@ -280,7 +307,7 @@ export default (props) => {
           <GridContainer>
             <GridItem xs={12} sm={12} md={3}>
               <CustomInput
-                labelText="TERRENO (METROS CUADRADOS):"
+                labelText = "TERRENO (M²):"
                 id="m1"
                 formControlProps={{
                   fullWidth: true
@@ -301,7 +328,7 @@ export default (props) => {
 
             <GridItem xs={12} sm={12} md={3}>
               <CustomInput
-                labelText="CONSTRUCCION (METROS CUADRADOS):"
+                labelText = "CONSTRUCCIÓN (M²):"
                 id="m2"
                 formControlProps={{
                   fullWidth: true
@@ -319,7 +346,7 @@ export default (props) => {
 
             <GridItem xs={12} sm={12} md={3}>
               <CustomInput
-                labelText="TIPO DE CONSTRUCCION:"
+                labelText="TIPO DE CONSTRUCCIÓN:"
                 id="tc"
                 formControlProps={{
                   fullWidth: true
@@ -673,7 +700,7 @@ export default (props) => {
 
             <GridItem xs={12} sm={12} md={3}>
               <CustomInput
-                labelText="NUMERO DE CUENTA:"
+                labelText="NÚMERO DE CUENTA:"
                 id="CTA"
                 formControlProps={{
                   fullWidth: true
@@ -744,7 +771,7 @@ export default (props) => {
 
             <GridItem xs={12} sm={12} md={3}>
               <CustomInput
-                labelText="PAGUESE LA CANTIDAD DE:"
+                labelText="PÁGUESE LA CANTIDAD DE:"
                 id="cantidadPago"
                 formControlProps={{
                   fullWidth: true
