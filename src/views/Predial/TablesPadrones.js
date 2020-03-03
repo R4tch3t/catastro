@@ -235,7 +235,7 @@ render() {
         <GridItem xs={12} sm={12} md={12}>
           <Card>
             <CardHeader color="warning">
-              <h4 className={classes.cardTitleWhite}>Impuesto predial</h4>
+              <h4 className={classes.cardTitleWhite}>PREDIAL</h4>
               <p className={classes.cardCategoryWhite}>
                 Lista de contribuyentes
               </p>
@@ -251,7 +251,7 @@ render() {
               }
               <div className={classes.searchWrapper}>
                 <GridContainer>
-                  <GridItem xs={12} sm={12} md={3}>
+                  <GridItem xs={12} sm={12} md={4}>
                     <CustomInput
                       formControlProps={{
                         className: classes.margin + " " + classes.search

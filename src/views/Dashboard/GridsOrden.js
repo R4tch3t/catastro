@@ -41,7 +41,7 @@ export default (props) => {
       <div id="bodyOrden">
         <div className={classes.searchWrapper}>
           <GridContainer>
-            <GridItem xs={12} sm={12} md={3}>
+            <GridItem xs={12} sm={12} md={4}>
               <CustomInput
                 formControlProps={{
                   className: classes.margin + " " + classes.search
