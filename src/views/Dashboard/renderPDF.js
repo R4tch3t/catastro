@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from 'react-dom';
 import {
   PDFViewer,
   Page,
@@ -9,6 +10,11 @@ import {
   View,
   Image
 } from "@react-pdf/renderer";
+import {
+  MobileView,
+  isMobile
+} from "react-device-detect";
+import { MobilePDFReader } from "react-read-pdf";
 import Button from "components/CustomButtons/Button.js";
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
@@ -55,8 +61,14 @@ class App extends React.Component {
 
   onRender = ({ blob }) => {
     this.setState({ url: URL.createObjectURL(blob) });
-    console.log(this.state.url)
-    console.log(blob)
+    if (isMobile){
+      const pdfview = document.getElementById("pdfView");
+      const mobilePdf = document.getElementById('mobilePdf');
+      const h = window.devicePixelRatio<2?960:360 //window.screen.availHeight;
+      mobilePdf.style.height=`${h}px`;
+      pdfview.style.display='none';
+      ReactDOM.render(<MobilePDFReader url={this.state.url} />, mobilePdf);
+    }
   };
   
 
@@ -172,7 +184,7 @@ class App extends React.Component {
         <GridContainer>
           <GridItem xs={12} sm={12} md={12}>
             <Card>
-              <CardHeader color="success">
+              <CardHeader color="info">
                 <h4 className={classes.cardTitleWhite}>PREDIAL</h4>
                 <p className={classes.cardCategoryWhite}>
                   Orden de pago
@@ -181,14 +193,23 @@ class App extends React.Component {
               <CardBody>
 
                 <React.Fragment>
-                  
-                  <Button color="success" >
-                    <a style={{color: 'white'}} href={this.state.url} download={`${nDoc}.pdf`}>
-                      Descargar
-                    </a>
-                  </Button>
-                  
-                  <PDFViewer style={{ width: '100%', height: 900 }}  >
+                  <GridContainer>  
+                    <Button color="success" 
+                    style={{
+                      display: "flex",
+                      flex: 1,
+                      alignItems: "center"
+                    }} >
+                      <a style={{color: 'white'}} href={this.state.url} download={`${nDoc}.pdf`}>
+                        Descargar PDF
+                      </a>
+                    </Button>
+                  </GridContainer>  
+                  <MobileView>
+                    <div id='mobilePdf' style={{ position: 'relative', top: 20, width: '100%' }} ></div>
+                    
+                  </MobileView>
+                  <PDFViewer id='pdfView' style={{ width: '100%', height: 1180 }}  >
                   <Document shallow onRender={this.onRender} title={`${nDoc}.pdf`} >
                     <Page size="letter" wrap>
                       <Image src={LogoI} style={this.styles.logoI} />
@@ -692,12 +713,12 @@ class App extends React.Component {
                       </View>
                       
                       <View>
-                        <Text style={[this.styles.tableCell,{margin: 'auto',top: 1}]}>CANTIDAD CON LETRA:   (  <Text style={this.styles.labelR}>{spellNumber(total)}00/100 M.N.</Text>  )</Text>
+                        <Text style={[this.styles.tableCell,{margin: 'auto',top: 1}]}>CANTIDAD CON LETRA:   (  <Text style={[this.styles.labelR,{textDecoration: "underline"}]}>{spellNumber(total)}00/100 M.N.</Text>  )</Text>
                       </View>
 
                       <View style={{position:'absolute', bottom: '60px', left: '20%'}} >
                       <View>
-                        <Text style={[this.styles.tableCell,{margin: 'auto',top: 20}]}>CHILAPA DE ÁLVAREZ, GRO., A     <Text style={this.styles.labelR}>{dia}</Text>      DE          <Text style={this.styles.labelR}>{mes}</Text>          DEL          <Text style={this.styles.labelR}>{año}</Text></Text>
+                        <Text style={[this.styles.tableCell,{margin: 'auto',top: 20}]}>CHILAPA DE ÁLVAREZ, GRO., A<Text style={[this.styles.labelR,{textDecoration: "underline"}]}>       {dia}        </Text>DE<Text style={[this.styles.labelR,{textDecoration: "underline"}]}>          {mes}          </Text>DEL<Text style={[this.styles.labelR,{textDecoration: "underline"}]}>        {año}        </Text>   </Text>
                       </View>
                       <View style={{top: 25}} >  
                         <Text style={[this.styles.tableCell,this.styles.headO,{margin: 'auto'}]}>AUTORIZÓ:</Text>

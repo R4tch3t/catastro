@@ -8,6 +8,7 @@ import Search from "@material-ui/icons/Search";
 
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
 import Button from "components/CustomButtons/Button.js";
+import decrypt from "views/Dashboard/decrypt.js";
 
 const useStyles = makeStyles(styles);
 function getParameterByName(name, url) {
@@ -21,6 +22,12 @@ function getParameterByName(name, url) {
 }
 export default () => {
   const classes = useStyles();
+  let urlDec = getParameterByName('v');
+  urlDec = decrypt(urlDec);
+  const bandInfo = getParameterByName('bandInfo', urlDec)
+  const dateSI = getParameterByName('dateSI', urlDec)
+  const dateSF = getParameterByName('dateSF', urlDec)
+
   if(cookie.load('idRol')==='0'){
   //  idUsuario = cookie.load('idUsuario')
   }
@@ -29,6 +36,7 @@ export default () => {
  
   return (
    <TablesCorte
-                classes={classes} />
+                classes={classes} bandInfo={bandInfo}
+                dateSI={dateSI} dateSF={dateSF} />
   );
 }

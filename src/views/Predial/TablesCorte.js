@@ -2,6 +2,7 @@ import React from 'react';
 import cookie from "react-cookies";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
+import Pdf from "./renderPDF";
 // @material-ui/core
 //import { makeStyles } from "@material-ui/core/styles";
 //import Icon from "@material-ui/core/Icon";
@@ -46,6 +47,7 @@ import {
   corte,
  // corte
 } from "variables/charts.js";
+import encrypt from 'views/Dashboard/encrypt';
 
 
 
@@ -484,9 +486,30 @@ recorte = () => {
   this.obtenerOF(dateSI, dateNSF);
 }
 
+informe = () => {
+  let tzoffset = (new Date()).getTimezoneOffset() * 60000;
+  let {dateSF} = this.state
+  let {dateSI} = this.state
+  let dateNSF = new Date(dateSF);
+  dateNSF.setDate(dateSF.getDate() + 1);
+  dateSI = new Date(dateSF - tzoffset)
+  dateNSF = new Date(dateNSF - tzoffset)
+  let subUrl = `?bandInfo=1&dateSI=${dateSI}&dateSF=${dateNSF}`
+  let url = `#/admin/corte`
+  url += `?v=${encrypt(subUrl)}`;
+  const win = window.open(url, '_blank');
+  win.focus();
+}
+
 render() {
-  const {dataTable} = this.state
+  const {bandInfo} = this.props
   const {classes} = this.state;
+  if(bandInfo==='1'){
+    const {dateSI, dateSF} = this.props;
+    return(<Pdf classes={classes}
+            dateSI={dateSI} dateSF={dateSF} /> )
+  }else{
+  const {dataTable} = this.state
   const {dateSI, dateSF} = this.state;
   //const {setOpenDash} = this.state;
   const {total} = this.state;
@@ -538,6 +561,20 @@ render() {
                 <div style={{height: 30}} />
                 <GridContainer>
                   <Button
+                    id="infoB"
+                    color="primary"
+                    style={{
+                      display: "flex",
+                      flex: 1,
+                      alignItems: "center"
+                    }}
+                    onClick={this.informe}
+                  >
+                    INFORME MENSUAL
+                  </Button>
+                </GridContainer>
+                <GridContainer>
+                  <Button
                     id="regB"
                     color="success"
                     style={{
@@ -549,7 +586,7 @@ render() {
                   >
                     GENERAR RECORTE
                   </Button>
-                </GridContainer>
+                  </GridContainer>
                 {/*
                 <CustomInput
                   formControlProps={{
@@ -810,6 +847,7 @@ render() {
       </GridContainer>*/}
     </CardIcon>
   );
+  }
 }
 
 }
