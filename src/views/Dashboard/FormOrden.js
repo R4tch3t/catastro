@@ -369,10 +369,11 @@ registrarO=async()=>{
         let cp = document.getElementById('cp').value;
         const municipio = document.getElementById('municipio').value;
         const localidad = document.getElementById('localidad').value;
-        const bg = document.getElementById('baseGravable').value;
+        let bg = document.getElementById('baseGravable').value;
         const periodo = document.getElementById('periodo').value;
         const dateUp = document.getElementById('dateUp');
-        const {totalN} = this.state;
+        const idEmpleado = this.props.idUsuario;
+        let {totalN} = this.state;
         const m1 = document.getElementById('m1').value;
         const m2 = document.getElementById('m2').value;
         const tc = document.getElementById('tc').value;
@@ -380,11 +381,12 @@ registrarO=async()=>{
         const {tipoPredio} = this.state;
         const idImpuestos = [];
         const removI = [];
-        
         let I0020401 = document.getElementById('I0020401').checked;
         let V0020401 = document.getElementById('0020401').value
         if (I0020401) {
           idImpuestos.push({id: 1, val: V0020401});
+          V0020401 = V0020401.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          V0020401 = `${V0020401}.00`
         }else{
           removI.push({id: 1});
         }
@@ -392,6 +394,8 @@ registrarO=async()=>{
         let V0020402 = document.getElementById('0020402').value
         if(I0020402){
           idImpuestos.push({id: 2, val: V0020402});
+          V0020402 = V0020402.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          V0020402 = `${V0020402}.00`
         }else{
           removI.push({id: 2});
         }
@@ -399,6 +403,8 @@ registrarO=async()=>{
         let V0020403 = document.getElementById('0020403').value;
         if (I0020403) {
           idImpuestos.push({id: 3, val: V0020403});
+          V0020403 = V0020403.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          V0020403 = `${V0020403}.00`
         }else{
           removI.push({id: 3});
         }
@@ -406,6 +412,8 @@ registrarO=async()=>{
         let V0020801 = document.getElementById('0020801').value
         if (I0020801 || V0020801 !== '0') {
           idImpuestos.push({id: 4, val: V0020801});
+          V0020801 = V0020801.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          V0020801 = `${V0020801}.00`
         }else{
           removI.push({id: 4});
         }
@@ -413,6 +421,8 @@ registrarO=async()=>{
         let V0020802 = document.getElementById('0020802').value
         if (I0020802) {
           idImpuestos.push({id: 5, val: V0020802});
+          V0020802 = V0020802.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          V0020802 = `${V0020802}.00`
         }else{
           removI.push({id: 5});
         }
@@ -420,6 +430,8 @@ registrarO=async()=>{
         let V0020803 = document.getElementById('0020803').value
         if (I0020803) {
           idImpuestos.push({id: 6, val: V0020803});
+          V0020803 = V0020803.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          V0020803 = `${V0020803}.00`
         }else{
           removI.push({id: 6});
         }
@@ -427,6 +439,8 @@ registrarO=async()=>{
         let V0020804 = document.getElementById('0020804').value
         if(I0020804){
           idImpuestos.push({id: 7, val: V0020804});
+          V0020804 = V0020804.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          V0020804 = `${V0020804}.00`
         }else{
           removI.push({id: 7});
         }
@@ -434,6 +448,8 @@ registrarO=async()=>{
         let V0030101 = document.getElementById('0030101').value
         if(I0030101){
           idImpuestos.push({id: 8, val: V0030101});
+          V0030101 = V0030101.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          V0030101 = `${V0030101}.00`
         }else{
           removI.push({id: 8});
         }
@@ -441,6 +457,8 @@ registrarO=async()=>{
         let V0070101 = document.getElementById('0070101').value
         if(I0070101){
           idImpuestos.push({id: 9, val: V0070101});
+          V0070101 = V0070101.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          V0070101 = `${V0070101}.00`
         }else{
           removI.push({id: 9});
         }
@@ -448,6 +466,8 @@ registrarO=async()=>{
         let V0070201 = document.getElementById('0070201').value
         if(I0070201){
           idImpuestos.push({id: 10, val: V0070201});
+          V0070201 = V0070201.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          V0070201 = `${V0070201}.00`
         }else{
           removI.push({id: 10});
         }
@@ -455,6 +475,8 @@ registrarO=async()=>{
         let V0070202 = document.getElementById('0070202').value
         if(I0070202){
           idImpuestos.push({id: 11, val: V0070202});
+          V0070202 = V0070202.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          V0070202 = `${V0070202}.00`
         }else{
           removI.push({id: 11});
         }
@@ -462,6 +484,8 @@ registrarO=async()=>{
         let V0070203 = document.getElementById('0070203').value
         if (I0070203) {
           idImpuestos.push({id: 12, val: V0070203});
+          V0070203 = V0070203.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          V0070203 = `${V0070203}.00`
         }else{
           removI.push({id: 12});
         }
@@ -469,6 +493,8 @@ registrarO=async()=>{
         let V0090101 = document.getElementById('0090101').value
         if (I0090101) {
           idImpuestos.push({id: 13, val: V0090101});
+          V0090101 = V0090101.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          V0090101 = `${V0090101}.00`
         }else{
           removI.push({id: 13});
         }
@@ -476,6 +502,8 @@ registrarO=async()=>{
         let V0090106 = document.getElementById('0090106').value
         if (I0090106) {
           idImpuestos.push({id: 14, val: V0090106});
+          V0090106 = V0090106.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          V0090106 = `${V0090106}.00`
         }else{
           removI.push({id: 14});
         }
@@ -483,6 +511,8 @@ registrarO=async()=>{
         let V0090107 = document.getElementById('0090107').value
         if (I0090107) {
           idImpuestos.push({id: 15, val: V0090107});
+          V0090107 = V0090107.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          V0090107 = `${V0090107}.00`
         }else{
           removI.push({id: 15});
         }
@@ -490,6 +520,8 @@ registrarO=async()=>{
         let V0090701 = document.getElementById('0090701').value
         if (I0090701) {
           idImpuestos.push({id: 16, val: V0090701});
+          V0090701 = V0090701.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          V0090701 = `${V0090701}.00`
         }else{
           removI.push({id: 16});
         }
@@ -497,6 +529,8 @@ registrarO=async()=>{
         let V0090702 = document.getElementById('0090702').value
         if (I0090702) {
           idImpuestos.push({id: 17, val: V0090702});
+          V0090702 = V0090702.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          V0090702 = `${V0090702}.00`
         }else{
           removI.push({id: 17});
         }
@@ -504,6 +538,8 @@ registrarO=async()=>{
         let V0090703 = document.getElementById('0090703').value
         if (I0090703) {
           idImpuestos.push({id: 18, val: V0090703});
+          V0090703 = V0090703.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          V0090703 = `${V0090703}.00`
         }else{
           removI.push({id: 18});
         }
@@ -511,6 +547,8 @@ registrarO=async()=>{
         let V0090704 = document.getElementById('0090704').value
         if (I0090704) {
           idImpuestos.push({id: 19, val: V0090704});
+          V0090704 = V0090704.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          V0090704 = `${V0090704}.00`
         }else{
           removI.push({id: 19});
         }
@@ -518,6 +556,8 @@ registrarO=async()=>{
         let V00913 = document.getElementById('00913').value
         if (I00913) {
           idImpuestos.push({id: 20, val: V00913});
+          V00913 = V00913.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          V00913 = `${V00913}.00`
         }else{
           removI.push({id: 20});
         }
@@ -525,6 +565,8 @@ registrarO=async()=>{
         let V0091301 = document.getElementById('0091301').value
         if (I0091301) {
           idImpuestos.push({id: 21, val: V0091301});
+          V0091301 = V0091301.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          V0091301 = `${V0091301}.00`
         }else{
           removI.push({id: 21});
         }
@@ -532,6 +574,8 @@ registrarO=async()=>{
         let V0010804 = document.getElementById('0010804').value
         if(I0010804){
           idImpuestos.push({id: 22, val: V0010804});
+          V0010804 = V0010804.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          V0010804 = `${V0010804}.00`
         }else{
           removI.push({id: 22});
         }
@@ -539,6 +583,8 @@ registrarO=async()=>{
         let V0010101 = document.getElementById('0010101').value
         if(I0010101){
           idImpuestos.push({id: 23, val: V0010101});
+          V0010101 = V0010101.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          V0010101 = `${V0010101}.00`
         }else{
           removI.push({id: 23});
         }
@@ -546,6 +592,8 @@ registrarO=async()=>{
         let V21173001001 = document.getElementById('21173001001').value
         if (I21173001001) {
           idImpuestos.push({id: 24, val: V21173001001});
+          V21173001001 = V21173001001.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          V21173001001 = `${V21173001001}.00`
         }else{
           removI.push({id: 24});
         }
@@ -562,6 +610,7 @@ registrarO=async()=>{
           localidad: localidad,
           periodo: periodo,
           dateUp: dateUp.value,
+          idEmpleado: idEmpleado,
           m1: m1,
           m2: m2,
           tc: tc,
@@ -613,7 +662,7 @@ registrarO=async()=>{
 
                 this.showNotification("trA")
                 const nombre = document.getElementById('nombre').value;
-                const tipoP = tipoPredio === 'u' ? 'URBANO' : 'RUSTICO'
+                const tipoP = tipoPredio === 'u' ? 'URBANO' : 'RÚSTICO'
                 let url = `#/admin/orden`
                 if(lote==='0'){
                   lote=''
@@ -635,6 +684,9 @@ registrarO=async()=>{
                 let d = new Date(r.dateUp) - tzoffset
                 d = new Date(d)
                 dateUp.value = d.toISOString().slice(0, -1)
+                
+                bg = bg.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                bg = `${bg}.00`
                 let subUrl = `?bandPdf=1&CTA=${CTA}&folio=${folio}&nombre=${nombre}&calle=${calle}&lote=${lote}&manzana=${manzana}&numero=${numCalle}`
                 subUrl += `&colonia=${colonia}&cp=${cp}&municipio=${municipio}&localidad=${localidad}&tipoP=${tipoP}`
                 subUrl += `&bg=${bg}&total=${totalN}&periodo=${periodo}&dateUp=${dateUp.value}&V0020401=${V0020401}&V0020402=${V0020402}&V0020403=${V0020403}`

@@ -171,32 +171,22 @@ obtenerOF=async(fi,ff)=>{
               //dateSI.toLocaleDateString()
               const {dateSI} = this.state
               let dateLabel = dateSI
-              console.log(`dateSI: ${dateLabel}`)
               let dateLast = ''
               
               r.ordenesu.forEach(e => { 
-               // tzoffset = (new Date()).getTimezoneOffset() * 60000;
-               // e.dateUp = new Date(e.dateUp) - tzoffset
                 e.dateUp = new Date(e.dateUp)
-                
+                e.dateUp = new Date(e.dateUp-tzoffset)
                 data.push({
                   key: `${e.CTA}${i}u`,
                   cta: e.CTA,
                   NOMBRE: e.contribuyente,
                   tp: 'URBANO',
-                  fecha: new Date(e.dateUp-tzoffset).toISOString().slice(0, -1),
+                  fecha: e.dateUp.toISOString().slice(0, -1),
                   total: e.total,
                   terreno: e.m1,
                   construccion: e.m2
                 })
-                //data.labels.push(`D${data.labels.length+1}`)
-               // data.labels.push(`${dateLabel.toLocaleDateString()}`)
-               // dateLabel.setDate(dateLabel.getDate() + 1);
                 i++
-                console.log(e.dateUp)
-                console.log(dateLabel)
-                console.log(i)
-                console.log(r.ordenesu.length)
                 if ((dateLast!==''&&e.dateUp.toLocaleDateString() !== dateLast) || i === r.ordenesu.length) {
                   if (i === r.ordenesu.length) {
                     totalD += parseInt(e.total);
@@ -211,21 +201,20 @@ obtenerOF=async(fi,ff)=>{
                 total += parseInt(e.total); 
                 totalD += parseInt(e.total);
               });
+
               i=0
               dateLabel = dateSI
               totalD=0
               dateLast = ''
               r.ordenesr.forEach(e => {
-               // tzoffset = (new Date()).getTimezoneOffset() * 60000;
-               // e.dateUp = new Date(e.dateUp) - tzoffset
                 e.dateUp = new Date(e.dateUp)
-                
+                e.dateUp = new Date(e.dateUp - tzoffset)
                 data.push({
                   key: `${e.CTA}${i}r`,
                   cta: e.CTA,
                   NOMBRE: e.contribuyente,
                   tp: 'RUSTICO',
-                  fecha: new Date(e.dateUp - tzoffset).toISOString().slice(0, -1),
+                  fecha: e.dateUp.toISOString().slice(0, -1),
                   total: e.total,
                   terreno: e.m1,
                   construccion: e.m2
@@ -240,10 +229,10 @@ obtenerOF=async(fi,ff)=>{
                   }
                  // dateLabel = e.dateUp
                   
-                  if (data.objects[`${dateLabel.toLocaleDateString()}`]) {
-                    data.objects[`${dateLabel.toLocaleDateString()}`] += totalD
+                  if (data.objects[`${dateLast}`]) {
+                    data.objects[`${dateLast}`] += totalD
                   }else{
-                    data.objects[`${dateLabel.toLocaleDateString()}`] = totalD
+                    data.objects[`${dateLast}`] = totalD
                   }
                   totalD = 0
                 }
@@ -252,11 +241,9 @@ obtenerOF=async(fi,ff)=>{
                 total += parseInt(e.total); 
                 totalD += parseInt(e.total);
               });
-              console.log(data.objects)
               const objects = Object.entries(data.objects).sort();
               if (objects.length<16){
                 for (let [key, value] of objects) {
-                  console.log(`key: ${key} e: ${value}`)
                   data.labels.push(key)
                   data.totales.push(value)
                   if(value>high){
@@ -329,13 +316,9 @@ obtenerOF=async(fi,ff)=>{
               if (isNaN(porcentaje)){
                 porcentaje = 0
                 data.totales = [1]
-                console.log('nan')
               }else{
                 porcentaje = this.round(porcentaje)
               }
-              console.log(high)
-              console.log(data.labels)
-              console.log(data.totales)
               corte.options.high = high
               corte.data.labels = data.labels
               corte.data.series = [data.totales]
@@ -343,71 +326,7 @@ obtenerOF=async(fi,ff)=>{
               //porcentaje = isNaN(porcentaje) ? 0:this.round(porcentaje)
               this.setState({dataTable: data, total: total, porcentaje});
               
-              /*data.labels = [
-                "Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7", "Q8"
-              ]*/
-
-              /*const data = {}
-              data.labels = [
-                "Q1","Q2","Q3","Q4","Q5","Q6","Q7","Q8","Q9","Q10","Q11","Q12",
-                "Q13","Q14","Q15","Q16","Q17","Q18","Q19","Q20","Q21","Q22","Q23","Q24"
-              ]
-              data.series = [[]]
               
-              var totalC = 0.0
-              var totalS = 0.0
-              var sumaQC = r.quincenas
-              var sumaQS = []
-              var cont = 0
-              var cont2 = 0.0
-              var porcentajeC = 0.0
-              var porcentajeS = 0.0
-              
-              sumaQC.forEach(e1 => {
-                e1.suma = 0.0
-                sumaQS[cont] = 0.0 
-                cont++
-                
-              });
-              r.data.forEach(e => {
-                totalC += parseFloat(e.desc_credito_fovisste.toString().replace('.', '').replace(',', '.'))
-                totalS += parseFloat(e.desc_seguro_de_daños_fovisste.toString().replace('.', '').replace(',', '.'))
-                cont = 0
-                sumaQC.forEach(e1 => {
-                  if (e1.idQuincena === e.idQuincena) {
-                    e1.suma += parseFloat(e.desc_credito_fovisste.toString().replace('.', '').replace(',', '.'))
-                    sumaQS[cont] += parseFloat(e.desc_seguro_de_daños_fovisste.toString().replace('.', '').replace(',', '.'))
-                    if (cont2 < sumaQS[cont]){
-                      cont2 = sumaQS[cont]
-                    }
-                  }
-                  cont++
-                });
-              });
-              data.series = [[]]
-              cont = 0.0
-              sumaQC.forEach(e1 => {
-                if (cont < e1.suma){
-                  cont = e1.suma
-                }
-                data.series[0].push(e1.suma)
-              });
-              porcentajeC = cont / totalC * 100
-              porcentajeC=this.round(porcentajeC)
-              porcentajeS = cont2 / totalS * 100
-              porcentajeS = this.round(porcentajeS)
-              totalC = totalC.toString().replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-              totalS = totalS.toString().replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-
-              creditoFovisste.data = data
-              creditoFovisste.options.high = cont
-              seguroFovisste.options.high = cont2
-              seguroFovisste.data.series=[sumaQS]
-              this.setState({totalC: totalC})
-              this.setState({totalS: totalS})
-              this.setState({porcentajeC: porcentajeC})
-              this.setState({porcentajeS: porcentajeS})
-              this.setState({dataTable: r.data})*/
             }
             
             /*else if (r.error.name === "error01") {
@@ -492,8 +411,8 @@ informe = () => {
   let {dateSI} = this.state
   let dateNSF = new Date(dateSF);
   dateNSF.setDate(dateSF.getDate() + 1);
-  dateSI = new Date(dateSF - tzoffset)
-  dateNSF = new Date(dateNSF - tzoffset)
+  dateSI = new Date(dateSI - tzoffset).toISOString().slice(0, -1)
+  dateNSF = new Date(dateNSF - tzoffset).toISOString().slice(0, -1)
   let subUrl = `?bandInfo=1&dateSI=${dateSI}&dateSF=${dateNSF}`
   let url = `#/admin/corte`
   url += `?v=${encrypt(subUrl)}`;
@@ -570,7 +489,7 @@ render() {
                     }}
                     onClick={this.informe}
                   >
-                    INFORME MENSUAL
+                    GNERAR INFORME
                   </Button>
                 </GridContainer>
                 <GridContainer>

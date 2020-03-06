@@ -73,11 +73,12 @@ export default () => {
   let V0010101 = getParameterByName('V0010101', urlDec);
   let V21173001001 = getParameterByName('V21173001001', urlDec);
   const idRol = cookie.load('idRol')
-  
+  const idUsuario = cookie.load('idUsuario')
 
   return (
    <FormOrden classes={classes} classesM={classesM} 
           idRol={idRol}
+          idUsuario={idUsuario}
           bandPdf={bandPdf} 
           bandCTA={bandCTA}
           genCTA={genCTA}

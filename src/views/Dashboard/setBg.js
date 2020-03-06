@@ -47,7 +47,7 @@ export default (c) => {
       ['RUSTICOS EDIFICADOS DESTINADOS A CASA HABITACION',
         'PENSIONADOS Y JUBILADOS'
       ], ['0020403', '0020801'], c);
-    renderCI('subIm0', task, 6, [0], ['41121001', '41121001'],
+    renderCI('subIm0', task, 6, [], ['41121001', '41121001'],
       ['URBANOS EDIFICADOS DESTINADOS A CASA HABITACION',
         'SUB URBANOS EDIFICADOS DESTINADOS A CASA HABITACION'
       ], ['0020401', '0020402'], c);

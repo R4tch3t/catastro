@@ -172,7 +172,10 @@ class App extends React.Component {
     const {bg} = this.props
     const {periodo} = this.props
     const {dateUp} = this.props
-    const {total} = this.props
+    let {total} = this.props
+    const totalS = spellNumber(total)
+    total = total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    total = `${total}.00`
     const {V0020401,V0020402,V0020403,V0020801,V0020802,
            V0020803,V0020804,V0030101,V0070101,V0070201,
            V0070202,V0070203,V0090101,V0090106,V0090107,
@@ -713,7 +716,7 @@ class App extends React.Component {
                       </View>
                       
                       <View>
-                        <Text style={[this.styles.tableCell,{margin: 'auto',top: 1}]}>CANTIDAD CON LETRA:   (  <Text style={[this.styles.labelR,{textDecoration: "underline"}]}>{spellNumber(total)}00/100 M.N.</Text>  )</Text>
+                        <Text style={[this.styles.tableCell,{margin: 'auto',top: 1}]}>CANTIDAD CON LETRA:   (  <Text style={[this.styles.labelR,{textDecoration: "underline"}]}>{totalS}00/100 M.N.</Text>  )</Text>
                       </View>
 
                       <View style={{position:'absolute', bottom: '60px', left: '20%'}} >
