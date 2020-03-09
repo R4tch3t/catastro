@@ -222,10 +222,19 @@ round = (num, decimales = 2)=>{
   return signo * (num[0] + 'e' + (num[1] ? (+num[1] - decimales) : -decimales));
 }
 
+genCarta = (CTA, nombre, ubi, tp, añoI, añoF) => {
+  const {idRol} = this.props
+  let url = idRol === '1' ? `#/admin/padron` : `#/usuario/padron`
+  const y = new Date().getFullYear()
+  let subUrl = `?bandCarta=1&genCTA=${CTA}&nombre=${nombre}&ubi=${ubi}&tp=${tp}`
+  subUrl += `&añoI=${añoI}&añoF=${añoF}`
+  url += `?v=${encrypt(subUrl)}`;
+  const win = window.open(url, '_blank');
+  win.focus();
+}
+
 padrones=async(CTAnombre, tp, tipoB, dateUp)=>{
     try {
-
-       //const sendUri = "http://localhost:3015/";
         const sendUri = ip('3015');
         const bodyJSON = {
           CTAnombre: CTAnombre,
@@ -256,6 +265,7 @@ padrones=async(CTAnombre, tp, tipoB, dateUp)=>{
                  // nombre: contribuyente.contribuyente,
                   CTA: contribuyente.CTA
                 })
+                const sCarta = document.getElementById('sCarta');
                 const nombre = document.getElementById('nombre');
                 nombre.value = contribuyente.contribuyente;
                 nombre.focus();
@@ -293,6 +303,8 @@ padrones=async(CTAnombre, tp, tipoB, dateUp)=>{
                 //else{
                 //  this.setState({tipoPredio: tp})
                 //}
+                
+
                 if(!orden){
                   if (calle.value===''){
                     calle.value = contribuyente.ubicacion
@@ -306,17 +318,35 @@ padrones=async(CTAnombre, tp, tipoB, dateUp)=>{
 
                   return false;
                 }
+                
                 m1.value = orden.m1
                 m2.value = orden.m2
                 let tzoffset = (new Date()).getTimezoneOffset() * 60000;
                 dateUp = new Date(orden.dateUp)-tzoffset
                 dateUp = new Date(dateUp)
                 if ((parseInt(Y)) > parseInt(dateUp.getFullYear())){
-                 // dateUp = new Date(Date.now() - tzoffset)
+                 const añoI = dateUp.getFullYear()
+                 const añoF = new Date().getFullYear()
+                  if((añoF - añoI)>4 ){
+                     sCarta.style.display = 'block'
+                     let ubi = `${ubicacion.calle}`
+                     if (ubicacion.numero !== 0 && ubicacion.numero !== '') {
+                       ubi += `, No. ${ubicacion.numero}`
+                     }
+                     const predio = tp === 'r' ? 'RÚSTICO' : 'URBANO'
+
+                     sCarta.onclick = () => {
+                       this.genCarta(contribuyente.CTA,
+                         contribuyente.contribuyente,
+                         ubi, predio, añoI, añoF)
+                     }
+                  }
                 }else{
                   dateUpL.value = dateUp.toISOString().slice(0, -1)
                   regB.innerHTML = 'ACTUALIZAR ORDEN DE PAGO'
                 }
+
+               
                 periodo.value = orden.periodo
                 this.setState({tc: orden.tc, zona: orden.zona, totalN: orden.total});
                // this.setState({totalN: orden.total});
@@ -663,7 +693,8 @@ registrarO=async()=>{
                 this.showNotification("trA")
                 const nombre = document.getElementById('nombre').value;
                 const tipoP = tipoPredio === 'u' ? 'URBANO' : 'RÚSTICO'
-                let url = `#/admin/orden`
+                const {idRol} = this.props
+                let url = idRol === '1' ? `#/admin/orden` : `#/usuario/orden`
                 if(lote==='0'){
                   lote=''
                 }

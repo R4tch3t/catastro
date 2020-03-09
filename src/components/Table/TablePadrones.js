@@ -9,10 +9,12 @@ import TableRow from "@material-ui/core/TableRow";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableSortLabel from '@material-ui/core/TableSortLabel';
+import Button from "components/CustomButtons/Button.js";
 import cookie from "react-cookies";
 // core components
 import styles from "assets/jss/material-dashboard-react/components/tableStyle.js";
 import encrypt from "views/Dashboard/encrypt";
+import GridContainer from "components/Grid/GridContainer";
 
 const useStyles = makeStyles(styles);
 function desc(a, b, orderBy) {
@@ -109,7 +111,7 @@ function EnhancedTableHead(props) {
                     {tableHead[2].label}
                     </TableSortLabel>
               </TableCell>
-              {/*
+              
               <TableCell
                     className={classes.tableCell + " " + classes.tableHeadCell}
                     key={tableHead[3].id}
@@ -124,7 +126,7 @@ function EnhancedTableHead(props) {
                     {tableHead[3].label}
                     </TableSortLabel>
               </TableCell>
-              <TableCell
+             {/* <TableCell
                     className={classes.tableCell + " " + classes.tableHeadCell}
                     colSpan='2'
                     align='center'
@@ -174,6 +176,16 @@ const genCTA = (CTA, tp) => {
   const idRol = cookie.load('idRol')
   let url = idRol === '1' ? `#/admin/orden` : `#/usuario/orden`
   let subUrl = `?bandCTA=1&genCTA=${CTA}&tp=${tp}`
+  url += `?v=${encrypt(subUrl)}`;
+  const win = window.open(url, '_blank');
+  win.focus();
+}
+const genCarta = (CTA, nombre, ubi, tp) => {
+  const idRol = cookie.load('idRol')
+  let url = idRol === '1' ? `#/admin/padron` : `#/usuario/padron`
+  const y = new Date().getFullYear()
+  let subUrl = `?bandCarta=1&genCTA=${CTA}&nombre=${nombre}&ubi=${ubi}&tp=${tp}`
+  subUrl+=`&añoI=${y}&añoF=${y}`
   url += `?v=${encrypt(subUrl)}`;
   const win = window.open(url, '_blank');
   win.focus();
@@ -241,11 +253,25 @@ export default function CustomTable(props) {
                   onMouseUp={(e)=>{genCTA(row.cta,row.key[row.key.length-1])}}>
                   {row.tp}
                 </TableCell>
-                {/*
                 <TableCell className={classes.tableCell}>
-                  {row.total}
+                  <GridContainer> 
+                    <Button
+                      id="regB"
+                      color="primary"
+                      style = {
+                        {
+                          display: "flex",
+                          flex: 1,
+                          alignItems: "center"
+                        }
+                      }
+                      onMouseUp={(e)=>{genCarta(row.cta,row.NOMBRE,row.ubi,row.tp)}}
+                    >
+                      CARTA INVITACIÓN
+                    </Button>
+                  </GridContainer>
                 </TableCell>
-                <TableCell align="center" className={classes.tableCell}>
+               {/* <TableCell align="center" className={classes.tableCell}>
                   {row.terreno}
                 </TableCell>
                 <TableCell align="center" className={classes.tableCell}>

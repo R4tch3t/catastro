@@ -11,10 +11,12 @@ import Poppers from "@material-ui/core/Popper";
 import MenuItem from "@material-ui/core/MenuItem";
 import classNames from "classnames";
 import Grow from "@material-ui/core/Grow";
+import WN from "@material-ui/icons/Warning"
 //import Map from "./Map";
 import Maps from "./Maps2";
 import Checker from "./Checker.js";
 import Impuestos from "./Impuestos"
+import SnackbarContent from 'components/Snackbar/SnackbarContent';
 export default (props) => {
     const {c} = props
     const {classes, classesM} = c.props
@@ -123,9 +125,24 @@ export default (props) => {
                 ids={["check", "check"]}
               />*/}
             </GridContainer>
+            
           </GridContainer>
         </div>
         <div>
+          <GridContainer >
+              <GridItem id='sCarta' onMouseEnter={e=>{e.target.style.cursor='pointer'}} 
+              xs={12} sm={12} md={12} style={{display: 'none'}} >
+              <SnackbarContent
+                icon={WN}
+                message={
+                  '¡ADVERTENCIA! - Candidato a CARTA INVITACIÓN'
+                }
+                color="danger"
+                
+              />
+
+              </GridItem>
+          </GridContainer>
           <GridContainer>
             <GridItem xs={12} sm={12} md={5}>
               <CustomInput
@@ -141,6 +158,7 @@ export default (props) => {
                   //onKeyDown: c.handleNombre,
                   //onBlur: c.handleNombreUp,
                   onKeyUp: c.handleUpper
+                  
                   /* onClick: getinfoReg,
                         onChange: getinfoReg*/
                 }}

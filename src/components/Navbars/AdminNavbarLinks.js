@@ -6,7 +6,6 @@ import classNames from "classnames";
 import { makeStyles } from "@material-ui/core/styles";
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
-import Menu from "@material-ui/core/Menu";
 import Grow from "@material-ui/core/Grow";
 import Paper from "@material-ui/core/Paper";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
@@ -15,13 +14,7 @@ import Poppers from "@material-ui/core/Popper";
 import Divider from "@material-ui/core/Divider";
 // @material-ui/icons
 import Person from "@material-ui/icons/Person";
-import Notifications from "@material-ui/icons/Notifications";
-import Dashboard from "@material-ui/icons/Dashboard";
-import Search from "@material-ui/icons/Search";
-// core components
-import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
-import Quincenas from "./ListQuincenas.js";
 
 import styles from "assets/jss/material-dashboard-react/components/headerLinksStyle.js";
 
@@ -83,24 +76,6 @@ export default function AdminNavbarLinks() {
     window.history.go()
   }
 
-  const searchU = () => {
-    //const idEmpleado = document.getElementById('idEmpleado').value
-    
-    if(idUsuario!==''){
-      const idQuincena = getParameterByName('idQuincena');
-      if(idQuincena!==''){
-        window.history.pushState(null, 'Buscar usuario', `#/admin/creditos?idQuincena=${idQuincena}&idUsuario=${idUsuario}`)
-      }else{
-        window.history.pushState(null, 'Buscar usuario', `#/admin/creditos?idUsuario=${idUsuario}`)
-      }
-    }else{
-      window.history.pushState(null, 'Buscar usuario', `#/admin/creditos`)
-    }
-    window.history.go()
-  }
-  const handleKup = (e) => {
-    idUsuario = e.currentTarget.value
-  }
   return (
     <div>
      {/* <div className={classes.searchWrapper}>

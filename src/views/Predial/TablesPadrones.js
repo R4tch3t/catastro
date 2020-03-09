@@ -117,10 +117,8 @@ allPadrones=async(CTAnombre)=>{
                   key: `${e.CTA}u`,
                   cta: e.CTA,
                   NOMBRE: e.contribuyente,
+                  ubi: e.ubicacion,
                   tp: 'URBANO',
-                 // total: e.total,
-                 // terreno: e.m1,
-                 // construccion: e.m2
                 })
              })
 
@@ -131,10 +129,9 @@ allPadrones=async(CTAnombre)=>{
                   key: `${e.CTA}r`,
                   cta: e.CTA,
                   NOMBRE: e.contribuyente,
+                  ubi: e.ubicacion,
                   tp: 'RUSTICO',
-                  // total: e.total,
-                  // terreno: e.m1,
-                  // construccion: e.m2
+                  
                 })
               })
 
@@ -226,7 +223,7 @@ render() {
     { id: 'cta', numeric: true, disablePadding: true, label: 'CTA' },
     { id: 'NOMBRE', numeric: false, disablePadding: false, label: 'Nombre' },
     { id: 'tp', numeric: false, disablePadding: false, label: 'Tipo' },
-   // { id: 'terreno', numeric: true, disablePadding: false, label: 'Terreno' },
+    { id: 'carta', numeric: false, disablePadding: false, label: 'Carta' },
    // { id: 'construccion', numeric: true, disablePadding: false, label: 'Construccion' },
   ]
   return (

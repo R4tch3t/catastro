@@ -196,17 +196,20 @@ class App extends React.Component {
               <CardBody>
 
                 <React.Fragment>
-                  <GridContainer>  
-                    <Button color="success" 
-                    style={{
+                  <GridContainer>
+                    <a style={{color: 'white',
                       display: "flex",
                       flex: 1,
-                      alignItems: "center"
-                    }} >
-                      <a style={{color: 'white'}} href={this.state.url} download={`${nDoc}.pdf`}>
+                      alignItems: "center"}} href={this.state.url} download={`${nDoc}.pdf`}>  
+                      <Button color="success" 
+                      style={{
+                        display: "flex",
+                        flex: 1,
+                        alignItems: "center"
+                      }} >
                         Descargar PDF
-                      </a>
-                    </Button>
+                      </Button>
+                    </a>  
                   </GridContainer>  
                   <MobileView>
                     <div id='mobilePdf' style={{ position: 'relative', top: 20, width: '100%' }} ></div>

@@ -1,14 +1,12 @@
 import React from "react";
 import TablesPadrones from "./TablesPadrones.js";
-import cookie from "react-cookies";
-import CustomInput from "components/CustomInput/CustomInput.js";
 // @material-ui/core
 import { makeStyles } from "@material-ui/core/styles";
-import Search from "@material-ui/icons/Search";
 
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
 import stylesM from "assets/jss/material-dashboard-react/components/listItemStyle.js";
-import Button from "components/CustomButtons/Button.js";
+import decrypt from "views/Dashboard/decrypt.js";
+import Pdf from "./renderCarta"
 
 const useStyles = makeStyles(styles);
 const useStylesM = makeStyles(stylesM);
@@ -24,11 +22,23 @@ function getParameterByName(name, url) {
 export default () => {
   const classes = useStyles();
   const classesM = useStylesM();
-
+  let urlDec = getParameterByName('v');
+  urlDec = decrypt(urlDec);
+  const bandCarta = getParameterByName('bandCarta', urlDec)
+  const genCTA = getParameterByName('genCTA', urlDec)
+  const nombre = getParameterByName('nombre', urlDec)
+  const ubi = getParameterByName('ubi', urlDec)
+  const tp = getParameterByName('tp', urlDec)
+  const añoI = getParameterByName('añoI', urlDec)
+  const añoF = getParameterByName('añoF', urlDec)
   
- 
-  return (
-   <TablesPadrones 
-                classes={classes} classesM={classesM} />
-  );
+  if (bandCarta==='1'){
+    return (<Pdf classes={classes} CTA={genCTA} nombre={nombre}
+                ubi={ubi} tp={tp} añoI={añoI} añoF={añoF}  />)
+  }else{
+    return (
+    <TablesPadrones 
+                  classes={classes} classesM={classesM} />
+    );
+  }
 }

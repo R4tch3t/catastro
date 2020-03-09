@@ -16,12 +16,23 @@ import imagine6 from "assets/img/sidebar-6.jpg";
 export default function FixedPlugin(props) {
   const [classes, setClasses] = React.useState("dropdown");
   const [bg_checked, setBg_checked] = React.useState(true);
+  const [opacity, setOpacity] = React.useState(0.5);
+  const [top, setTop] = React.useState("30%");
   const [bgImage, setBgImage] = React.useState(props.bgImage);
   const handleClick = () => {
     props.handleFixedClick();
   };
+  const hoverFixed = e => {
+    setOpacity(1)
+  }
+  const leaveFixed = e => {
+    setOpacity(0.5)
+  }
   return (
     <div
+      onMouseEnter={hoverFixed}
+      onMouseLeave={leaveFixed}
+      style = {{opacity: opacity, top: top, cursor: 'pointer'}}
       className={classnames("fixed-plugin", {
         "rtl-fixed-plugin": props.rtlActive
       })}
@@ -30,7 +41,9 @@ export default function FixedPlugin(props) {
         <div onClick={handleClick}>
           <i className="fa fa-cog fa-2x" />
         </div>
+        
         <ul className="dropdown-menu">
+          <li className="header-title"><div onClick={handleClick} style={{textAlign: 'right', color: 'red'}} >x</div></li>
           <li className="header-title">FILTROS</li>
           <li className="adjustments-line">
             <a className="switch-trigger">
@@ -162,7 +175,7 @@ export default function FixedPlugin(props) {
           </li>
 
           
-          <li className="adjustments-line" />
+          <li className="adjustments-line" > <div onClick={handleClick} >Cerrar</div> </li>
         </ul>
       </div>
     </div>

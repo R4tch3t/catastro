@@ -26,13 +26,7 @@ export default () => {
   urlDec = decrypt(urlDec);
   const bandInfo = getParameterByName('bandInfo', urlDec)
   const dateSI = getParameterByName('dateSI', urlDec)
-  const dateSF = getParameterByName('dateSF', urlDec)
-
-  if(cookie.load('idRol')==='0'){
-  //  idUsuario = cookie.load('idUsuario')
-  }
-  
-
+  const dateSF = getParameterByName('dateSF', urlDec)  
  
   return (
    <TablesCorte

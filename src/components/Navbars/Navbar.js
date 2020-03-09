@@ -7,6 +7,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Hidden from "@material-ui/core/Hidden";
+import chilapa from "assets/img/chilapa.png";
 // @material-ui/icons
 import Menu from "@material-ui/icons/Menu";
 // core components
@@ -51,10 +52,12 @@ export default function Header(props) {
       
       <Toolbar className={classes.container}>
         <div className={classes.flex}>
-          {/* Here we create navbar brand, based on route name */}
+          {/* Here we create navbar brand, based on route name 
           <Button color="transparent" onClick={()=>{reload()}} className={classes.title}>
             {makeBrand()} 
           </Button>
+          */}
+          <img style={{position: 'relative', width: '100%', height: 90 }} src={chilapa} />
         </div>
         <Hidden smDown implementation="css">
           {props.rtlActive ? <RTLNavbarLinks /> : <AdminNavbarLinks />}
