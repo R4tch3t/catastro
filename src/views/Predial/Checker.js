@@ -17,7 +17,11 @@ export default (props)=>{
   const handleToggle = value => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
-    
+    //const checkU = document.getElementById('check0');
+    const tp = value===0 ? 'u' : 'r'
+    if (fa) {
+      fa(tp)
+    }
     if (currentIndex === -1) {
       newChecked.splice(currentIndex, 1);
       newChecked.push(value);
@@ -31,6 +35,8 @@ export default (props)=>{
       
     }
     setChecked(newChecked);
+
+    
   };
   const { tasksIndexes, strs, ids, fa } = props;
   return (

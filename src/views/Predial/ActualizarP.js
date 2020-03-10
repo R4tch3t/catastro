@@ -1,5 +1,5 @@
 import React from "react";
-import TablesRP from "./TablesRP.js";
+import TablesAP from "./TablesAP.js";
 // @material-ui/core
 import { makeStyles } from "@material-ui/core/styles";
 import Search from "@material-ui/icons/Search";
@@ -21,11 +21,9 @@ function getParameterByName(name, url) {
 export default () => {
   const classes = useStyles();
   const classesM = useStylesM();
-
-  
  
   return (
-   <TablesRP 
+   <TablesAP 
                 classes={classes} classesM={classesM} />
   );
 }

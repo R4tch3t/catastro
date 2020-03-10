@@ -1,6 +1,10 @@
 import ip from "variables/ip.js";
 export default async(CTA, street, barr, zona, tp, c) => {
     try {
+        if(CTA===''){
+            c.setState({disabledReg: false})
+            return
+        }
         const sendUri = ip('3021');
         let i = 0
         let path = c.polyC.getPath();

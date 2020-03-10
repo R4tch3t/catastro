@@ -76,7 +76,7 @@ export default (c) => {
   t += parseInt(V0090704.value)
   t += parseInt(V00913.value)
   t += parseInt(V0091301.value)
-  t += parseInt(V0010804.value)
+  t += parseInt(V0010804.value)*72
   t += parseInt(V0010101.value)
   t += parseInt(V21173001001.value)
   c.setState({totalN: t})

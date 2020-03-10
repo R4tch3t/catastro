@@ -1,5 +1,4 @@
 import React from 'react';
-import cookie from "react-cookies";
 // react plugin for creating charts
 import WN from "@material-ui/icons/Warning"
 import E from "@material-ui/icons/Error"
@@ -30,8 +29,8 @@ state={
     classes: null,
 }
 //dValue = "\0"
-dValue = ""
-dValInt = ''
+dValue = "\0"
+dValInt = 0
 constructor(props){
     super(props);
     this.state = {
@@ -76,15 +75,96 @@ validarDatos = () => {
   }
   
 
-  this.registrarC()
+  this.actualizarC()
 }
 
-registrarC=async()=>{
+padrones=async(tp)=>{
+  try {
+    let CTAnombre = document.getElementById('CTA');
+    const nombre = document.getElementById('nombre')
+    const calle = document.getElementById('calle')
+    let lote = document.getElementById('lote')
+    let manzana = document.getElementById('manzana')
+    let numCalle = document.getElementById('numCalle')
+    const colonia = document.getElementById('colonia')
+    let cp = document.getElementById('cp')
+    const municipio = document.getElementById('municipio')
+    const localidad = document.getElementById('localidad')
+    const sendUri = ip('3015');
+    const bodyJSON = {
+      CTAnombre: CTAnombre.value,
+      tp: tp,
+      tipoB: 0,
+      dateUp: ''
+    }
+    const response = await fetch(sendUri, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(bodyJSON)
+    });
+
+    nombre.value='';
+    calle.value = '';
+    lote.value = '';
+    manzana.value = '';
+    numCalle.value = 0;
+    colonia.value = '';
+    cp.value = 41100;
+    municipio.value = 'CHILAPA DE ÁLVAREZ'
+    localidad.value = 'CHILAPA DE ÁLVAREZ'
+
+    const responseJson = await response.json().then(r => {
+      //console.log(`Response1: ${r}`)
+
+      if (r.contribuyente) {
+        const contribuyente = r.contribuyente[0]
+        const ubicacion = r.ubicacion[0]
+        nombre.value = contribuyente.contribuyente
+      
+        if(ubicacion){
+          calle.value = ubicacion.calle;
+          lote.value = ubicacion.lote;
+          manzana.value = ubicacion.manzana;
+          numCalle.value = ubicacion.numero;
+          colonia.value = ubicacion.colonia;
+          cp.value = ubicacion.cp === 0 ? 41100 : ubicacion.cp;
+          municipio.value = ubicacion.municipio === '' ? 'CHILAPA DE ÁLVAREZ' : ubicacion.municipio;
+          localidad.value = ubicacion.localidad === '' ? 'CHILAPA DE ÁLVAREZ' : ubicacion.localidad;
+        }
+        cp.value = cp.value === '' ? 0 : cp.value
+        numCalle.value = numCalle.value === '' ? 0 : numCalle.value
+        manzana.value = manzana.value === '' ? 0 : manzana.value
+        lote.value = lote.value === '' ? 0 : lote.value
+      }
+
+      /*else if (r.error.name === "error01") {
+                 this.removeCookies()
+                 confirmAlert({
+                   title: "¡Error!",
+                   message: "La contraseña es incorrecta.",
+                   buttons: [{
+                     label: "Aceptar",
+                     onClick: () => {
+                       this.props.history.push("/entrar");
+                     }
+                   }]
+                 });
+               }*/
+    });
+  } catch (e) {
+    console.log(`Error: ${e}`);
+  }
+}
+
+actualizarC=async()=>{
     try {
 
        //const sendUri = "http://34.66.54.10:3015/";
        this.setState({disabledReg: true})
-       const sendUri = ip("3024");
+       const sendUri = ip("3026");
        const CTA = document.getElementById('CTA').value
        const nombre = document.getElementById('nombre').value
        const calle = document.getElementById('calle').value
@@ -185,16 +265,6 @@ handleClickDash = event => {
 };
 
 
-buscarCTA = (key) => (event) => {
-  const CTAnombre = document.getElementById('CTANM').value;
-  //const checkU = document.getElementById('check0');
-  this.tipoB = key
-  const labelB = key===0?'CTA':'NOMBRE'
-  this.setState({labelB})
-  //if (CTAnombre !== '') {
-  this.allPadrones(CTAnombre)    
- // }
-}
 showNotification = place => {
   const {tr,trE,trE2,trA} = this.state
     switch (place) {
@@ -259,7 +329,7 @@ render() {
           place="tr"
           color="danger"
           icon={E}
-          message='Error, el número de cuenta ya éxiste'
+          message='Error, el número de cuenta NO éxiste'
           open={trE}
           closeNotification={() => this.setState({trE: false})}
           close
@@ -277,7 +347,7 @@ render() {
           place="tr"
           color="success"
           icon={CheckCircle}
-          message='Contribuyente registrado con éxito'
+          message='El Contribuyente se actualizó con éxito'
           open={trA}
           closeNotification={() => this.setState({trA: false})}
           close
@@ -287,11 +357,11 @@ render() {
             <CardHeader color="primary">
               <h4 className={classes.cardTitleWhite}>PREDIAL</h4>
               <p className={classes.cardCategoryWhite}>
-                Registrar Contribuyente
+                Actualizar Contribuyente
               </p>
             </CardHeader>
             <CardBody>
-              <FormRegistro c={this} a={false} />
+              <FormRegistro c={this} a={true} fa={this.padrones} />
               <CardFooter>
               <Button id = 'regP'
                 color="success"  
@@ -303,7 +373,7 @@ render() {
                 onClick = {this.validarDatos}
                 disabled={disabledReg}
                 >
-                Registrar Contribuyente
+                Actualizar Contribuyente
               </Button>
             </CardFooter>
 

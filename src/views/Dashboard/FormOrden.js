@@ -27,22 +27,20 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
-import ip from "variables/ip.js";
 //import { Crypt, RSA } from "hybrid-crypto-js";
-import encrypt from "./encrypt";
 import setZona from "./setZona";
-import saveDataL from "./saveDataL";
 import setTC from "./setTC";
 import setBg from "./setBg";
 import GridsOrden from "./GridsOrden";
 
 //import genImp from './genImp.js';
-import getPredial from './getPredial';
-import clearCheck from './clearCheck.js';
 import sumaT from './sumaT.js';
 import changeI from './changeI.js';
 import rezago from './rezago.js';
 import clearCheckCP from './clearCheckCP.js';
+import registrarO from './registrarO.js';
+import padrones from './padrones.js';
+import registrarF from './registrarF.js';
 
 
 if (!String.prototype.splice) {
@@ -175,40 +173,6 @@ constructor(props){
 //    this.obtenerQ(this.state.idUsuario,this.state.idQuincena)
 }
 
-deg2rad = (degrees) => {
-        const pi = Math.PI;
-        return degrees * (pi / 180);
-    }
-    calcP = (l) => {
-        //if(l>0){
-            console.log(this.markers[l-1].position.lat())
-            console.log(this.markers)
-            const rlat0 = this.deg2rad(this.markers[l - 1].position.lat());
-            const rlng0 = this.deg2rad(this.markers[l - 1].position.lng());
-            const rlat1 = this.deg2rad(this.markers[l].position.lat());
-            const rlng1 = this.deg2rad(this.markers[l].position.lng());
-
-            const latDelta = rlat1 - rlat0;
-            const lonDelta = rlng1 - rlng0;
-            
-            const distance = (6371000 *
-              Math.acos(
-                Math.cos(rlat0) * Math.cos(rlat1) * Math.cos(lonDelta) +
-                Math.sin(rlat0) * Math.sin(rlat1)
-              )
-            );
-            const distance2 = 6371 * 2 * Math.asin(
-              Math.sqrt(
-                Math.cos(rlat0) * Math.cos(rlat1) * Math.pow(Math.sin(lonDelta / 2), 2) +
-                Math.pow(Math.sin(latDelta / 2), 2)
-              )
-            );
-            console.log(`distance: ${this.round(distance, 0)}`)
-            console.log(`distance: ${distance2}`)
-            return this.round(distance, 0);
-        //}
-    }
-
 round = (num, decimales = 2)=>{
   var signo = (num >= 0 ? 1 : -1);
   num = num * signo;
@@ -222,523 +186,20 @@ round = (num, decimales = 2)=>{
   return signo * (num[0] + 'e' + (num[1] ? (+num[1] - decimales) : -decimales));
 }
 
-genCarta = (CTA, nombre, ubi, tp, añoI, añoF) => {
-  const {idRol} = this.props
-  let url = idRol === '1' ? `#/admin/padron` : `#/usuario/padron`
-  const y = new Date().getFullYear()
-  let subUrl = `?bandCarta=1&genCTA=${CTA}&nombre=${nombre}&ubi=${ubi}&tp=${tp}`
-  subUrl += `&añoI=${añoI}&añoF=${añoF}`
-  url += `?v=${encrypt(subUrl)}`;
-  const win = window.open(url, '_blank');
-  win.focus();
-}
+
 
 padrones=async(CTAnombre, tp, tipoB, dateUp)=>{
-    try {
-        const sendUri = ip('3015');
-        const bodyJSON = {
-          CTAnombre: CTAnombre,
-          tp: tp,
-          tipoB: tipoB,
-          dateUp: dateUp
-        }
-        const response = await fetch(sendUri, {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(bodyJSON)
-        });
-
-        const responseJson = await response.json().then(r => {
-            //console.log(`Response1: ${r}`)
-
-            if (r.contribuyente) {
-              const contribuyente = r.contribuyente[0]
-              const ubicacion = r.ubicacion[0]
-              const orden = r.orden
-              const {Y} = this.state
-              //const predial = r.predial
-              
-                this.setState({
-                 // nombre: contribuyente.contribuyente,
-                  CTA: contribuyente.CTA
-                })
-                const sCarta = document.getElementById('sCarta');
-                const nombre = document.getElementById('nombre');
-                nombre.value = contribuyente.contribuyente;
-                nombre.focus();
-                const calle = document.getElementById('calle');
-                const lote = document.getElementById('lote');
-                const manzana = document.getElementById('manzana');
-                const numCalle = document.getElementById('numCalle');
-                const colonia = document.getElementById('colonia');
-                const cp = document.getElementById('cp');
-                const municipio = document.getElementById('municipio');
-                const localidad = document.getElementById('localidad');
-                const bg = document.getElementById('baseGravable');
-                const m1 = document.getElementById('m1');
-                const m2 = document.getElementById('m2');
-                const periodo = document.getElementById('periodo');
-                const dateUpL = document.getElementById('dateUp');
-                const regB=document.getElementById('regB')
-                regB.innerHTML = 'GENERAR ORDEN DE PAGO'
-                dateUpL.style.color = 'red'
-                //const checkU = document.getElementById('check0');
-
-                calle.value = ubicacion.calle;
-                lote.value = ubicacion.lote;
-                manzana.value = ubicacion.manzana;
-                numCalle.value = ubicacion.numero;
-                colonia.value = ubicacion.colonia;
-                cp.value = ubicacion.cp === 0 ? 41100 : ubicacion.cp;
-                municipio.value = ubicacion.municipio === '' ? 'CHILAPA DE ÁLVAREZ' : ubicacion.municipio;
-                localidad.value = ubicacion.localidad === '' ? 'CHILAPA DE ÁLVAREZ' : ubicacion.localidad;;
-                const ctasIndexes = []
-                while (ctasIndexes.length < r.contribuyente.length && ctasIndexes.length < 20) {
-                  ctasIndexes.push(r.contribuyente[ctasIndexes.length])
-                }
-                this.setState({ctasIndexes: ctasIndexes, tipoPredio: tp})
-                //else{
-                //  this.setState({tipoPredio: tp})
-                //}
-                
-
-                if(!orden){
-                  if (calle.value===''){
-                    calle.value = contribuyente.ubicacion
-                  }
-                  m1.value = 0
-                  m2.value = 0
-                  bg.value = 0;
-                  clearCheck(this)
-                  dateUpL.value = ''
-                  this.setState({tc: 0, zona: 0, totalN: 0});
-
-                  return false;
-                }
-                
-                m1.value = orden.m1
-                m2.value = orden.m2
-                let tzoffset = (new Date()).getTimezoneOffset() * 60000;
-                dateUp = new Date(orden.dateUp)-tzoffset
-                dateUp = new Date(dateUp)
-                if ((parseInt(Y)) > parseInt(dateUp.getFullYear())){
-                 const añoI = dateUp.getFullYear()
-                 const añoF = new Date().getFullYear()
-                  if((añoF - añoI)>4 ){
-                     sCarta.style.display = 'block'
-                     let ubi = `${ubicacion.calle}`
-                     if (ubicacion.numero !== 0 && ubicacion.numero !== '') {
-                       ubi += `, No. ${ubicacion.numero}`
-                     }
-                     const predio = tp === 'r' ? 'RÚSTICO' : 'URBANO'
-
-                     sCarta.onclick = () => {
-                       this.genCarta(contribuyente.CTA,
-                         contribuyente.contribuyente,
-                         ubi, predio, añoI, añoF)
-                     }
-                  }
-                }else{
-                  dateUpL.value = dateUp.toISOString().slice(0, -1)
-                  regB.innerHTML = 'ACTUALIZAR ORDEN DE PAGO'
-                }
-
-               
-                periodo.value = orden.periodo
-                this.setState({tc: orden.tc, zona: orden.zona, totalN: orden.total});
-               // this.setState({totalN: orden.total});
-                //if(checkU.checked){
-                
-                bg.value = orden.bg;
-                getPredial(orden.idOrden,tp,this)
-                //console.log(predial);
-              //  genImp(predial,this);
-                //if (parseInt(orden.zona) > 0) {
-                 // this.setZona(orden.zona); 
-                //}
-                //else{
-                  
-                //}
-
-            }
-            
-            /*else if (r.error.name === "error01") {
-                       this.removeCookies()
-                       confirmAlert({
-                         title: "¡Error!",
-                         message: "La contraseña es incorrecta.",
-                         buttons: [{
-                           label: "Aceptar",
-                           onClick: () => {
-                             this.props.history.push("/entrar");
-                           }
-                         }]
-                       });
-                     }*/
-        });
-    } catch (e) {
-        console.log(`Error: ${e}`);
-    }
+   padrones(CTAnombre, tp, tipoB, dateUp, this)
 }
 
 registrarO=async()=>{
-    try {
+  const CTA = document.getElementById('CTA').value;
+  if(CTA!==''){
+    registrarO(CTA,this)
+  }else{
 
-        //const sendUri = "http://localhost:3016/";
-        this.setState({disabledReg:true})
-        const sendUri = ip('3016');
-        const CTA = document.getElementById('CTA').value;
-        const calle = document.getElementById('calle').value;
-        let lote = document.getElementById('lote').value;
-        let manzana = document.getElementById('manzana').value;
-        let numCalle = document.getElementById('numCalle').value;
-        const colonia = document.getElementById('colonia').value;
-        let cp = document.getElementById('cp').value;
-        const municipio = document.getElementById('municipio').value;
-        const localidad = document.getElementById('localidad').value;
-        let bg = document.getElementById('baseGravable').value;
-        const periodo = document.getElementById('periodo').value;
-        const dateUp = document.getElementById('dateUp');
-        const idEmpleado = this.props.idUsuario;
-        let {totalN} = this.state;
-        const m1 = document.getElementById('m1').value;
-        const m2 = document.getElementById('m2').value;
-        const tc = document.getElementById('tc').value;
-        const zona = document.getElementById('zona').value;
-        const {tipoPredio} = this.state;
-        const idImpuestos = [];
-        const removI = [];
-        let I0020401 = document.getElementById('I0020401').checked;
-        let V0020401 = document.getElementById('0020401').value
-        if (I0020401) {
-          idImpuestos.push({id: 1, val: V0020401});
-          V0020401 = V0020401.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          V0020401 = `${V0020401}.00`
-        }else{
-          removI.push({id: 1});
-        }
-        let I0020402 = document.getElementById('I0020402').checked;
-        let V0020402 = document.getElementById('0020402').value
-        if(I0020402){
-          idImpuestos.push({id: 2, val: V0020402});
-          V0020402 = V0020402.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          V0020402 = `${V0020402}.00`
-        }else{
-          removI.push({id: 2});
-        }
-        let I0020403 = document.getElementById('I0020403').checked;
-        let V0020403 = document.getElementById('0020403').value;
-        if (I0020403) {
-          idImpuestos.push({id: 3, val: V0020403});
-          V0020403 = V0020403.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          V0020403 = `${V0020403}.00`
-        }else{
-          removI.push({id: 3});
-        }
-        let I0020801 = document.getElementById('I0020801').checked;
-        let V0020801 = document.getElementById('0020801').value
-        if (I0020801 || V0020801 !== '0') {
-          idImpuestos.push({id: 4, val: V0020801});
-          V0020801 = V0020801.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          V0020801 = `${V0020801}.00`
-        }else{
-          removI.push({id: 4});
-        }
-        let I0020802 = document.getElementById('I0020802').checked;
-        let V0020802 = document.getElementById('0020802').value
-        if (I0020802) {
-          idImpuestos.push({id: 5, val: V0020802});
-          V0020802 = V0020802.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          V0020802 = `${V0020802}.00`
-        }else{
-          removI.push({id: 5});
-        }
-        let I0020803 = document.getElementById('I0020803').checked;
-        let V0020803 = document.getElementById('0020803').value
-        if (I0020803) {
-          idImpuestos.push({id: 6, val: V0020803});
-          V0020803 = V0020803.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          V0020803 = `${V0020803}.00`
-        }else{
-          removI.push({id: 6});
-        }
-        let I0020804 = document.getElementById('I0020804').checked;
-        let V0020804 = document.getElementById('0020804').value
-        if(I0020804){
-          idImpuestos.push({id: 7, val: V0020804});
-          V0020804 = V0020804.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          V0020804 = `${V0020804}.00`
-        }else{
-          removI.push({id: 7});
-        }
-        let I0030101 = document.getElementById('I0030101').checked;
-        let V0030101 = document.getElementById('0030101').value
-        if(I0030101){
-          idImpuestos.push({id: 8, val: V0030101});
-          V0030101 = V0030101.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          V0030101 = `${V0030101}.00`
-        }else{
-          removI.push({id: 8});
-        }
-        let I0070101 = document.getElementById('I0070101').checked;
-        let V0070101 = document.getElementById('0070101').value
-        if(I0070101){
-          idImpuestos.push({id: 9, val: V0070101});
-          V0070101 = V0070101.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          V0070101 = `${V0070101}.00`
-        }else{
-          removI.push({id: 9});
-        }
-        let I0070201 = document.getElementById('I0070201').checked;
-        let V0070201 = document.getElementById('0070201').value
-        if(I0070201){
-          idImpuestos.push({id: 10, val: V0070201});
-          V0070201 = V0070201.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          V0070201 = `${V0070201}.00`
-        }else{
-          removI.push({id: 10});
-        }
-        let I0070202 = document.getElementById('I0070202').checked;
-        let V0070202 = document.getElementById('0070202').value
-        if(I0070202){
-          idImpuestos.push({id: 11, val: V0070202});
-          V0070202 = V0070202.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          V0070202 = `${V0070202}.00`
-        }else{
-          removI.push({id: 11});
-        }
-        let I0070203 = document.getElementById('I0070203').checked;
-        let V0070203 = document.getElementById('0070203').value
-        if (I0070203) {
-          idImpuestos.push({id: 12, val: V0070203});
-          V0070203 = V0070203.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          V0070203 = `${V0070203}.00`
-        }else{
-          removI.push({id: 12});
-        }
-        let I0090101 = document.getElementById('I0090101').checked;
-        let V0090101 = document.getElementById('0090101').value
-        if (I0090101) {
-          idImpuestos.push({id: 13, val: V0090101});
-          V0090101 = V0090101.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          V0090101 = `${V0090101}.00`
-        }else{
-          removI.push({id: 13});
-        }
-        let I0090106 = document.getElementById('I0090106').checked;
-        let V0090106 = document.getElementById('0090106').value
-        if (I0090106) {
-          idImpuestos.push({id: 14, val: V0090106});
-          V0090106 = V0090106.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          V0090106 = `${V0090106}.00`
-        }else{
-          removI.push({id: 14});
-        }
-        let I0090107 = document.getElementById('I0090107').checked;
-        let V0090107 = document.getElementById('0090107').value
-        if (I0090107) {
-          idImpuestos.push({id: 15, val: V0090107});
-          V0090107 = V0090107.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          V0090107 = `${V0090107}.00`
-        }else{
-          removI.push({id: 15});
-        }
-        let I0090701 = document.getElementById('I0090701').checked;
-        let V0090701 = document.getElementById('0090701').value
-        if (I0090701) {
-          idImpuestos.push({id: 16, val: V0090701});
-          V0090701 = V0090701.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          V0090701 = `${V0090701}.00`
-        }else{
-          removI.push({id: 16});
-        }
-        let I0090702 = document.getElementById('I0090702').checked;
-        let V0090702 = document.getElementById('0090702').value
-        if (I0090702) {
-          idImpuestos.push({id: 17, val: V0090702});
-          V0090702 = V0090702.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          V0090702 = `${V0090702}.00`
-        }else{
-          removI.push({id: 17});
-        }
-        let I0090703 = document.getElementById('I0090703').checked;
-        let V0090703 = document.getElementById('0090703').value
-        if (I0090703) {
-          idImpuestos.push({id: 18, val: V0090703});
-          V0090703 = V0090703.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          V0090703 = `${V0090703}.00`
-        }else{
-          removI.push({id: 18});
-        }
-        let I0090704 = document.getElementById('I0090704').checked;
-        let V0090704 = document.getElementById('0090704').value
-        if (I0090704) {
-          idImpuestos.push({id: 19, val: V0090704});
-          V0090704 = V0090704.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          V0090704 = `${V0090704}.00`
-        }else{
-          removI.push({id: 19});
-        }
-        let I00913 = document.getElementById('I00913').checked;
-        let V00913 = document.getElementById('00913').value
-        if (I00913) {
-          idImpuestos.push({id: 20, val: V00913});
-          V00913 = V00913.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          V00913 = `${V00913}.00`
-        }else{
-          removI.push({id: 20});
-        }
-        let I0091301 = document.getElementById('I0091301').checked;
-        let V0091301 = document.getElementById('0091301').value
-        if (I0091301) {
-          idImpuestos.push({id: 21, val: V0091301});
-          V0091301 = V0091301.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          V0091301 = `${V0091301}.00`
-        }else{
-          removI.push({id: 21});
-        }
-        let I0010804 = document.getElementById('I0010804').checked;
-        let V0010804 = document.getElementById('0010804').value
-        if(I0010804){
-          idImpuestos.push({id: 22, val: V0010804});
-          V0010804 = V0010804.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          V0010804 = `${V0010804}.00`
-        }else{
-          removI.push({id: 22});
-        }
-        let I0010101 = document.getElementById('I0010101').checked;
-        let V0010101 = document.getElementById('0010101').value
-        if(I0010101){
-          idImpuestos.push({id: 23, val: V0010101});
-          V0010101 = V0010101.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          V0010101 = `${V0010101}.00`
-        }else{
-          removI.push({id: 23});
-        }
-        let I21173001001 = document.getElementById('I21173001001').checked;
-        let V21173001001 = document.getElementById('21173001001').value
-        if (I21173001001) {
-          idImpuestos.push({id: 24, val: V21173001001});
-          V21173001001 = V21173001001.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          V21173001001 = `${V21173001001}.00`
-        }else{
-          removI.push({id: 24});
-        }
-
-        const bodyJSON = {
-          CTA: CTA,
-          calle: calle,
-          lote: lote,
-          manzana: manzana,
-          numero: numCalle,
-          colonia: colonia,
-          cp: cp,
-          municipio: municipio,
-          localidad: localidad,
-          periodo: periodo,
-          dateUp: dateUp.value,
-          idEmpleado: idEmpleado,
-          m1: m1,
-          m2: m2,
-          tc: tc,
-          zona: zona,
-          bg: bg,
-          total: totalN,
-          tp: tipoPredio,
-          idImpuestos: idImpuestos,
-          removI: removI
-        }
-        
-        const response = await fetch(sendUri, {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(bodyJSON)
-        });
-
-        const responseJson = await response.json().then(r => {
-            //console.log(`Response1: ${r}`)
-            console.log(r)
-            if (r.exito !== undefined) {
-              
-              if(r.exito===0){
-                //let pubKey = publicKey();
-                
-                
-                
-                // Generate RSA key pair, default key size is 4096 bit
-               /* rsa.generateKeyPair(function(keyPair) {
-                  // Callback function receives new key pair as a first argument
-                  publicKey = keyPair.publicKey;
-                  privateKey = keyPair.privateKey;
-                  console.log(privateKey);
-                  console.log(publicKey);
-                  let encrypted = crypt.encrypt(publicKey, message);
-                  console.log(encrypted);
-                  //let encrypted ='';
-
-                  // Decrypt encryped message with private RSA key
-                  let decrypted = crypt.decrypt(privateKey, encrypted);
-
-                  // Get decrypted message
-                  message = decrypted.message;
-                  console.log(decrypted.message);
-                });*/
-
-                this.showNotification("trA")
-                const nombre = document.getElementById('nombre').value;
-                const tipoP = tipoPredio === 'u' ? 'URBANO' : 'RÚSTICO'
-                const {idRol} = this.props
-                let url = idRol === '1' ? `#/admin/orden` : `#/usuario/orden`
-                if(lote==='0'){
-                  lote=''
-                }
-                if(manzana==='0'){
-                  manzana=''
-                }
-                if(numCalle==='0'){
-                  numCalle = ''
-                }
-                if(cp==='0'){
-                  cp = ''
-                }
-                let folio = r.folio ? r.folio.toString():''
-                while (folio.length<5){
-                  folio = `0${folio}`
-                }
-                let tzoffset = (new Date()).getTimezoneOffset() * 60000; 
-                let d = new Date(r.dateUp) - tzoffset
-                d = new Date(d)
-                dateUp.value = d.toISOString().slice(0, -1)
-                
-                bg = bg.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                bg = `${bg}.00`
-                let subUrl = `?bandPdf=1&CTA=${CTA}&folio=${folio}&nombre=${nombre}&calle=${calle}&lote=${lote}&manzana=${manzana}&numero=${numCalle}`
-                subUrl += `&colonia=${colonia}&cp=${cp}&municipio=${municipio}&localidad=${localidad}&tipoP=${tipoP}`
-                subUrl += `&bg=${bg}&total=${totalN}&periodo=${periodo}&dateUp=${dateUp.value}&V0020401=${V0020401}&V0020402=${V0020402}&V0020403=${V0020403}`
-                subUrl += `&V0020801=${V0020801}&V0020802=${V0020802}&V0020803=${V0020803}&V0020804=${V0020804}&V0030101=${V0030101}`
-                subUrl += `&V0070101=${V0070101}&V0070201=${V0070201}&V0070202=${V0070202}&V0070203=${V0070203}&V0090101=${V0090101}`
-                subUrl += `&V0090106=${V0090106}&V0090107=${V0090107}&V0090701=${V0090701}&V0090702=${V0090702}&V0090703=${V0090703}`
-                subUrl += `&V0090704=${V0090704}&V00913=${V00913}&V0091301=${V0091301}&V0010804=${V0010804}&V0010101=${V0010101}`
-                subUrl += `&V21173001001=${V21173001001}`
-                url += `?v=${encrypt(subUrl)}`;
-                const win = window.open(url, '_blank');
-                win.focus();
-                saveDataL(CTA,this.street,this.barr,this.state.zona,tipoPredio,this)
-               // orden.style.display = 'none'
-               // ReactDOM.render(<Pdf calle='11 Norte' />,document.getElementById("pdfView"))
-              }             
-            }
-            
-        });
-    } catch (e) {
-        console.log(`Error: ${e}`);
-    }
+    registrarF(this)
+  }
 }
 
 getParameterByName=(name, url) => {
@@ -930,27 +391,18 @@ buscarCTA = (key) => (event) => {
   let CTAnombre = document.getElementById('CTANM');
   const checkU = document.getElementById('check0');
   CTAnombre.placeholder = key===0?'CTA':'NOMBRE'
-  
+  const tp = checkU.checked?'u':'r'
   if (CTAnombre !== '') {
-    if (checkU.checked){
-        this.padrones(CTAnombre.value, 'u', key, '')
-    }else{
-        this.padrones(CTAnombre.value, 'r', key, '')
-    }
+    this.padrones(CTAnombre.value, tp, key, '')
   }
 }
 
 rebuscarCTA = (key, CTA) => (e) => {
   const checkU = document.getElementById('check0');
+  const tp = checkU.checked ? 'u' : 'r'
   this.handleCloseCTA()
-  if (checkU.checked) {
-    if (CTA !== '') {
-      this.padrones(CTA, 'u', key)
-    }
-  } else {
-    if (CTA !== '') {
-      this.padrones(CTA, 'r', key)
-    }
+  if (CTA !== '') {
+    this.padrones(CTA, tp, key, '')
   }
 }
 

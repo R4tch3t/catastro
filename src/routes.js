@@ -31,6 +31,7 @@ import Orden from "views/Dashboard/Orden.js";
 import Editar from "views/UserProfile/Editar.js";
 import Registro from "views/UserProfile/Registro.js";
 import RegistrarP from "views/Predial/RegistrarP";
+import ActualizarP from "views/Predial/ActualizarP";
 /*import TableList from "views/TableList/TableList.js";
 import Typography from "views/Typography/Typography.js";
 import Icons from "views/Icons/Icons.js";
@@ -67,10 +68,18 @@ const dashboardRoutes = [
   },
   {
     path: "/registrarPredio",
-    name: "Registrar contribuyente",
+    name: "Registrar Contribuyente",
     rtlName: "قائمة الجدول",
     icon: "content_paste",
     component: RegistrarP,
+    layout: "/admin"
+  },
+  {
+    path: "/actualizarPredio",
+    name: "Actualizar Contribuyente",
+    rtlName: "قائمة الجدول",
+    icon: "content_paste",
+    component: ActualizarP,
     layout: "/admin"
   },
   {

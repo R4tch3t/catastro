@@ -521,7 +521,7 @@ class App extends React.Component {
                             <Text style={this.styles.tableCell}>FUSIÓN DE PREDIOS</Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '19%'}]}> 
-                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0090106}</Text>       
+                            <Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0090106}</Text>       
                           </View>
                         </View>}
 
@@ -533,7 +533,7 @@ class App extends React.Component {
                             <Text style={this.styles.tableCell}>SUBDIVISIÓN, LOTIFICACIÓN Y RELOTIFICACIÓN DE PREDIOS</Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '19%'}]}> 
-                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0090107}</Text>        
+                            <Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0090107}</Text>        
                           </View>
                         </View>}
 
@@ -606,7 +606,7 @@ class App extends React.Component {
                             <Text style={this.styles.tableCell}>PRO-BOMBEROS Y PROTECCIÓN CIVIL</Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '19%'}]}> 
-                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V00913}</Text>   
+                            <Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V00913}</Text>   
                           </View>
                         </View>}
 
@@ -618,7 +618,7 @@ class App extends React.Component {
                             <Text style={this.styles.tableCell}>LICENCIAS PARA CONSTRUCCIÓN DE EDIFICIOS O CASAS HABITACIÓN, RESTAURACIÓN O REPARACIÓN, URBANIZACIÓN, FRACCIONAMIENTO LOTIFICACIÓN, RELOTIFICACIÓN, FUSIÓN Y SUB-DIVISIÓN</Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '19%'}]}> 
-                            <Text style={[this.styles.tableCell,{position: 'absolute', marginTop: 5}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0091301}</Text>   
+                            <Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0091301}</Text>   
                           </View>
                         </View>}
                         
@@ -644,7 +644,7 @@ class App extends React.Component {
                             <Text style={this.styles.tableCell}>VENTAS DE FORMAS IMPRESAS POR JUEGOS (FORMA 3DCC)</Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '19%'}]}> 
-                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0010804}</Text>   
+                            <Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0010804}</Text>   
                           </View>
                         </View>
                         </>}
@@ -671,7 +671,7 @@ class App extends React.Component {
                             <Text style={this.styles.tableCell}>MULTAS FISCALES (FALTA DE CUMPLIMIENTO DE OBLIGACIONES FISCALES)</Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '19%'}]}> 
-                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0010101}</Text>    
+                            <Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0010101}</Text>    
                           </View>
                         </View>
                         </>}
@@ -722,15 +722,15 @@ class App extends React.Component {
                         <Text style={[this.styles.tableCell,{margin: 'auto',top: 1}]}>CANTIDAD CON LETRA:   (  <Text style={[this.styles.labelR,{textDecoration: "underline"}]}>{totalS}00/100 M.N.</Text>  )</Text>
                       </View>
 
-                      <View style={{position:'absolute', bottom: '60px', left: '20%'}} >
+                      <View >
                       <View>
-                        <Text style={[this.styles.tableCell,{margin: 'auto',top: 20}]}>CHILAPA DE ÁLVAREZ, GRO., A<Text style={[this.styles.labelR,{textDecoration: "underline"}]}>       {dia}        </Text>DE<Text style={[this.styles.labelR,{textDecoration: "underline"}]}>          {mes}          </Text>DEL<Text style={[this.styles.labelR,{textDecoration: "underline"}]}>        {año}        </Text>   </Text>
+                        <Text style={[this.styles.tableCell,{margin: 'auto',top: 3}]}>CHILAPA DE ÁLVAREZ, GRO., A<Text style={[this.styles.labelR,{textDecoration: "underline"}]}>       {dia}        </Text>DE<Text style={[this.styles.labelR,{textDecoration: "underline"}]}>          {mes}          </Text>DEL<Text style={[this.styles.labelR,{textDecoration: "underline"}]}>        {año}        </Text>   </Text>
                       </View>
-                      <View style={{top: 25}} >  
+                      <View style={{top: 3}} >  
                         <Text style={[this.styles.tableCell,this.styles.headO,{margin: 'auto'}]}>AUTORIZÓ:</Text>
                         <Text style={[this.styles.tableCell,{margin: 'auto'}]}>DIRECTOR DE CATASTRO MUNICIPAL</Text>
                       </View>
-                      <View style={{top: 40}} >  
+                      <View style={{top: 5}} >  
                         <Text style={[this.styles.tableCell,{margin: 'auto'}]}>________________________________________________________________________</Text>
                         <Text style={[this.styles.tableCell,{margin: 'auto'}]}>NOMBRE, FIRMA Y SELLO</Text>
                       </View>

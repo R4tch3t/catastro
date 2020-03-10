@@ -15,12 +15,28 @@ export default (props) => {
             e.target.setSelectionRange(selectionStartNombre, selectionEndNombre);
         }
     }
-
+    const padrones=()=>{
+        const checkU = document.getElementById('check0');
+        const tp = checkU.checked ? 'u' : 'r'
+        c.padrones(tp)
+    }
+    const handleKUpper = e => {
+        c.setState({
+            disabledReg: false
+        })
+        if(props.a){
+            padrones()
+        }
+    }
     const handleMUpper = e => {
         c.setState({
             disabledReg: false
         })
+        if (props.a) {
+            padrones()
+        }
     }
+    
 return(
     <>
     <GridContainer>
@@ -34,6 +50,8 @@ return(
             }}
             inputProps = {{
                 type: 'number',
+                defaultValue: c.dValInt,
+                onKeyUp: handleKUpper,
                 onMouseUp: handleMUpper
             }}
             />
@@ -46,6 +64,7 @@ return(
                 fullWidth: true
             }}
             inputProps={{
+            defaultValue: c.dValue,
             onKeyUp: handleUpper,
             onMouseUp: handleMUpper
             }}
@@ -57,6 +76,7 @@ return(
             tasksIndexes={[0, 1]}
             strs={["URBANO", "RUSTICO"]}
             ids={["check", "check"]}
+            fa={props.fa}
         />
         </GridContainer>
     </GridContainer>
@@ -168,7 +188,7 @@ return(
             }}
             inputProps={{
                 type: "text",
-                defaultValue: c.dValue,
+                defaultValue: 'CHILAPA DE ÁLVAREZ',
                 onKeyUp: handleUpper
             }}
             />
