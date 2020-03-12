@@ -2,13 +2,14 @@ import React from "react";
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
+import {isMobile} from "react-device-detect";
 import Checker from './Checker'
 export default (props) => {
     const {c} = props
     let selectionStartNombre = null
     let selectionEndNombre = null
     const handleUpper = e => {
-        if (e.which === 32 || e.which > 39) {
+        if ((e.which === 32 || e.which > 39) && !isMobile) {
             selectionStartNombre = e.target.selectionStart
             selectionEndNombre = e.target.selectionEnd
             e.target.value = e.target.value.toUpperCase()
@@ -25,6 +26,7 @@ export default (props) => {
         c.setState({
             disabledReg: false
         })
+        handleUpper(e)
     }
 
     const handleKUpper = e => {

@@ -21,7 +21,6 @@ function getParameterByName(name, url) {
 export default () => {
   const classes = useStyles();
   const classesM = useStylesM();
-
   
  
   return (

@@ -34,7 +34,7 @@ const switchRoutes = (
       }
       return null;
     })}
-    <Redirect from="/" to="/usuario/orden" />
+    <Redirect from="/" to="/usuario/padron" />
   </Switch>
 );
 

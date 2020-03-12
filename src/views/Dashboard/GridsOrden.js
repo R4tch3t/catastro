@@ -249,8 +249,9 @@ export default (props) => {
                   fullWidth: true
                 }}
                 inputProps={{
-                  type: "number",
-                  defaultValue: 0
+                  type: "text",
+                  defaultValue: 0,
+                  onKeyUp: c.handleUpper
                 }}
               />
             </GridItem>
