@@ -1,21 +1,8 @@
 import React from 'react';
-import cookie from "react-cookies";
-// react plugin for creating charts
-import ChartistGraph from "react-chartist";
-// @material-ui/core
-//import { makeStyles } from "@material-ui/core/styles";
-//import Icon from "@material-ui/core/Icon";
-// @material-ui/icons
-import LocalAtm from "@material-ui/icons/LocalAtm";
-//import Warning from "@material-ui/icons/Warning";
-import DateRange from "@material-ui/icons/DateRange";
-//import LocalOffer from "@material-ui/icons/LocalOffer";
-//import Update from "@material-ui/icons/Update";
-import ArrowUpward from "@material-ui/icons/ArrowUpward";
-import AccessTime from "@material-ui/icons/AccessTime";
 import Paper from "@material-ui/core/Paper";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import MenuList from "@material-ui/core/MenuList";
+import {isMobile} from "react-device-detect";
 //import Accessibility from "@material-ui/icons/Accessibility";
 //import BugReport from "@material-ui/icons/BugReport";
 //import Code from "@material-ui/icons/Code";
@@ -34,16 +21,10 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardBody from "components/Card/CardBody.js";
-import CardFooter from "components/Card/CardFooter.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
 import Search from "@material-ui/icons/Search";
 import Poppers from "@material-ui/core/Popper";
-//import { bugs, website, server } from "variables/general.js";
-import {
-  creditoFovisste,
-  seguroFovisste
-} from "variables/charts.js";
 import ip from 'variables/ip';
 
 
@@ -130,7 +111,7 @@ allPadrones=async(CTAnombre)=>{
                   cta: e.CTA,
                   NOMBRE: e.contribuyente,
                   ubi: e.ubicacion,
-                  tp: 'RUSTICO',
+                  tp: 'RÚSTICO',
                   
                 })
               })
@@ -184,11 +165,13 @@ handleClickDash = event => {
 selectionStartNombre = null
 selectionEndNombre = null
 handleUpper = e => {
-  if (e.which === 32 || e.which > 39) {
-    this.selectionStartNombre = e.target.selectionStart
-    this.selectionEndNombre = e.target.selectionEnd
-    e.target.value = e.target.value.toUpperCase()
-    e.target.setSelectionRange(this.selectionStartNombre, this.selectionEndNombre);
+  if(!isMobile){
+    if (e.which === 32 || e.which > 39) {
+      this.selectionStartNombre = e.target.selectionStart
+      this.selectionEndNombre = e.target.selectionEnd
+      e.target.value = e.target.value.toUpperCase()
+      e.target.setSelectionRange(this.selectionStartNombre, this.selectionEndNombre);
+    }
   }
   //if (e.target.value === '') {
     this.allPadrones(e.target.value)
@@ -258,6 +241,7 @@ render() {
                         placeholder: labelB,
                         type: "text",
                         onKeyUp: this.handleUpper,
+                        onMouseUp: this.handleUpper,
                         //value: idUsuario,
 
                         inputProps: {

@@ -199,9 +199,12 @@ export default async (fi, ff, c)=>{
           data.lengthU = r.lengthU
           data.lengthR = r.lengthR
           data.lengthT = r.lengthU+r.lengthR
-          data.padronU = data.urbanoIT+data.urbanoA+data.rezagosA+data.virtualI+data.virtualI2
+          data.padronU =  data.urbanoIT+data.urbanoA+data.rezagosA+data.virtualI+data.virtualI2
+          data.padronU = round(data.padronU)
           data.padronR = data.rusticoIT+data.rusticoA+data.rezagosAR+data.virtualIR+data.virtualIR2
+          data.padronR = round(data.padronR)
           data.padronT = data.totalIT+data.totalA+data.totalRezA+data.virtualIT+data.virtualIT2
+          data.padronT = round(data.padronT)
           data.urbanoI=data.urbanoI.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
           data.suburbanoI = data.suburbanoI.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
           data.rusticoI = data.rusticoI.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")

@@ -431,7 +431,10 @@ setZona = async(n) => {
 }
 
 setBg = async () => {
-  setBg(this)
+  const periodo = document.getElementById('periodo').value;
+  rezago(this, periodo);
+  setBg(this);
+  sumaT(this);
 }
 
 addImpuesto = (id) => {

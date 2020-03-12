@@ -20,18 +20,21 @@ export default (props) => {
         const tp = checkU.checked ? 'u' : 'r'
         c.padrones(tp)
     }
-    const handleKUpper = e => {
+
+    const noDisabled=e=>{
         c.setState({
             disabledReg: false
         })
+    }
+
+    const handleKUpper = e => {
+        noDisabled(e)
         if(props.a){
             padrones()
         }
     }
     const handleMUpper = e => {
-        c.setState({
-            disabledReg: false
-        })
+        noDisabled(e)
         if (props.a) {
             padrones()
         }
@@ -65,8 +68,8 @@ return(
             }}
             inputProps={{
             defaultValue: c.dValue,
-            onKeyUp: handleUpper,
-            onMouseUp: handleMUpper
+            onKeyUp: noDisabled,
+            onMouseUp: noDisabled
             }}
             />
         </GridItem>

@@ -68,7 +68,7 @@ validarDatos = () => {
       return false
   }
 
-  if (nombre.value === '' || nombre.value === ' ') {
+  if (nombre.value === '' || nombre.value === ' ' || nombre.value === '\0') {
     this.showNotification("tr")
     nombre.focus()
     return false
@@ -134,6 +134,7 @@ padrones=async(tp)=>{
           municipio.value = ubicacion.municipio === '' ? 'CHILAPA DE ÁLVAREZ' : ubicacion.municipio;
           localidad.value = ubicacion.localidad === '' ? 'CHILAPA DE ÁLVAREZ' : ubicacion.localidad;
         }
+
         cp.value = cp.value === '' ? 0 : cp.value
         numCalle.value = numCalle.value === '' ? 0 : numCalle.value
         manzana.value = manzana.value === '' ? 0 : manzana.value

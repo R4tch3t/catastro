@@ -89,5 +89,5 @@ export default (c) => {
     ['15% PRO CAMINOS',
       'DESCUENTO PREDIAL DE NATURALEZA DEUDORA'
     ], ['0070202', '0070203'], c);
-    c.setState({totalN: t})
+   // c.setState({totalN: t})
 }
