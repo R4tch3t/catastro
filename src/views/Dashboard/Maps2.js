@@ -32,8 +32,6 @@ export class MapContainer extends React.Component {
     }
 
     onMapReady = (props) => {
-       // this.getLocation();
-       console.log('??read')
         this.searchAddr(props);
         
     }
@@ -81,7 +79,6 @@ export class MapContainer extends React.Component {
     }
 
     onMarkerClick = (props, marker, e) =>{
-    console.log(`drag: ${e}`)
         this.setState({
       selectedPlace: props,
       activeMarker: marker,
@@ -144,7 +141,6 @@ export class MapContainer extends React.Component {
              if (status === google.maps.GeocoderStatus.OK) {
                  if (results[1]) {
                      const place = results[1]
-                     console.log(results);
                      let name = place.address_components
                      let title = ''
                      const su = document.getElementById('su').value.split(',')
@@ -157,7 +153,6 @@ export class MapContainer extends React.Component {
                      let cp = document.getElementById('cp')
                      let municipio = document.getElementById('municipio')
                      let localidad = document.getElementById('localidad')
-                     console.log(infowindowContent)
                      if (name[1]) {
                          if (su[0] && (!su[0].startsWith(name[1].long_name) || !su[1].endsWith(name[2].long_name))) {
                             name = a.findStreet(results, su[0], su[1])
@@ -312,7 +307,6 @@ export class MapContainer extends React.Component {
              google, c
          } = this.props;
          //const map = this
-         console.log(google)
          //console.log(props)
 
          //if (!google || !map) return;
@@ -344,7 +338,6 @@ export class MapContainer extends React.Component {
              //console.log(`location: ${place.geometry.location}`)
              //console.log(`place.geometry.viewportS: ${place.geometry.viewport.getSouthWest()}`)
              //console.log(`place.geometry.viewportN: ${place.geometry.viewport.getNorthEast()}`)
-             console.log(`place: ${autocomplete}`)
              
              //this.getInfoMarkerID(map, place, infowindowContent)
             this.getInfoMarker(map, place.geometry.location, infowindowContent)
@@ -363,7 +356,6 @@ export class MapContainer extends React.Component {
 
 
     onMapClicked = (props) => {
-       console.log('clicked')
         
     };
 
@@ -379,7 +371,6 @@ export class MapContainer extends React.Component {
         navigator.geolocation.getCurrentPosition(
             position => {
                 const location = JSON.stringify(position);
-                console.log(`LocaFind: ${position.coords.latitude}`)
                 const center = {
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
@@ -519,7 +510,6 @@ export class MapContainer extends React.Component {
             rotateControl: true,
             
         });
-        console.log(position)
         const search = document.getElementById('su');
         const tbm = document.getElementById('tbm');
         const cbm = document.getElementById('cbm');
@@ -572,7 +562,6 @@ export class MapContainer extends React.Component {
         marker.addListener('mouseup', function () {
             const position = marker.getPosition();
             const place = marker.getPlace();
-            console.log(place)
             bounds = {
                 north: position.lat() - 0.0010000,
                 south: position.lat() + 0.0010000,
@@ -584,8 +573,6 @@ export class MapContainer extends React.Component {
             rectangle.setBounds(bounds);
         });
         c.map.addListener('mousemove', function () {
-            console.log('biien?')
-
             c.map.setOptions({ draggableCursor: 'crosshair' });
         })
         const showNewRect = () => {
@@ -668,11 +655,8 @@ export class MapContainer extends React.Component {
             poly.getPath().forEach(function (routePoint, index) {
                 let dist = google.maps.geometry.spherical.computeDistanceBetween(latlng, routePoint);
                 let distT = google.maps.geometry.spherical.computeDistanceBetween(needle.latlng, routePoint);
-                console.log(`${dist} ${distT} `)
-                console.log(needle.minDistance)
                 dist += needle.minDistance
                 dist -= distT
-                console.log(`${routePoint} `)
                 if (Math.round(dist) === 0 && !needle2.first) {
                     needle2.maxDistance = dist;
                     needle2.index = index;
@@ -683,13 +667,6 @@ export class MapContainer extends React.Component {
 
             let distance = google.maps.geometry.spherical.computeDistanceBetween(needle.latlng, needle2.latlng);
             const area = google.maps.geometry.spherical.computeArea(poly.getPath())
-            console.log(`area: ${area}`)
-            // The closest point in the polyline
-            console.log("Closest index: " + needle.index);
-            console.log("Closest2 index: " + needle2.index);
-            console.log("minD: " + needle.minDistance);
-            console.log("maxD: " + needle2.maxDistance);
-            console.log("distance: " + Math.round(distance));
             let infowindow = new google.maps.InfoWindow();
             infowindow.setContent(`<div><b>Area: ${c.round(area,3)}</b></div>${c.round(distance,3)} Metros`);
             
@@ -697,8 +674,6 @@ export class MapContainer extends React.Component {
             infowindow.setPosition(latlng);
             infowindow.open(c.map);
 
-            // The clicked point on the polyline
-            console.log(latlng);
         }
         const onPathUpC = (e) => {
             let latlng = e.latLng;
@@ -751,7 +726,6 @@ export class MapContainer extends React.Component {
                 return;
             }
             let l = path.getLength();
-            console.log(path.g);
             // Because path is an MVCArray, we can simply append a new coordinate
             // and it will automatically appear.
             path.push(event.latLng);
@@ -770,7 +744,6 @@ export class MapContainer extends React.Component {
                 infowindow.open(c.map);
             }
             const onMarkerClick = (e) => {
-                console.log(`markerCl ${c.polyT.getPath().getLength()} : ${l}`)
                 if (c.polyC.getPath().getLength() > 2 && c.bandC && l===0) {
                   //  path.push(e.latLng);
                     c.polygonC.setMap(c.map);
@@ -832,7 +805,6 @@ export class MapContainer extends React.Component {
             marker.addListener('mouseup', onMarkerUp)
             //polyC.addListener('mouseup', onPathUp)
             calcArea()
-            console.log(c.polyC)
         }
        
         // Add a listener for the click event
@@ -844,12 +816,15 @@ export class MapContainer extends React.Component {
     }
     componentDidMount(){
         this.getLocation()
+        const map = document.getElementById('rootMap')
+        map.style.display='none'
+       // map.style.height='0'
        // this.findCoordinates();
     }
     render() {
         const {position} = this.state
         return (
-            <div style={{ position: 'relative', height: "100vh", width: "100%" }}> 
+            <div id='rootMap' style={{ position: 'relative', height: "100vh", width: "100%" }}> 
                 <MapsFun c={this} /> 
             </div>    
         );

@@ -488,8 +488,7 @@ render(){
                         inputProps = {{
                           type: 'number',
                           defaultValue: 0,
-                          onBlur: fb,
-                          readOnly: readOnly
+                          onBlur: fb
                         }}
                       />
                     </GridItem>                      

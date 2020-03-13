@@ -9,6 +9,7 @@ export default (props) => {
     let selectionStartNombre = null
     let selectionEndNombre = null
     const handleUpper = e => {
+        noDisabled(e)
         if ((e.which === 32 || e.which > 39) && !isMobile) {
             selectionStartNombre = e.target.selectionStart
             selectionEndNombre = e.target.selectionEnd
@@ -26,7 +27,7 @@ export default (props) => {
         c.setState({
             disabledReg: false
         })
-        handleUpper(e)
+      //  handleUpper(e)
     }
 
     const handleKUpper = e => {
@@ -70,8 +71,8 @@ return(
             }}
             inputProps={{
             defaultValue: c.dValue,
-            onKeyUp: noDisabled,
-            onMouseUp: noDisabled
+            onKeyUp: handleUpper,
+            onMouseUp: handleUpper
             }}
             />
         </GridItem>
@@ -136,7 +137,7 @@ return(
                 fullWidth: true
             }}
             inputProps={{
-                type: "number",
+                type: "text",
                 defaultValue: c.dValInt
             }}
             />

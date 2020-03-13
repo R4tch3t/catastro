@@ -22,8 +22,8 @@ import Person from "@material-ui/icons/Person";
 import Orden from "views/Dashboard/Orden.js";
 import Editar from "views/UserProfile/Editar.js";
 import Padrones from "views/Predial/Padrones";
-import Corte from "views/Predial/Corte";
 import RegistrarP from "views/Predial/RegistrarP";
+import ActualizarP from "views/Predial/ActualizarP";
 
 const dashboardRoutes = [
   {
@@ -42,22 +42,22 @@ const dashboardRoutes = [
     component: Padrones,
     layout: "/usuario"
   },
- /* {
-    path: "/corte",
-    name: "Corte de caja",
-    rtlName: "لوحة القيادة",
-    icon: Dashboard,
-    component: Corte,
-    layout: "/usuario"
-  },
   {
     path: "/registrarPredio",
-    name: "Registrar contribuyente",
+    name: "Registrar Contribuyente",
     rtlName: "قائمة الجدول",
     icon: "content_paste",
     component: RegistrarP,
     layout: "/usuario"
-  },*/
+  }, 
+  {
+    path: "/actualizarPredio",
+    name: "Actualizar Contribuyente",
+    rtlName: "قائمة الجدول",
+    icon: "content_paste",
+    component: ActualizarP,
+    layout: "/usuario"
+  },
   {
     path: "/perfil",
     name: "Perfil de usuario",

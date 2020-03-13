@@ -8,14 +8,7 @@ import GpsFixed from "@material-ui/icons/GpsFixed";
 
 export default (props) => {
         const {c} = props;
-        const {drag} = c.state;
-        //const [drag, setDrag] = React.useState(false);
-        const _mousemove = (props) => {
-            console.log(`??? ${props}`)
-            const d = document.getElementById('map')
-           // d.setDraggable(false)
-           // setDrag(true);
-        }
+        
         
         return (
             <div id='map' style={{ position: 'relative', height: "100vh", width: "100%" }}> 

@@ -134,7 +134,9 @@ padrones=async(tp)=>{
           municipio.value = ubicacion.municipio === '' ? 'CHILAPA DE ÁLVAREZ' : ubicacion.municipio;
           localidad.value = ubicacion.localidad === '' ? 'CHILAPA DE ÁLVAREZ' : ubicacion.localidad;
         }
-
+        if(calle.value === ''){
+          calle.value = contribuyente.ubicacion
+        }
         cp.value = cp.value === '' ? 0 : cp.value
         numCalle.value = numCalle.value === '' ? 0 : numCalle.value
         manzana.value = manzana.value === '' ? 0 : manzana.value
@@ -163,7 +165,6 @@ padrones=async(tp)=>{
 actualizarC=async()=>{
     try {
 
-       //const sendUri = "http://34.66.54.10:3015/";
        this.setState({disabledReg: true})
        const sendUri = ip("3026");
        const CTA = document.getElementById('CTA').value

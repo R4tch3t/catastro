@@ -38,6 +38,7 @@ import sumaT from './sumaT.js';
 import changeI from './changeI.js';
 import rezago from './rezago.js';
 import clearCheckCP from './clearCheckCP.js';
+import clearCheckM from './clearCheckM.js';
 import registrarO from './registrarO.js';
 import padrones from './padrones.js';
 import registrarF from './registrarF.js';
@@ -490,6 +491,15 @@ const {trA} = this.state
   }
 };
 
+showMap=()=>{
+  const map=document.getElementById('rootMap')
+  map.style.display='block'
+}
+hideMap = () => {
+  const map = document.getElementById('rootMap')
+  map.style.display = 'none'
+}
+
 blurPeriodo=(e)=>{
   rezago(this,e.target.value)
   sumaT(this);
@@ -500,6 +510,7 @@ componentDidMount(){
   const checks = tp === 'u' || tp === '' ? [0] : [1]
   if (bandPdf !== '1') {
     clearCheckCP(checks)
+    clearCheckM(this)
   }
   if (bandCTA==='1'){
     document.getElementById('CTANM').value=genCTA
