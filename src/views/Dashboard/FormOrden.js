@@ -27,6 +27,7 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
+import {isMobile} from "react-device-detect";
 //import { Crypt, RSA } from "hybrid-crypto-js";
 import setZona from "./setZona";
 import setTC from "./setTC";
@@ -377,7 +378,7 @@ handleKeyCTA = event => {
 };
 
 handleUpper = e => {
-  if(e.which===32||e.which>39){
+  if ((e.which === 32 || e.which > 39) && !isMobile) {
     this.selectionStartNombre = e.target.selectionStart
     this.selectionEndNombre = e.target.selectionEnd
     e.target.value = e.target.value.toUpperCase()

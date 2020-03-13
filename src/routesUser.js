@@ -36,7 +36,7 @@ const dashboardRoutes = [
   },
   {
     path: "/padron",
-    name: "Lista de contribuyentes",
+    name: "Lista de Contribuyentes",
     rtlName: "لوحة القيادة",
     icon: Dashboard,
     component: Padrones,
