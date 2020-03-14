@@ -175,13 +175,14 @@ obtenerOF=async(fi,ff)=>{
               
               r.ordenesu.forEach(e => { 
                 e.dateUp = new Date(e.dateUp)
-                e.dateUp = new Date(e.dateUp-tzoffset)
+                //e.dateUp = new Date(e.dateUp-tzoffset)
                 data.push({
                   key: `${e.CTA}${i}u`,
                   cta: e.CTA,
+                  idOrden: e.idOrden,
                   NOMBRE: e.contribuyente,
                   tp: 'URBANO',
-                  fecha: e.dateUp.toISOString().slice(0, -1),
+                  fecha: new Date(e.dateUp - tzoffset).toISOString().slice(0, -1),
                   total: e.total,
                   terreno: e.m1,
                   construccion: e.m2
@@ -208,13 +209,14 @@ obtenerOF=async(fi,ff)=>{
               dateLast = ''
               r.ordenesr.forEach(e => {
                 e.dateUp = new Date(e.dateUp)
-                e.dateUp = new Date(e.dateUp - tzoffset)
+                //e.dateUp = new Date(e.dateUp - tzoffset)
                 data.push({
                   key: `${e.CTA}${i}r`,
                   cta: e.CTA,
+                  idOrden: e.idOrden,
                   NOMBRE: e.contribuyente,
                   tp: 'RUSTICO',
-                  fecha: e.dateUp.toISOString().slice(0, -1),
+                  fecha: new Date(e.dateUp - tzoffset).toISOString().slice(0, -1),
                   total: e.total,
                   terreno: e.m1,
                   construccion: e.m2

@@ -12,16 +12,19 @@ import MenuItem from "@material-ui/core/MenuItem";
 import classNames from "classnames";
 import Grow from "@material-ui/core/Grow";
 import WN from "@material-ui/icons/Warning"
+import Calendar from "react-calendar";
 //import Map from "./Map";
 import Maps from "./Maps2";
 import Checker from "./Checker.js";
 import Impuestos from "./Impuestos"
 import SnackbarContent from 'components/Snackbar/SnackbarContent';
+import Slider from '@material-ui/core/Slider';
+import Typography from '@material-ui/core/Typography';
 export default (props) => {
     const {c} = props
     const {classes, classesM} = c.props
-    const {center, zoom, nombre, openDash, CBG, zona, openZona, tc, openTC, 
-           CTA, openCTA, ctasIndexes, Y, totalN, disabledReg} = c.state
+    const {center, zoom, nombre, horas, minutos, segundos, openDash, openCalendar, CBG, zona, openZona, tc, openTC, 
+           CTA, openCTA, ctasIndexes, Y, totalN, disabledReg, currentD} = c.state
     const controls = {
       backgroundColor: "#fff",
       borderRadius: "2px",
@@ -38,7 +41,40 @@ export default (props) => {
       padding: "0 11px 0 13px",
       textOverflow: "ellipsis",
     }
-
+    let h = 0
+    let m = 0
+    let s = 0
+    //const dateSI = new Date()
+    const onChangeDI = (date) => {
+      let tzoffset = (new Date()).getTimezoneOffset() * 60000;
+      date.setHours(h)
+      date.setMinutes(m)
+      date.setSeconds(s)
+      let newDate = new Date(date-tzoffset)
+      c.setState({currentD: date, horas: h, minutos: m, segundos: s})
+      const dateUpV = document.getElementById('dateUp')
+      dateUpV.value = newDate.toISOString().slice(0, -1)
+      c.handleCloseCalendar()
+    }
+    const valueH=(value)=>{
+      h = value
+      return `${value}`;
+    }
+    const valueM = (value) => {
+      m = value
+      return `${value}`;
+    }
+    const valueS = (value) => {
+      s = value
+      return `${value}`;
+    }
+    /*
+    const valueLM = (e)=>{
+      if (e.target.value !== undefined) {
+        console.log(`v: ${e.target.value}`)
+        c.setState({horas: e.target.value})
+      }
+    }*/
     return (
       <div id="bodyOrden">
         <div className={classes.searchWrapper}>
@@ -144,7 +180,7 @@ export default (props) => {
               </GridItem>
           </GridContainer>
           <GridContainer id='checkerM' >
-            
+
           </GridContainer>
           <GridContainer>
             <GridItem xs={12} sm={12} md={5}>
@@ -177,10 +213,89 @@ export default (props) => {
                 inputProps={{
                   type: "text",
                   defaultValue: "\0",
+                  onClick: c.handleClickCalendar,
                   readOnly: true,
                   
                 }}
               />
+               <Poppers
+                open={Boolean(openCalendar)}
+                anchorEl={openCalendar}
+                transition
+                disablePortal
+                className={
+                  classNames({ [classesM.popperClose]: !openCalendar }) +
+                  " " +
+                  classesM.popperNav
+                }
+                style={{ zIndex: 9999 }}
+              >
+                {({ TransitionProps, placement }) => (
+                  <Grow
+                    {...TransitionProps}
+                    id="profile-menu-list-grow"
+                    style={{
+                      transformOrigin:
+                        placement === "bottom" ? "center top" : "center bottom"
+                    }}
+                  >
+                    <Paper>
+                      <ClickAwayListener onClickAway={c.handleCloseCalendar}>
+                        <MenuList role="menu">
+                          <MenuItem
+                            key={"calendar"}
+                            className={classesM.dropdownItem}
+                            style={{color: 'black'}}
+                            //onClick={c.handleCloseCalendar}
+                          >
+                            <Typography id="discrete-slider" gutterBottom>
+                              HORAS
+                            </Typography>  
+                            <Slider
+                              defaultValue={horas}
+                              getAriaValueText={valueH}
+                              //onMouseLeave={valueLM}
+                              aria-labelledby="discrete-slider"
+                              valueLabelDisplay="auto"
+                              step={1}
+                              marks
+                              min={0}
+                              max={23}
+                            />
+                            <Typography id="discrete-slider" gutterBottom>
+                              MINUTOS
+                            </Typography>  
+                            <Slider
+                              defaultValue={minutos}
+                              getAriaValueText={valueM}
+                              aria-labelledby="discrete-slider"
+                              valueLabelDisplay="auto"
+                              step={1}
+                              marks
+                              min={0}
+                              max={59}
+                            />
+                            <Typography id="discrete-slider" gutterBottom>
+                              SEGUNDOS
+                            </Typography>  
+                            <Slider
+                              defaultValue={segundos}
+                              getAriaValueText={valueS}
+                              aria-labelledby="discrete-slider"
+                              valueLabelDisplay="auto"
+                              step={1}
+                              marks
+                              min={0}
+                              max={59}
+                            />
+                            <Calendar onChange={onChangeDI} value={currentD} />
+                          </MenuItem>
+                        </MenuList>
+                      </ClickAwayListener>
+                    </Paper>
+                  </Grow>
+                )}
+              </Poppers>
             </GridItem>
           </GridContainer>
           {/*<Map c={c} />*/}

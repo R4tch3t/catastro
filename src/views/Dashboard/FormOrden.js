@@ -80,12 +80,17 @@ state={
     tipoPredio: '',
     classes: null,
     openDash: null,
+    openCalendar: null,
     openZona: null,
     openTC: null,
     openCTA: null,
     lastD: null,
+    currentD: null,
     ctasIndexes: [],
     Y: 0,
+    horas: 0,
+    minutos: 0,
+    segundos: 0,
     totalN: 0,
     CBG: true,
     zona: 0,
@@ -111,6 +116,7 @@ polyT=null;
 street = '';
 barr = '';
 saveZ = 0;
+idOrden=0;
 constructor(props){
     super(props);
     const date = new Date()
@@ -130,12 +136,17 @@ constructor(props){
       tipoPredio: "",
       classes: props.classes,
       openDash: null,
+      openCalendar: null,
       openZona: null,
       openTC: null,
       openCTA: null,
       lastD: date,
+      currentD: date,
       ctasIndexes: [],
       Y: date.getFullYear(),
+      horas: date.getHours(),
+      minutos: date.getUTCMinutes(),
+      segundos: date.getSeconds(),
       totalN: 0.0,
       CBG: true,
       zona: 0,
@@ -190,8 +201,8 @@ round = (num, decimales = 2)=>{
 
 
 
-padrones=async(CTAnombre, tp, tipoB, dateUp)=>{
-   padrones(CTAnombre, tp, tipoB, dateUp, this)
+padrones=async(CTAnombre, tp, tipoB, idOrden)=>{
+   padrones(CTAnombre, tp, tipoB, idOrden, this)
 }
 
 registrarO=async()=>{
@@ -294,6 +305,27 @@ changeDash = event => {
 
 handleClickDash = event => {
   this.changeDash(event);
+};
+
+handleCloseCalendar = () => {
+  this.setState({
+    openCalendar: null
+  })
+};
+
+changeCalendar = event => {
+  const {openCalendar} = this.state;
+  if (openCalendar && openCalendar.contains(event.target) ) {
+    //setOpenDash(null);
+    this.setState({openCalendar: null});
+  } else {
+    //setOpenDash(event.currentTarget);
+    this.setState({openCalendar: event.currentTarget});
+  }
+}
+
+handleClickCalendar = event => {
+  this.changeCalendar(event);
 };
 
 handleCloseZona = () => {
@@ -507,7 +539,7 @@ blurPeriodo=(e)=>{
 }
 
 componentDidMount(){
-  const {bandPdf,bandCTA,genCTA,tp,dateUp} = this.props
+  const {bandPdf,bandCTA,genCTA,tp,idOrden} = this.props
   const checks = tp === 'u' || tp === '' ? [0] : [1]
   if (bandPdf !== '1') {
     clearCheckCP(checks)
@@ -515,7 +547,7 @@ componentDidMount(){
   }
   if (bandCTA==='1'){
     document.getElementById('CTANM').value=genCTA
-    this.padrones(genCTA, tp, 0,dateUp)
+    this.padrones(genCTA, tp, 0,idOrden)
     
   }
   

@@ -3,7 +3,7 @@ import encrypt from "./encrypt";
 import getPredial from "./getPredial";
 import clearCheck from './clearCheck.js';
 
-export default async (CTAnombre, tp, tipoB, dateUp, c) => {
+export default async (CTAnombre, tp, tipoB, idOrden, c) => {
   const genCarta = (CTA, nombre, ubi, tp, añoI, añoF) => {
     const {
       idRol
@@ -22,7 +22,7 @@ export default async (CTAnombre, tp, tipoB, dateUp, c) => {
           CTAnombre: CTAnombre,
           tp: tp,
           tipoB: tipoB,
-          dateUp: dateUp
+          idOrden: idOrden
         }
         const response = await fetch(sendUri, {
             method: "POST",
@@ -32,7 +32,6 @@ export default async (CTAnombre, tp, tipoB, dateUp, c) => {
             },
             body: JSON.stringify(bodyJSON)
         });
-
         const responseJson = await response.json().then(r => {
             //console.log(`Response1: ${r}`)
 
@@ -67,6 +66,7 @@ export default async (CTAnombre, tp, tipoB, dateUp, c) => {
                 const regB=document.getElementById('regB')
                 regB.innerHTML = 'GENERAR ORDEN DE PAGO'
                 dateUpL.style.color = 'red'
+                dateUpL.value=""
                 //const checkU = document.getElementById('check0');
 
                 calle.value = ubicacion.calle;
@@ -86,7 +86,6 @@ export default async (CTAnombre, tp, tipoB, dateUp, c) => {
                 //  this.setState({tipoPredio: tp})
                 //}
                 
-
                 if(!orden){
                   if (calle.value===''){
                     calle.value = contribuyente.ubicacion
@@ -104,8 +103,12 @@ export default async (CTAnombre, tp, tipoB, dateUp, c) => {
                 m1.value = orden.m1
                 m2.value = orden.m2
                 let tzoffset = (new Date()).getTimezoneOffset() * 60000;
-                dateUp = new Date(orden.dateUp)-tzoffset
-                dateUp = new Date(dateUp)
+                let dateUp = new Date(orden.dateUp)
+                c.setState({currentD: dateUp, 
+                            horas: dateUp.getHours(),
+                            minutos: dateUp.getUTCMinutes(),
+                            segundos: dateUp.getSeconds()
+                            })
                 if ((parseInt(Y)) > parseInt(dateUp.getFullYear())){
                  const añoI = dateUp.getFullYear()
                  const añoF = new Date().getFullYear()
@@ -123,9 +126,11 @@ export default async (CTAnombre, tp, tipoB, dateUp, c) => {
                          ubi, predio, añoI, añoF)
                      }
                   }
+
                 }else{
-                  dateUpL.value = dateUp.toISOString().slice(0, -1)
+                  dateUpL.value = new Date(dateUp - tzoffset).toISOString().slice(0, -1)
                   regB.innerHTML = 'ACTUALIZAR ORDEN DE PAGO'
+                  c.idOrden = orden.idOrden
                 }
 
                
@@ -135,6 +140,7 @@ export default async (CTAnombre, tp, tipoB, dateUp, c) => {
                 //if(checkU.checked){
                 
                 bg.value = orden.bg;
+                
                 getPredial(orden.idOrden,tp,c)
                 //console.log(predial);
               //  genImp(predial,this);

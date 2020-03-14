@@ -248,6 +248,7 @@ export default async(CTA,c) => {
 
         const bodyJSON = {
           CTA: CTA,
+          idOrden: c.idOrden,
           calle: calle,
           lote: lote,
           manzana: manzana,
@@ -269,6 +270,7 @@ export default async(CTA,c) => {
           idImpuestos: idImpuestos,
           removI: removI
         }
+        console.log(bodyJSON)
         const response = await fetch(sendUri, {
             method: "POST",
             headers: {
@@ -279,8 +281,7 @@ export default async(CTA,c) => {
         });
 
         const responseJson = await response.json().then(r => {
-            //console.log(`Response1: ${r}`)
-            console.log(r)
+            //console.log(r)
             if (r.exito !== undefined) {
               
               if(r.exito===0){
@@ -306,7 +307,7 @@ export default async(CTA,c) => {
                   message = decrypted.message;
                   console.log(decrypted.message);
                 });*/
-
+                c.idOrden=r.idOrden
                 c.showNotification("trA")
                 const nombre = document.getElementById('nombre').value;
                 const tipoP = tipoPredio === 'u' ? 'URBANO' : tipoPredio === 'r' ? 'RÚSTICO' : ''

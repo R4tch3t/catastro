@@ -32,6 +32,7 @@ export default () => {
   let genCTA = getParameterByName('genCTA', urlDec);
   let tp = getParameterByName('tp', urlDec);
   let dateUp = getParameterByName('dateUp', urlDec);
+  let idOrden = getParameterByName('idOrden', urlDec);
   bandPdf=bandPdf === '' ? '0' : bandPdf
   let CTA = getParameterByName('CTA', urlDec);
   let folio = getParameterByName('folio', urlDec);
@@ -84,6 +85,7 @@ export default () => {
           genCTA={genCTA}
           tp={tp}
           dateUp={dateUp}
+          idOrden={idOrden}
           CTA={CTA}
           folio={folio} 
           nombre={nombre} 

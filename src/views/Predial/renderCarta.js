@@ -24,6 +24,7 @@ import CardIcon from "components/Card/CardIcon.js";
 import CardBody from "components/Card/CardBody.js";
 import LogoI from "../Icons/LOGOGI.jpg";
 import LogoC from "../Icons/LOGOI.jpeg";
+import marca from "../Icons/marcagua.png";
 import LogoD from "../Icons/LOGOD.jpeg";
 import cintillo from "../../assets/img/cintillo.jpeg";
 import RobI from "../Typography/Roboto-Italic.ttf";
@@ -146,9 +147,9 @@ class App extends React.Component {
     logoB: {
       position: "absolute",
       width: 600,
-      opacity: 0.1,
-      height: 300,
-      left: 0,
+      opacity: 0.7,
+      height: 500,
+      left: 40,
       top: 150
     },
     cintillo: {
@@ -337,7 +338,8 @@ class App extends React.Component {
                       <Image src={LogoI} style={this.styles.logoI} />
                       <Image src={LogoC} style={this.styles.logoC} />
                       <Image src={LogoD} style={this.styles.logoD} />
-                      <Image src={LogoC} style={this.styles.logoB} />
+                      <Image src={marca} style={this.styles.logoB} />
+                      {/*<Image src={LogoC} style={this.styles.logoB} />*/}
                       <Image src={cintillo} style={this.styles.cintillo} />
                       <View style={this.styles.headV} >
                         <Text style={[this.styles.headO,{position: "relative", top: 70, fontSize: 10}]} >
