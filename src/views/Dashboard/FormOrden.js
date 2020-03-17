@@ -43,6 +43,7 @@ import clearCheckM from './clearCheckM.js';
 import registrarO from './registrarO.js';
 import padrones from './padrones.js';
 import registrarF from './registrarF.js';
+import ByFolio from './ByFolio.js';
 
 
 if (!String.prototype.splice) {
@@ -417,9 +418,7 @@ handleUpper = e => {
     e.target.setSelectionRange(this.selectionStartNombre, this.selectionEndNombre);
   }
 }
-blurCalle = e => {
-  //console.log(e.target.value)
-}
+
 
 buscarCTA = (key) => (event) => {
   let CTAnombre = document.getElementById('CTANM');
@@ -428,6 +427,14 @@ buscarCTA = (key) => (event) => {
   const tp = checkU.checked?'u':'r'
   if (CTAnombre !== '') {
     this.padrones(CTAnombre.value, tp, key, '')
+  }
+}
+
+buscarFolio = () => (event) => {
+  let CTAnombre = document.getElementById('CTANM');
+  CTAnombre.placeholder = 'FOLIO'
+  if (CTAnombre !== '') {
+    ByFolio(CTAnombre.value,this)
   }
 }
 
@@ -469,6 +476,12 @@ setBg = async () => {
   rezago(this, periodo);
   setBg(this);
   sumaT(this);
+}
+
+KUEnter = e => {
+  if (e.which===13){
+    this.setBg()
+  }
 }
 
 addImpuesto = (id) => {
@@ -534,6 +547,9 @@ hideMap = () => {
 }
 
 blurPeriodo=(e)=>{
+  if (e.which!==undefined && e.which!==13){
+    return
+  }
   rezago(this,e.target.value)
   sumaT(this);
 }

@@ -146,6 +146,13 @@ export default (props) => {
                           >
                             Por nombre
                           </MenuItem>
+                          <MenuItem
+                            key={"folio"}
+                            className={classesM.dropdownItem}
+                            onClick={c.buscarFolio()}
+                          >
+                            Por folio
+                          </MenuItem>
                         </MenuList>
                       </ClickAwayListener>
                     </Paper>
@@ -829,7 +836,7 @@ export default (props) => {
                 inputProps={{
                   type: "number",
                   defaultValue: 0,
-                  //onChange: c.setBg,
+                  onKeyUp: c.KUEnter,
                   onBlur: c.setBg
                 }}
               />
@@ -899,9 +906,8 @@ export default (props) => {
                 inputProps={{
                   type: "text",
                   defaultValue: Y,
-                  onBlur: c.blurPeriodo
-                  /* onClick: getinfoReg,
-                    onChange: getinfoReg*/
+                  onBlur: c.blurPeriodo,
+                  onKeyUp: c.blurPeriodo
                 }}
               />
             </GridItem>

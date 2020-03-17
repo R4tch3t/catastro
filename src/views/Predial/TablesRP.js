@@ -101,6 +101,7 @@ registrarC=async()=>{
        const localidad = document.getElementById('localidad').value.toUpperCase()
        const check0 = document.getElementById('check0')
        const tp = check0.checked ? 'u':'r'
+       const periodo = document.getElementById('periodo').value
        // const sendUri = "http://localhost:3015/";
         //const sendUri = "http://192.168.1.74:3015/";
        const bodyJSON = {
@@ -114,7 +115,8 @@ registrarC=async()=>{
          cp: cp,
          municipio: municipio,
          localidad: localidad,
-         tp: tp
+         tp: tp,
+         periodo: periodo
        }
         const response = await fetch(sendUri, {
             method: "POST",
@@ -285,7 +287,7 @@ render() {
         <GridItem xs={12} sm={12} md={12}>
           <Card>
             <CardHeader color="primary">
-              <h4 className={classes.cardTitleWhite}>PREDIAL</h4>
+              <h4 className={classes.cardTitleWhite}>PADRON</h4>
               <p className={classes.cardCategoryWhite}>
                 Registrar Contribuyente
               </p>

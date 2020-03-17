@@ -270,7 +270,6 @@ export default async(CTA,c) => {
           idImpuestos: idImpuestos,
           removI: removI
         }
-        console.log(bodyJSON)
         const response = await fetch(sendUri, {
             method: "POST",
             headers: {

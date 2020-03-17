@@ -8,6 +8,8 @@ export default (props) => {
     const {c} = props
     let selectionStartNombre = null
     let selectionEndNombre = null
+    const d = new Date()
+    const Y = d.getFullYear()
     const handleUpper = e => {
         noDisabled(e)
         if ((e.which === 32 || e.which > 39) && !isMobile) {
@@ -196,6 +198,19 @@ return(
                 type: "text",
                 defaultValue: 'CHILAPA DE ÁLVAREZ',
                 onKeyUp: handleUpper
+            }}
+            />
+        </GridItem>
+        <GridItem xs={12} sm={12} md={3}>
+            <CustomInput
+            labelText="PERIODO:"
+            id="periodo"
+            formControlProps={{
+                fullWidth: true
+            }}
+            inputProps={{
+                type: "text",
+                defaultValue: Y
             }}
             />
         </GridItem>

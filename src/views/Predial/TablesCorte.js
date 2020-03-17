@@ -193,12 +193,14 @@ obtenerOF=async(fi,ff)=>{
                     totalD += parseInt(e.total);
                   }
                   
-                  //dateLabel = e.dateUp
-                  
                   data.objects[`${dateLast}`] = totalD
                   totalD=0
                 }
-                dateLast = e.dateUp.toLocaleDateString()
+                if (e.dateUp.getDate() < 10) {
+                  dateLast = `0${e.dateUp.toLocaleDateString()}`
+                }else{
+                  dateLast = e.dateUp.toLocaleDateString()
+                }
                 total += parseInt(e.total); 
                 totalD += parseInt(e.total);
               });
@@ -229,7 +231,6 @@ obtenerOF=async(fi,ff)=>{
                   if (i === r.ordenesr.length){
                     totalD += parseInt(e.total);
                   }
-                 // dateLabel = e.dateUp
                   
                   if (data.objects[`${dateLast}`]) {
                     data.objects[`${dateLast}`] += totalD
@@ -238,7 +239,12 @@ obtenerOF=async(fi,ff)=>{
                   }
                   totalD = 0
                 }
-                dateLast = e.dateUp.toLocaleDateString()
+                
+                if (e.dateUp.getDate() < 10) {
+                  dateLast = `0${e.dateUp.toLocaleDateString()}`
+                } else {
+                  dateLast = e.dateUp.toLocaleDateString()
+                }
                // data.totales.push(e.total)
                 total += parseInt(e.total); 
                 totalD += parseInt(e.total);
