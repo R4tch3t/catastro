@@ -61,13 +61,34 @@ class App extends React.Component {
 
   onRender = ({ blob }) => {
     this.setState({ url: URL.createObjectURL(blob) });
+    
     if (isMobile){
+      //let myHeaders = new Headers();
+      //myHeaders.set('Content-Disposition', 'inline');
+      //myHeaders.append('Content-Type', 'application/pdf');
+      //const nDoc = `ORDEN_CTA_`
+      //myHeaders.set('filename', 'ORDEN_CTA_');
+      /*let reader = new FileReader();
+      let out = new Blob([blob], {
+        type: 'application/pdf',
+        
+      });
+      reader.onload = function (e) {
+        //window.location.href = reader.result;
+      }
+      //reader.readAsDataURL(out);
+      var blobURL = URL.createObjectURL(out);
+      window.open(blobURL);
+      const win = window.open(this.state.url, '_self');
+      win.focus();
+      */
       const pdfview = document.getElementById("pdfView");
       const mobilePdf = document.getElementById('mobilePdf');
       const h = window.devicePixelRatio<2?960:360 //window.screen.availHeight;
       mobilePdf.style.height=`${h}px`;
       pdfview.style.display='none';
       ReactDOM.render(<MobilePDFReader url={this.state.url} />, mobilePdf);
+
     }
   };
   
@@ -217,7 +238,7 @@ class App extends React.Component {
                   </MobileView>
                   <PDFViewer id='pdfView' style={{ width: '100%', height: 1180 }}  >
                   <Document shallow onRender={this.onRender} title={`${nDoc}.pdf`} >
-                    <Page size="letter" wrap>
+                    <Page size="LETTER" wrap>
                       <Image src={LogoI} style={this.styles.logoI} />
                       <Image src={LogoD} style={this.styles.logoD} />
                       <View style={this.styles.headV} >

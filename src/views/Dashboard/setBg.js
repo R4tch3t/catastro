@@ -61,7 +61,7 @@ export default (c) => {
     ], ['0070101', '0070201'], c);
 
   let checkeds = [0]
-  let d = new Date()
+  let d = c.state.currentD
   const vi = document.getElementById('0070203')
   if(d.getMonth()===0){
     pb = pb * 0.12

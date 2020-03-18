@@ -66,12 +66,16 @@ class App extends React.Component {
   onRender = ({ blob }) => {
     this.setState({ url: URL.createObjectURL(blob) });
     if (isMobile){
+      const win = window.open(this.state.url, '_blank');
+      win.focus();
+      
       const pdfview = document.getElementById("pdfView");
       const mobilePdf = document.getElementById('mobilePdf');
       const h = window.devicePixelRatio<2?960:360 //window.screen.availHeight;
       mobilePdf.style.height=`${h}px`;
       pdfview.style.display='none';
       ReactDOM.render(<MobilePDFReader url={this.state.url} />, mobilePdf);
+      
     }
   };
   

@@ -44,7 +44,7 @@ export default (id,c) => {
           'SOBRE ADQUISICIONES DE BIENES INMUEBLES'
         ], ['0020804', '0030101'], c);
     }
-    const d = new Date()
+    let d = c.state.currentD
     const bg = document.getElementById('baseGravable');
     const vi = document.getElementById(id);
     if (d.getMonth() === 0) {
@@ -122,9 +122,29 @@ export default (id,c) => {
   }
   if (id === '0030101') {
     const bg = document.getElementById('baseGravable');
-    let pb = bg.value * 0.70;
+    let pb = bg.value * 0.004 //* 0.70;
+    let pq = pb * 0.15 //* 0.70;
     pb = Math.round(pb)
     const vi = document.getElementById(id);
-    vi.value = pb
+    vi.value = pb * 2
+    const I0020401 = document.getElementById("I0020401");
+    if (I0020401.checked){
+      const viU = document.getElementById("0020401");
+      viU.value = Math.round(pb / 2)
+    }else{
+      const viR = document.getElementById("0020403");
+      viR.value = Math.round(pb / 2)
+    }
+    const viQ1 = document.getElementById("0070201");
+    viQ1.value = Math.round(pq / 2);
+    const viQ2 = document.getElementById("0070202");
+    viQ2.value = Math.round(pq / 2);
+    const viD = document.getElementById("0070203");
+    viD.value = 0;
+    const checkeds = [0]
+    renderCI('subAcc1', task, 6, checkeds, ['41171001', '41171001'],
+      ['15% PRO CAMINOS',
+        'DESCUENTO PREDIAL DE NATURALEZA DEUDORA'
+      ], ['0070202', '0070203'], c);
   }
 }
