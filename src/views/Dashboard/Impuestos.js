@@ -19,6 +19,7 @@ componentDidMount(){
    const {c} = this.props;
    clearCheck(c)
 }
+
 render(){
     const {classes, c} = this.props
     const {readOnly} = c.state
@@ -63,6 +64,7 @@ render(){
                               type: 'number',
                               defaultValue: 0,
                               onBlur: fb,
+                              onKeyUp: c.handleImp,
                               readOnly: readOnly
                             }}
                           />
@@ -78,6 +80,7 @@ render(){
                               type: 'number',
                               defaultValue: 0,
                               onBlur: fb,
+                              onKeyUp: c.handleImp,
                               readOnly: readOnly
                             }}
                           />
@@ -93,6 +96,7 @@ render(){
                               type: 'number',
                               defaultValue: 0,
                               onBlur: fb,
+                              onKeyUp: c.handleImp,
                               readOnly: readOnly
                             }}
                           />
@@ -108,6 +112,7 @@ render(){
                               type: 'number',
                               defaultValue: 0,
                               onBlur: fb,
+                              onKeyUp: c.handleImp,
                               readOnly: readOnly
                             }}
                           />
@@ -127,6 +132,7 @@ render(){
                               type: 'number',
                               defaultValue: 0,
                               onBlur: fb,
+                              onKeyUp: c.handleImp,
                               readOnly: readOnly
                             }}
                           />
@@ -142,6 +148,7 @@ render(){
                               type: 'number',
                               defaultValue: 0,
                               onBlur: fb,
+                              onKeyUp: c.handleImp,
                               readOnly: readOnly
                             }}
                           />
@@ -157,6 +164,7 @@ render(){
                               type: 'number',
                               defaultValue: 0,
                               onBlur: fb,
+                              onKeyUp: c.handleImp,
                               readOnly: readOnly
                             }}
                           />
@@ -172,6 +180,7 @@ render(){
                               type: 'number',
                               defaultValue: 0,
                               onBlur: fb,
+                              onKeyUp: c.handleImp,
                               readOnly: readOnly
                             }}
                           />
@@ -215,6 +224,7 @@ render(){
                               type: 'number',
                               defaultValue: 0,
                               onBlur: fb,
+                              onKeyUp: c.handleImp,
                               readOnly: readOnly
                             }}
                           />
@@ -230,6 +240,7 @@ render(){
                               type: 'number',
                               defaultValue: 0,
                               onBlur: fb,
+                              onKeyUp: c.handleImp,
                               readOnly: readOnly
                             }}
                           />
@@ -245,6 +256,7 @@ render(){
                               type: 'number',
                               defaultValue: 0,
                               onBlur: fb,
+                              onKeyUp: c.handleImp,
                               readOnly: readOnly
                             }}
                           />
@@ -260,6 +272,7 @@ render(){
                               type: 'number',
                               defaultValue: 0,
                               onBlur: fb,
+                              onKeyUp: c.handleImp,
                               readOnly: readOnly
                             }}
                           />
@@ -275,6 +288,7 @@ render(){
                               type: 'number',
                               defaultValue: 0,
                               onBlur: fb,
+                              onKeyUp: c.handleImp,
                               readOnly: readOnly
                             }}
                           />
@@ -312,6 +326,7 @@ render(){
                               type: 'number',
                               defaultValue: 0,
                               onBlur: fb,
+                              onKeyUp: c.handleImp,
                               readOnly: readOnly
                             }}
                           />
@@ -327,6 +342,7 @@ render(){
                               type: 'number',
                               defaultValue: 0,
                               onBlur: fb,
+                              onKeyUp: c.handleImp,
                               readOnly: readOnly
                             }}
                           />
@@ -372,6 +388,7 @@ render(){
                               type: 'number',
                               defaultValue: 0,
                               onBlur: fb,
+                              onKeyUp: c.handleImp,
                               readOnly: readOnly
                             }}
                           />
@@ -387,6 +404,7 @@ render(){
                               type: 'number',
                               defaultValue: 0,
                               onBlur: fb,
+                              onKeyUp: c.handleImp,
                               readOnly: readOnly
                             }}
                           />
@@ -402,6 +420,7 @@ render(){
                               type: 'number',
                               defaultValue: 0,
                               onBlur: fb,
+                              onKeyUp: c.handleImp,
                               readOnly: readOnly
                             }}
                           />
@@ -434,6 +453,7 @@ render(){
                               type: 'number',
                               defaultValue: 0,
                               onBlur: fb,
+                              onKeyUp: c.handleImp,
                               readOnly: readOnly
                               
                             }}
@@ -450,6 +470,7 @@ render(){
                               type: 'number',
                               defaultValue: 0,
                               onBlur: fb,
+                              onKeyUp: c.handleImp,
                               readOnly: readOnly
                             }}
                           />
@@ -465,6 +486,7 @@ render(){
                               type: 'number',
                               defaultValue: 0,
                               onBlur: fb,
+                              onKeyUp: c.handleImp,
                               readOnly: readOnly
                             }}
                           />
@@ -501,6 +523,7 @@ render(){
                         inputProps = {{
                           type: 'number',
                           defaultValue: 0,
+                          onKeyUp: c.handleImp,
                           onBlur: fb
                         }}
                       />
@@ -538,6 +561,7 @@ render(){
                           type: 'number',
                           defaultValue: 0,
                           onBlur: fb,
+                          onKeyUp: c.handleImp,
                           readOnly: readOnly
                         }}
                       />
@@ -575,6 +599,7 @@ render(){
                           type: 'number',
                           defaultValue: 0,
                           onBlur: fb,
+                          onKeyUp: c.handleImp,
                           readOnly: readOnly
                         }}
                       />

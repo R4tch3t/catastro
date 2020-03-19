@@ -6,6 +6,10 @@ n = Math.round(n);
 return n;
 }
 export default (c) => {
+  const I0020801 = document.getElementById("I0020801");
+  const I0020802 = document.getElementById("I0020802");
+  const I0020803 = document.getElementById("I0020803");
+  const I0020804 = document.getElementById("I0020804");
   const checkU = document.getElementById('check0');
   const bg = document.getElementById('baseGravable');
   const prol1 = document.getElementById('0070201');
@@ -61,30 +65,32 @@ export default (c) => {
     ], ['0070101', '0070201'], c);
 
   let checkeds = [0]
-  let d = c.state.currentD
-  const vi = document.getElementById('0070203')
-  if(d.getMonth()===0){
-    pb = pb * 0.12
-    pb = redondeo(pb)
-    vi.value = -pb
-    t-=pb
-    checkeds = [0,1]
-  }else
-  if(d.getMonth()===1){
-    pb = pb * 0.10
-    pb = redondeo(pb)
-    vi.value = -pb
-    t-=pb
-    checkeds = [0,1]
-  }else
-  if(d.getMonth()===2){
-    pb = pb * 0.08
-    pb = redondeo(pb)
-    vi.value = -pb
-    t-=pb
-    checkeds = [0,1]
+  if (!I0020801.checked && !I0020802.checked &&
+      !I0020803.checked && !I0020804.checked) {
+    let d = c.state.currentD
+    const vi = document.getElementById('0070203')
+    if(d.getMonth()===0){
+      pb = pb * 0.12
+      pb = redondeo(pb)
+      vi.value = -pb
+      t-=pb
+      checkeds = [0,1]
+    }else
+    if(d.getMonth()===1){
+      pb = pb * 0.10
+      pb = redondeo(pb)
+      vi.value = -pb
+      t-=pb
+      checkeds = [0,1]
+    }else
+    if(d.getMonth()===2){
+      pb = pb * 0.08
+      pb = redondeo(pb)
+      vi.value = -pb
+      t-=pb
+      checkeds = [0,1]
+    }
   }
-  
   renderCI('subAcc1', task, 6, checkeds, ['41171001', '41171001'],
     ['15% PRO CAMINOS',
       'DESCUENTO PREDIAL DE NATURALEZA DEUDORA'

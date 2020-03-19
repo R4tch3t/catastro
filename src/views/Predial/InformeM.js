@@ -15,7 +15,6 @@ export default async (fi, ff, c)=>{
   }
   try {
       const dateFI = new Date(fi)
-      console.log(dateFI)
       const sendUri = ip("3025");
       
       const bodyJSON = {
@@ -61,16 +60,16 @@ export default async (fi, ff, c)=>{
           data.virtualIR = 0
           data.virtualI2 = 0
           data.virtualIR2 = 0
-          console.log(r.ordenesu)
-          console.log(r.ordenesr)
           r.ordenesu.forEach(e => {
             
             switch (e.idImpuesto){
               case 1:
+              case 3:
                 data.urbanoI += parseInt(e.val)
                 data.vir = parseInt(e.val)
+                data.numU++
                 if (idOrden !== e.idOrden) {
-                  data.numU++
+                  
                   idOrden = e.idOrden
                 }
                 break;
@@ -85,13 +84,17 @@ export default async (fi, ff, c)=>{
               case 5:
               case 6:
               case 7:
-                data.virtualI += data.vir
+                //data.virtualI += data.vir
+                data.virtualI += parseInt(e.val)
                 //data.virtualI2 += data.vir * 0.30 // + data.virtualI
               if (data.vOrden !== e.idOrden) {
                 data.virtualN++
                 data.vOrden = e.idOrden
               }
               break;
+              case 8:
+                data.urbanoI -= parseInt(data.vir)
+              return;
               case 9:
                 data.recargosI += parseInt(e.val)
               if (data.reOrden !== e.idOrden) {
@@ -99,8 +102,15 @@ export default async (fi, ff, c)=>{
                 data.reOrden = e.idOrden
               }
               break;
+              case 12:
+                data.virtualI2 += parseInt(e.val)
+              break;
               case 13:
-                data.rezagosI += parseInt(e.val)
+                let aux = data.vir * 0.15
+                aux = Math.round(aux) * 2
+                aux += data.vir
+                //data.rezagosI += parseInt(e.val)
+                data.rezagosI += ((parseInt(e.val) / aux) * parseInt(data.vir))
               if (data.rezOrden !== e.idOrden) {
                 data.rezagosN++
                 data.rezOrden = e.idOrden
@@ -115,6 +125,7 @@ export default async (fi, ff, c)=>{
           idOrden=0
           r.ordenesr.forEach(e => {
             switch (e.idImpuesto) {
+              case 1:
               case 3:
                 data.rusticoI += parseInt(e.val)
                 data.vir = parseInt(e.val)
@@ -127,13 +138,17 @@ export default async (fi, ff, c)=>{
               case 5:
               case 6:
               case 7:
-                data.virtualIR += data.vir
+                //data.virtualIR += data.vir
+                data.virtualIR += parseInt(e.val)
                 //data.virtualIR2 += data.vir * 0.30// + data.virtualIR
               if (data.vOrden !== e.idOrden) {
                 data.virtualNR++
                 data.vOrden = e.idOrden
               }
               break;
+              case 8:
+                data.rusticoI -= parseInt(data.vir)
+              return;
               case 9:
                 data.recargosIR += parseInt(e.val)
               if (data.reOrden !== e.idOrden) {
@@ -141,8 +156,16 @@ export default async (fi, ff, c)=>{
                 data.reOrden = e.idOrden
               }
               break;
+              case 12:
+                data.virtualIR2 += parseInt(e.val)
+              break;
               case 13:
-                data.rezagosIR += parseInt(e.val)
+                //data.rezagosIR += parseInt(e.val)
+                let aux = data.vir * 0.15
+              aux = Math.round(aux) * 2
+              aux += data.vir
+              data.rezagosIR += ((parseInt(e.val) / aux) * parseInt(data.vir))
+              //data.rezagosIR += ((parseInt(e.val) / data.rusticoI) * parseInt(e.val))
               if (data.rezOrden !== e.idOrden) {
                 data.rezagosNR++
                 data.rezOrden = e.idOrden
@@ -151,6 +174,16 @@ export default async (fi, ff, c)=>{
             }
 
           });
+          data.rezagosI = round(data.rezagosI)
+          data.rezagosA = round(data.rezagosI * 0.15,0)*2
+          //data.rezagosI = data.rezagosI - data.rezagosA
+          // console.log(data.rezagosI)
+          data.rezagosA = round(data.rezagosA)
+          data.rezagosIR = round(data.rezagosIR)
+          data.rezagosAR = round(data.rezagosIR * 0.15,0)*2
+          //data.rezagosIR = data.rezagosIR - data.rezagosAR
+          data.rezagosAR = round(data.rezagosAR)
+
           data.impuestoT = data.numU + data.numSub + data.numR
           data.urbanoNT = data.numU + data.rezagosN
           data.suburbanoNT = data.numSub
@@ -159,10 +192,10 @@ export default async (fi, ff, c)=>{
           data.urbanoIT = data.urbanoI + data.rezagosI
 
           //data.suburbanoIT = data.suburbanoI + data.rezagosI
-          data.virtualI2 = data.virtualI * 0.30
-          data.virtualI2 = round(data.virtualI2)
-          data.virtualIR2 = data.virtualIR * 0.30
-          data.virtualIR2 = round(data.virtualIR2)
+          //data.virtualI2 = data.virtualI * 0.30
+          //data.virtualI2 = round(data.virtualI2)
+          //data.virtualIR2 = data.virtualIR * 0.30
+          //data.virtualIR2 = round(data.virtualIR2)
           data.rusticoIT = data.rusticoI + data.rezagosIR
           data.virtualNT = data.virtualN + data.virtualNR
           data.virtualIT = data.virtualI + data.virtualIR
@@ -184,17 +217,14 @@ export default async (fi, ff, c)=>{
           data.totalRI = data.recargosI + data.recargosIR
           data.totalRezI = data.rezagosI + data.rezagosIR
           data.totalIT = data.totalI + data.totalRI + data.totalRezI
-          data.urbanoA = data.urbanoI * 0.30
+          data.urbanoA = round(data.urbanoI * 0.15,0)*2
           data.urbanoA = round(data.urbanoA)
           data.suburbanoA = data.suburbanoI * 0.30
           data.suburbanoA = round(data.suburbanoA)
-          data.rusticoA = data.rusticoI * 0.30
+          data.rusticoA = round(data.rusticoI * 0.15,0)*2
           data.rusticoA = round(data.rusticoA)
           data.totalA = data.urbanoA + data.suburbanoA + data.rusticoA
-          data.rezagosA = data.rezagosI * 0.30
-          data.rezagosA = round(data.rezagosA)
-          data.rezagosAR = data.rezagosIR * 0.30
-          data.rezagosAR = round(data.rezagosAR)
+          
           data.totalRezA = data.rezagosA + data.rezagosAR
           data.lengthU = r.lengthU
           data.lengthR = r.lengthR

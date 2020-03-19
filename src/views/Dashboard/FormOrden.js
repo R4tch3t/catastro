@@ -484,6 +484,12 @@ KUEnter = e => {
   }
 }
 
+handleImp = e => {
+  if (e.which === 13) {
+    sumaT(this);
+  }
+}
+
 addImpuesto = (id) => {
     //console.log(`id: ${id}`);
     if(id === '0070201'||id === '0070202'){
