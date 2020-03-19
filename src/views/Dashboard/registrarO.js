@@ -251,7 +251,7 @@ export default async(CTA,c) => {
         }else{
           removI.push({id: 24});
         }
-        const otroservicio = document.getElementById('otroservicio').value
+        const otroservicio = document.getElementById('otroservicio').value.toUpperCase();
         
         const bodyJSON = {
           CTA: CTA,
