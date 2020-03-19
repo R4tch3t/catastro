@@ -29,6 +29,7 @@ export default async(CTA,c) => {
         const {tipoPredio} = c.state;
         const idImpuestos = [];
         const removI = [];
+        let servQ = 0
         let I0020401 = document.getElementById('I0020401').checked;
         let V0020401 = document.getElementById('0020401').value
         if (I0020401) {
@@ -195,6 +196,11 @@ export default async(CTA,c) => {
         let V0090704 = document.getElementById('0090704').value
         if (I0090704) {
           idImpuestos.push({id: 19, val: V0090704});
+          servQ = parseInt(V0090704)*0.15
+          servQ = servQ.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          if (servQ !== '0' && servQ.toString().split('.').length === 1) {
+            servQ = `${servQ}.00`
+          }
           V0090704 = V0090704.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
           V0090704 = `${V0090704}.00`
         }else{
@@ -245,7 +251,8 @@ export default async(CTA,c) => {
         }else{
           removI.push({id: 24});
         }
-
+        const otroservicio = document.getElementById('otroservicio').value
+        
         const bodyJSON = {
           CTA: CTA,
           idOrden: c.idOrden,
@@ -268,7 +275,8 @@ export default async(CTA,c) => {
           total: totalN,
           tp: tipoPredio,
           idImpuestos: idImpuestos,
-          removI: removI
+          removI: removI,
+          otroservicio: otroservicio
         }
         const response = await fetch(sendUri, {
             method: "POST",
@@ -348,7 +356,7 @@ export default async(CTA,c) => {
                 subUrl += `&V0070101=${V0070101}&V0070201=${V0070201}&V0070202=${V0070202}&V0070203=${V0070203}&V0090101=${V0090101}`
                 subUrl += `&V0090106=${V0090106}&V0090107=${V0090107}&V0090701=${V0090701}&V0090702=${V0090702}&V0090703=${V0090703}`
                 subUrl += `&V0090704=${V0090704}&V00913=${V00913}&V0091301=${V0091301}&V0010804=${V0010804}&V0010101=${V0010101}`
-                subUrl += `&V21173001001=${V21173001001}`
+                subUrl += `&V21173001001=${V21173001001}&otroservicio=${otroservicio}&servQ=${servQ}`
                 url += `?v=${encrypt(subUrl)}`;
                 const win = window.open(url, '_blank');
                 win.focus();

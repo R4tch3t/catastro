@@ -73,6 +73,8 @@ export default () => {
   let V0010804 = getParameterByName('V0010804', urlDec);
   let V0010101 = getParameterByName('V0010101', urlDec);
   let V21173001001 = getParameterByName('V21173001001', urlDec);
+  let otroservicio = getParameterByName('otroservicio', urlDec);
+  let servQ = getParameterByName('servQ', urlDec);
   const idRol = cookie.load('idRol')
   const idUsuario = cookie.load('idUsuario')
 
@@ -109,6 +111,7 @@ export default () => {
           V0090701={V0090701} V0090702={V0090702} V0090703={V0090703}
           V0090704={V0090704} V00913={V00913} V0091301={V0091301}
           V0010804={V0010804} V0010101={V0010101} V21173001001={V21173001001}
+          otroservicio={otroservicio} servQ={servQ}
            />
   );
 }

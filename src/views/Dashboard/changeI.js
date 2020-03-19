@@ -130,15 +130,15 @@ export default (id,c) => {
     const I0020401 = document.getElementById("I0020401");
     if (I0020401.checked){
       const viU = document.getElementById("0020401");
-      viU.value = Math.round(pb / 2)
+      viU.value = Math.round(pb / 1.5)
     }else{
       const viR = document.getElementById("0020403");
-      viR.value = Math.round(pb / 2)
+      viR.value = Math.round(pb / 1.5)
     }
     const viQ1 = document.getElementById("0070201");
-    viQ1.value = Math.round(pq / 2);
+    viQ1.value = Math.round(pq / 1.5);
     const viQ2 = document.getElementById("0070202");
-    viQ2.value = Math.round(pq / 2);
+    viQ2.value = Math.round(pq / 1.5);
     const viD = document.getElementById("0070203");
     viD.value = 0;
     const checkeds = [0]

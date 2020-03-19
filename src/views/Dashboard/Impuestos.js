@@ -409,7 +409,20 @@ render(){
                       </GridContainer>
 
                       <GridContainer>
-                        <GridItem xs={12} sm={12} md={3}/>
+                        <GridItem xs={12} sm={12} md={3}>
+                          <CustomInput
+                            labelText = "OTRO SERVICIO:"
+                            id = "otroservicio"
+                            formControlProps={{
+                              fullWidth: true
+                            }}
+                            inputProps = {{
+                              type: 'text',
+                              defaultValue: "\0"
+                              
+                            }}
+                          />
+                        </GridItem>
                         <GridItem xs={12} sm={12} md={2}>
                           <CustomInput
                             labelText = "0090704:"

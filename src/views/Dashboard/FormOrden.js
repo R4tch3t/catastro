@@ -593,7 +593,8 @@ render() {
            V0020803,V0020804,V0030101,V0070101,V0070201,
            V0070202,V0070203,V0090101,V0090106,V0090107,
            V0090701,V0090702,V0090703,V0090704,V00913,
-           V0091301,V0010804,V0010101,V21173001001} = this.props;
+           V0091301,V0010804,V0010101,V21173001001, 
+           otroservicio,servQ} = this.props;
     
      return(<Pdf classes={classes} CTA={CTA} folio={folio} nombre={nombre} 
                  calle={calle} lote={lote} manzana={manzana} numero={numero} colonia={colonia}
@@ -606,7 +607,8 @@ render() {
                  V0090101={V0090101} V0090106={V0090106} V0090107={V0090107} 
                  V0090701={V0090701} V0090702={V0090702} V0090703={V0090703}
                  V0090704={V0090704} V00913={V00913} V0091301={V0091301}
-                 V0010804={V0010804} V0010101={V0010101} V21173001001={V21173001001} /> )
+                 V0010804={V0010804} V0010101={V0010101} V21173001001={V21173001001}
+                 otroservicio={otroservicio} servQ={servQ} /> )
   }else
   if(bandPdf==='0'){
     const {Y, trA} = this.state;

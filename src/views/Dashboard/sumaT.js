@@ -1,5 +1,5 @@
-import renderCI from "./renderCI";
-function redondeo(n) {
+//import renderCI from "./renderCI";
+function red(n) {
   //n = Math.round(n * 100) / 100;
   //n = Math.round(n * 10) / 10;
   n = Math.round(n);
@@ -74,10 +74,11 @@ export default (c) => {
   t += parseInt(V0090702.value)
   t += parseInt(V0090703.value)
   t += parseInt(V0090704.value)
+  t += (parseInt(V0090704.value)*0.30)
   t += parseInt(V00913.value)
   t += parseInt(V0091301.value)
   t += parseInt(V0010804.value)*72
   t += parseInt(V0010101.value)
   t += parseInt(V21173001001.value)
-  c.setState({totalN: t})
+  c.setState({totalN: red(t)})
 }

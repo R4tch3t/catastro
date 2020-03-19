@@ -114,8 +114,9 @@ export default (r,tp,c) => {
           dateUpL.value = new Date(dateUp - tzoffset).toISOString().slice(0, -1)
           regB.innerHTML = 'ACTUALIZAR ORDEN DE PAGO'
           c.idOrden = orden.idOrden
+          document.getElementById('otroservicio').value=orden.otroservicio
         }
-
+        console.log(orden)
         
         periodo.value = orden.periodo
         c.setState({tc: orden.tc, zona: orden.zona, totalN: orden.total});
