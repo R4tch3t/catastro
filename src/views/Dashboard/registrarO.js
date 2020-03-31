@@ -1,6 +1,7 @@
 import ip from "variables/ip.js";
 import saveDataL from "./saveDataL";
 import encrypt from "./encrypt";
+import genFolio from "./genFolio";
 export default async(CTA,c) => {
    
     try {
@@ -30,10 +31,12 @@ export default async(CTA,c) => {
         const idImpuestos = [];
         const removI = [];
         let servQ = 0
+        let pb = 0
         let I0020401 = document.getElementById('I0020401').checked;
         let V0020401 = document.getElementById('0020401').value
         if (I0020401) {
           idImpuestos.push({id: 1, val: V0020401});
+          pb = parseInt(V0020401)
           V0020401 = V0020401.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
           V0020401 = `${V0020401}.00`
         }else{
@@ -43,6 +46,7 @@ export default async(CTA,c) => {
         let V0020402 = document.getElementById('0020402').value
         if(I0020402){
           idImpuestos.push({id: 2, val: V0020402});
+          pb = parseInt(V0020402)
           V0020402 = V0020402.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
           V0020402 = `${V0020402}.00`
         }else{
@@ -52,6 +56,7 @@ export default async(CTA,c) => {
         let V0020403 = document.getElementById('0020403').value;
         if (I0020403) {
           idImpuestos.push({id: 3, val: V0020403});
+          pb = parseInt(V0020403)
           V0020403 = V0020403.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
           V0020403 = `${V0020403}.00`
         }else{
@@ -97,8 +102,8 @@ export default async(CTA,c) => {
         let V0030101 = document.getElementById('0030101').value
         if(I0030101){
           idImpuestos.push({id: 8, val: V0030101});
-          V0030101 = V0030101.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          V0030101 = `${V0030101}.00`
+          //V0030101 = V0030101.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          //V0030101 = `${V0030101}.00`
         }else{
           removI.push({id: 8});
         }
@@ -115,6 +120,7 @@ export default async(CTA,c) => {
         let V0070201 = document.getElementById('0070201').value
         if(I0070201){
           idImpuestos.push({id: 10, val: V0070201});
+          pb += parseInt(V0070201)
           V0070201 = V0070201.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
           V0070201 = `${V0070201}.00`
         }else{
@@ -124,6 +130,7 @@ export default async(CTA,c) => {
         let V0070202 = document.getElementById('0070202').value
         if(I0070202){
           idImpuestos.push({id: 11, val: V0070202});
+          pb += parseInt(V0070202)
           V0070202 = V0070202.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
           V0070202 = `${V0070202}.00`
         }else{
@@ -169,8 +176,8 @@ export default async(CTA,c) => {
         let V0090701 = document.getElementById('0090701').value
         if (I0090701) {
           idImpuestos.push({id: 16, val: V0090701});
-          V0090701 = V0090701.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          V0090701 = `${V0090701}.00`
+         // V0090701 = V0090701.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          //V0090701 = `${V0090701}.00`
         }else{
           removI.push({id: 16});
         }
@@ -178,8 +185,8 @@ export default async(CTA,c) => {
         let V0090702 = document.getElementById('0090702').value
         if (I0090702) {
           idImpuestos.push({id: 17, val: V0090702});
-          V0090702 = V0090702.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          V0090702 = `${V0090702}.00`
+          //V0090702 = V0090702.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          //V0090702 = `${V0090702}.00`
         }else{
           removI.push({id: 17});
         }
@@ -187,8 +194,8 @@ export default async(CTA,c) => {
         let V0090703 = document.getElementById('0090703').value
         if (I0090703) {
           idImpuestos.push({id: 18, val: V0090703});
-          V0090703 = V0090703.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          V0090703 = `${V0090703}.00`
+          //V0090703 = V0090703.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          //V0090703 = `${V0090703}.00`
         }else{
           removI.push({id: 18});
         }
@@ -197,12 +204,14 @@ export default async(CTA,c) => {
         if (I0090704) {
           idImpuestos.push({id: 19, val: V0090704});
           servQ = parseInt(V0090704)*0.15
-          servQ = servQ.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          //pb = parseInt(V0090704)
+          //pb += parseInt(servQ)*2
+          /*servQ = servQ.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
           if (servQ !== '0' && servQ.toString().split('.').length === 1) {
             servQ = `${servQ}.00`
           }
           V0090704 = V0090704.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          V0090704 = `${V0090704}.00`
+          V0090704 = `${V0090704}.00`*/
         }else{
           removI.push({id: 19});
         }
@@ -349,17 +358,155 @@ export default async(CTA,c) => {
                 
                 bg = bg.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                 bg = `${bg}.00`
-                let subUrl = `?bandPdf=1&CTA=${CTA}&folio=${folio}&nombre=${nombre}&calle=${calle}&lote=${lote}&manzana=${manzana}&numero=${numCalle}`
+
+                let subUrl = `?bandPdf=1&CTA=${CTA}&nombre=${nombre}&calle=${calle}&lote=${lote}&manzana=${manzana}&numero=${numCalle}`
                 subUrl += `&colonia=${colonia}&cp=${cp}&municipio=${municipio}&localidad=${localidad}&tipoP=${tipoP}`
-                subUrl += `&bg=${bg}&total=${totalN}&periodo=${periodo}&dateUp=${dateUp.value}&V0020401=${V0020401}&V0020402=${V0020402}&V0020403=${V0020403}`
-                subUrl += `&V0020801=${V0020801}&V0020802=${V0020802}&V0020803=${V0020803}&V0020804=${V0020804}&V0030101=${V0030101}`
-                subUrl += `&V0070101=${V0070101}&V0070201=${V0070201}&V0070202=${V0070202}&V0070203=${V0070203}&V0090101=${V0090101}`
-                subUrl += `&V0090106=${V0090106}&V0090107=${V0090107}&V0090701=${V0090701}&V0090702=${V0090702}&V0090703=${V0090703}`
-                subUrl += `&V0090704=${V0090704}&V00913=${V00913}&V0091301=${V0091301}&V0010804=${V0010804}&V0010101=${V0010101}`
-                subUrl += `&V21173001001=${V21173001001}&otroservicio=${otroservicio}&servQ=${servQ}`
-                url += `?v=${encrypt(subUrl)}`;
-                const win = window.open(url, '_blank');
-                win.focus();
+                subUrl += `&bg=${bg}&periodo=${periodo}&dateUp=${dateUp.value}`
+                if (!I0030101 && !I0090701 && !I0090702 && !I0090703 && !I0090704) {
+                  subUrl += `&folio=${folio}&V0020401=${V0020401}&V0020402=${V0020402}&V0020403=${V0020403}`
+                  subUrl += `&V0020801=${V0020801}&V0020802=${V0020802}&V0020803=${V0020803}&V0020804=${V0020804}&V0030101=${V0030101}`
+                  subUrl += `&V0070101=${V0070101}&V0070201=${V0070201}&V0070202=${V0070202}&V0070203=${V0070203}&V0090101=${V0090101}`
+                  subUrl += `&V0090106=${V0090106}&V0090107=${V0090107}&V0090701=${V0090701}&V0090702=${V0090702}&V0090703=${V0090703}`
+                  subUrl += `&V0090704=${V0090704}&V00913=${V00913}&V0091301=${V0091301}&V0010804=${V0010804}&V0010101=${V0010101}`
+                  subUrl += `&V21173001001=${V21173001001}&otroservicio=${otroservicio}&servQ=${servQ}&total=${totalN}`
+                  url += `?v=${encrypt(subUrl)}`;
+                  const win = window.open(url, '_blank');
+                  win.focus();
+                }else{
+                  let subUrl2 = ''
+                  let subUrl3 = ''
+                  let subUrl4 = ''
+                  let subUrl5 = ''
+                  let subUrl6 = ''
+                  let urlPb = `${subUrl}&folio=${folio}&V0020401=${V0020401}&V0020402=${V0020402}&V0020403=${V0020403}`
+                  urlPb += `&V0020801=${V0020801}&V0020802=${V0020802}&V0020803=${V0020803}&V0020804=${V0020804}&V0030101=0`
+                  urlPb += `&V0070101=${V0070101}&V0070201=${V0070201}&V0070202=${V0070202}&V0070203=${V0070203}&V0090101=${V0090101}`
+                  urlPb += `&V0090106=${V0090106}&V0090107=${V0090107}&V0090701=0&V0090702=0&V0090703=0`
+                  urlPb += `&V0090704=0&V00913=${V00913}&V0091301=${V0091301}&V0010804=${V0010804}&V0010101=${V0010101}`
+                  urlPb += `&V21173001001=${V21173001001}&otroservicio=${''}&servQ=0&total=${pb}`
+                  let newF = parseInt(folio)
+                  //url += `?v=${encrypt(subUrl2)}`;
+                  
+                  if (I0030101) {
+                    newF++
+                    let labelF = newF.toString()
+                    while (labelF.length < 5) {
+                      labelF = `0${labelF}`
+                    }
+                    pb = V0030101
+                    V0030101 = V0030101.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    V0030101 = `${V0030101}.00`
+                    subUrl2 = `${subUrl}&folio=${labelF}&V0020401=0&V0020402=0&V0020403=0`
+                    subUrl2 += `&V0020801=0&V0020802=0&V0020803=0&V0020804=0&V0030101=${V0030101}`
+                    subUrl2 += `&V0070101=0&V0070201=0&V0070202=0&V0070203=0&V0090101=0`
+                    subUrl2 += `&V0090106=0&V0090107=0&V0090701=0&V0090702=0&V0090703=0`
+                    subUrl2 += `&V0090704=0&V00913=0&V0091301=0&V0010804=0&V0010101=0`
+                    subUrl2 += `&V21173001001=0&otroservicio=${''}&servQ=0&total=${pb}`
+                    //window.open(`${url}?v=${encrypt(subUrl2)}`, '_blank');
+                    genFolio(newF, url, subUrl2, r.idOrden, tipoPredio)
+                  }
+
+                  if (I0090701) {
+                    newF++
+                    let labelF = newF.toString()
+                    while (labelF.length < 5) {
+                      labelF = `0${labelF}`
+                    }
+                    pb = V0090701
+                    V0090701 = V0090701.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    V0090701 = `${V0090701}.00`
+                    subUrl3 = `${subUrl}&folio=${labelF}&V0020401=0&V0020402=0&V0020403=0`
+                    subUrl3 += `&V0020801=0&V0020802=0&V0020803=0&V0020804=0&V0030101=0`
+                    subUrl3 += `&V0070101=0&V0070201=0&V0070202=0&V0070203=0&V0090101=0`
+                    subUrl3 += `&V0090106=0&V0090107=0&V0090701=${V0090701}&V0090702=0&V0090703=0`
+                    subUrl3 += `&V0090704=0&V00913=0&V0091301=0&V0010804=0&V0010101=0`
+                    subUrl3 += `&V21173001001=0&otroservicio=${''}&servQ=0&total=${pb}`
+                    //window.open(`${url}?v=${encrypt(subUrl2)}`, '_blank');
+                    genFolio(newF, url, subUrl2, r.idOrden, tipoPredio)
+                  }
+
+                  if (I0090702) {
+                    newF++
+                    let labelF = newF.toString()
+                    while (labelF.length < 5) {
+                      labelF = `0${labelF}`
+                    }
+                    pb = V0090702
+                    V0090702 = V0090702.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    V0090702 = `${V0090702}.00`
+                    subUrl4 = `${subUrl}&folio=${labelF}&V0020401=0&V0020402=0&V0020403=0`
+                    subUrl4 += `&V0020801=0&V0020802=0&V0020803=0&V0020804=0&V0030101=0`
+                    subUrl4 += `&V0070101=0&V0070201=0&V0070202=0&V0070203=0&V0090101=0`
+                    subUrl4 += `&V0090106=0&V0090107=0&V0090701=0&V0090702=${V0090702}&V0090703=0`
+                    subUrl4 += `&V0090704=0&V00913=0&V0091301=0&V0010804=0&V0010101=0`
+                    subUrl4 += `&V21173001001=0&otroservicio=${''}&servQ=0&total=${pb}`
+                    //window.open(`${url}?v=${encrypt(subUrl2)}`, '_blank');
+                    genFolio(newF, url, subUrl2, r.idOrden, tipoPredio)
+                  }
+                  
+                  if (I0090703) {
+                    newF++
+                    let labelF = newF.toString()
+                    while (labelF.length < 5) {
+                      labelF = `0${labelF}`
+                    }
+                    pb = V0090703
+                    V0090703 = V0090703.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    V0090703 = `${V0090703}.00`
+                    subUrl5 = `${subUrl}&folio=${labelF}&V0020401=0&V0020402=0&V0020403=0`
+                    subUrl5 += `&V0020801=0&V0020802=0&V0020803=0&V0020804=0&V0030101=0`
+                    subUrl5 += `&V0070101=0&V0070201=0&V0070202=0&V0070203=0&V0090101=0`
+                    subUrl5 += `&V0090106=0&V0090107=0&V0090701=0&V0090702=0&V0090703=${V0090703}`
+                    subUrl5 += `&V0090704=0&V00913=0&V0091301=0&V0010804=0&V0010101=0`
+                    subUrl5 += `&V21173001001=0&otroservicio=${''}&servQ=0&total=${pb}`
+                   // window.open(`${url}?v=${encrypt(subUrl2)}`, '_blank');
+                    genFolio(newF, url, subUrl2, r.idOrden, tipoPredio)
+                  }
+
+                  if (I0090704) {
+                    newF++
+                    let labelF = newF.toString()
+                    while (labelF.length < 5) {
+                      labelF = `0${labelF}`
+                    }
+                    pb = parseInt(V0090704)
+                    pb += parseInt(servQ) * 2
+                    servQ = servQ.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    if (servQ !== '0' && servQ.toString().split('.').length === 1) {
+                      servQ = `${servQ}.00`
+                    }
+                    V0090704 = V0090704.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    V0090704 = `${V0090704}.00`
+
+                    subUrl6 = `${subUrl}&folio=${labelF}&V0020401=0&V0020402=0&V0020403=0`
+                    subUrl6 += `&V0020801=0&V0020802=0&V0020803=0&V0020804=0&V0030101=0`
+                    subUrl6 += `&V0070101=0&V0070201=0&V0070202=0&V0070203=0&V0090101=0`
+                    subUrl6 += `&V0090106=0&V0090107=0&V0090701=0&V0090702=0&V0090703=0`
+                    subUrl6 += `&V0090704=${V0090704}&V00913=0&V0091301=0&V0010804=0&V0010101=0`
+                    subUrl6 += `&V21173001001=0&otroservicio=${otroservicio}&servQ=${servQ}&total=${pb}`
+                    genFolio(newF, url, subUrl2, r.idOrden, tipoPredio)
+                    //window.open(`${url}?v=${encrypt(subUrl2)}`, '_blank');
+                  }
+                  if (subUrl6 !== '') {
+                    window.open(`${url}?v=${encrypt(subUrl6)}`, '_blank');
+                  }
+                  if (subUrl5!=='') {
+                    window.open(`${url}?v=${encrypt(subUrl5)}`, '_blank');
+                  }
+                  if (subUrl4!=='') {
+                    window.open(`${url}?v=${encrypt(subUrl4)}`, '_blank');
+                  }
+                  if (subUrl3 !== '') {
+                    window.open(`${url}?v=${encrypt(subUrl3)}`, '_blank');
+                  }
+                  if (subUrl2 !== '') {
+                    window.open(`${url}?v=${encrypt(subUrl2)}`, '_blank');
+                  }
+                  let win = window.open(`${url}?v=${encrypt(urlPb)}`, '_blank');
+                  win.focus();
+                  
+                }
+                
                 saveDataL(CTA,c.street,c.barr,c.state.zona,tipoPredio,c)
                // orden.style.display = 'none'
                // ReactDOM.render(<Pdf calle='11 Norte' />,document.getElementById("pdfView"))

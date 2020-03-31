@@ -68,7 +68,7 @@ export default (r,tp,c) => {
         //else{
         //  this.setState({tipoPredio: tp})
         //}
-        
+        document.getElementById('otroservicio').value=''
         if(!orden){
           if (calle.value===''){
             calle.value = contribuyente.ubicacion
@@ -116,7 +116,6 @@ export default (r,tp,c) => {
           c.idOrden = orden.idOrden
           document.getElementById('otroservicio').value=orden.otroservicio
         }
-        console.log(orden)
         
         periodo.value = orden.periodo
         c.setState({tc: orden.tc, zona: orden.zona, totalN: orden.total});

@@ -37,7 +37,9 @@ export default async (CTAnombre, c) => {
                   idImpuesto: 22,
                   val: parseInt(total) / 72
                 }]*/
-                genImp(r.formas, c);
+                if (r.formas){
+                  genImp(r.formas, c);
+                }
                 c.idOrden = orden.idOrden
                 c.setState({totalN: total});
               }

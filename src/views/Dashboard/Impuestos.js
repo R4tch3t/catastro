@@ -523,7 +523,7 @@ render(){
                         inputProps = {{
                           type: 'number',
                           defaultValue: 0,
-                          onKeyUp: c.handleImp,
+                          onChange: fb,
                           onBlur: fb
                         }}
                       />

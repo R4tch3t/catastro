@@ -12,21 +12,21 @@ export default async(c) => {
          // V0010804 = V0010804.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
          // V0010804 = `${V0010804}.00`
         }else{
-          //removI.push({id: 22});
-          return
+          removI.push({id: 22});
+        //  return
         }
         c.setState({disabledReg:true})
         const sendUri = ip('3027');
-        const nombre = document.getElementById('nombre').value;
+        const nombre = document.getElementById('nombre');
         const dateUp = document.getElementById('dateUp');
-        const calle = document.getElementById('calle').value;
-        let lote = document.getElementById('lote').value;
-        let manzana = document.getElementById('manzana').value;
-        let numCalle = document.getElementById('numCalle').value;
-        const colonia = document.getElementById('colonia').value;
+        const calle = document.getElementById('calle');
+        let lote = document.getElementById('lote');
+        let manzana = document.getElementById('manzana');
+        let numCalle = document.getElementById('numCalle');
+        const colonia = document.getElementById('colonia');
         let cp = document.getElementById('cp').value;
         const municipio = document.getElementById('municipio').value;
-        const localidad = document.getElementById('localidad').value;
+        const localidad = document.getElementById('localidad');
         const idEmpleado = c.props.idUsuario;
         let {totalN} = c.state;
         let d=''
@@ -35,8 +35,32 @@ export default async(c) => {
           d = new Date(dateUp.value)
           d = new Date(d - tzoffset).toISOString().slice(0, -1)
         }
+        if (nombre.value === '\0'){
+          nombre.value = ''
+        }
+        if (nombre.value[0] === '\0') {
+          nombre.value = nombre.value.substring(1);
+        }
+        if (calle.value === '\0') {
+          calle.value = ''
+        }
+        if (lote.value === '\0') {
+          lote.value = ''
+        }
+        if (manzana.value === '\0') {
+          manzana.value = ''
+        }
+        if (numCalle.value === '\0') {
+          numCalle.value = ''
+        }
+        if (colonia.value === '\0') {
+          colonia.value = ''
+        }
+        if (localidad.value === '\0') {
+          localidad.value = ''
+        }
         const bodyJSON = {
-          nombre: nombre,
+          nombre: nombre.value,
           idOrden: c.idOrden,
           /*calle: calle,
           lote: lote,
@@ -75,21 +99,20 @@ export default async(c) => {
             if (r.exito !== undefined) {
               
               if(r.exito===0){
-                
 
                 c.showNotification("trA")
                 const nombre = document.getElementById('nombre').value;
                 const {idRol} = c.props
                 let url = idRol === '1' ? `#/admin/orden` : `#/usuario/orden`
-                if(lote==='0'){
-                  lote=''
+                if(lote.value==='0'){
+                  lote.value = ''
                 }
-                if(manzana==='0'){
-                  manzana=''
+                if(manzana.value==='0'){
+                  manzana.value = ''
                 }
-                if(numCalle==='0'){
-                  numCalle = ''
-                }
+                /*if(numCalle.value==='0'){
+                  numCalle.value = ''
+                }*/
                 if(cp==='0'){
                   cp = ''
                 }
@@ -105,8 +128,8 @@ export default async(c) => {
                 dateUp.style.color='red'
                 dateUp.value = d.toISOString().slice(0, -1)
                 
-                let subUrl = `?bandPdf=1&folio=${folio}&nombre=${nombre}&calle=${calle}&lote=${lote}&manzana=${manzana}&numero=${numCalle}`
-                subUrl += `&colonia=${colonia}&cp=${cp}&municipio=${municipio}&localidad=${localidad}`
+                let subUrl = `?bandPdf=1&folio=${folio}&nombre=${nombre}&calle=${calle.value}&lote=${lote.value}&manzana=${manzana.value}&numero=${numCalle.value}`
+                subUrl += `&colonia=${colonia.value}&cp=${cp}&municipio=${municipio}&localidad=${localidad.value}`
                 subUrl += `&total=${totalN}&dateUp=${dateUp.value}&V0020401=0&V0020402=0&V0020403=0`
                 subUrl += `&V0020801=0&V0020802=0&V0020803=0&V0020804=0&V0030101=0`
                 subUrl += `&V0070101=0&V0070201=0&V0070202=0&V0070203=0&V0090101=0`

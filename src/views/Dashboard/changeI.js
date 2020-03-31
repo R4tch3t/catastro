@@ -127,18 +127,26 @@ export default (id,c) => {
     pb = Math.round(pb)
     const vi = document.getElementById(id);
     vi.value = pb * 2
+    const d = new Date()
+    const m = d.getMonth()
+    let mul = 1.5
+    if (m > 1 && m < 6) {
+      mul = 2
+    } else if (m > 5 && m < 12) {
+      mul = 3
+    }
     const I0020401 = document.getElementById("I0020401");
     if (I0020401.checked){
       const viU = document.getElementById("0020401");
-      viU.value = Math.round(pb / 1.5)
+      viU.value = Math.round(pb / mul)
     }else{
       const viR = document.getElementById("0020403");
-      viR.value = Math.round(pb / 1.5)
+      viR.value = Math.round(pb / mul)
     }
     const viQ1 = document.getElementById("0070201");
-    viQ1.value = Math.round(pq / 1.5);
+    viQ1.value = Math.round(pq / mul);
     const viQ2 = document.getElementById("0070202");
-    viQ2.value = Math.round(pq / 1.5);
+    viQ2.value = Math.round(pq / mul);
     const viD = document.getElementById("0070203");
     viD.value = 0;
     const checkeds = [0]
