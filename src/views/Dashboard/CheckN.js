@@ -2,10 +2,10 @@ import React from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import Checkbox from "@material-ui/core/Checkbox";
-import GridItem from "components/Grid/GridItem.js";
 import Check from "@material-ui/icons/Check";
 // core components
 import styles from "assets/jss/material-dashboard-react/components/tasksStyle.js";
+import clearCheck from "./clearCheck";
 
 const useStyles = makeStyles(styles);
 export default (props)=>{
@@ -24,9 +24,13 @@ export default (props)=>{
       if (c) {
         const dateUpL = document.getElementById('dateUp');
         const regB = document.getElementById('regB');
+        const bg = document.getElementById('baseGravable');
+        bg.value=0
         dateUpL.value='';
         regB.innerHTML = 'GENERAR ORDEN DE PAGO';
         c.idOrden = 0;
+        clearCheck(c)
+        c.sumaT()
       }
     } else {
      // c.hideMap()
