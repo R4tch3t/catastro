@@ -383,7 +383,7 @@ export default async(CTA,c) => {
                   urlPb += `&V0070101=${V0070101}&V0070201=${V0070201}&V0070202=${V0070202}&V0070203=${V0070203}&V0090101=${V0090101}`
                   urlPb += `&V0090106=${V0090106}&V0090107=${V0090107}&V0090701=0&V0090702=0&V0090703=0`
                   urlPb += `&V0090704=0&V00913=${V00913}&V0091301=${V0091301}&V0010804=${V0010804}&V0010101=${V0010101}`
-                  urlPb += `&V21173001001=${V21173001001}&otroservicio=${''}&servQ=0&total=${pb}`
+                  urlPb += `&V21173001001=${V21173001001}&otroservicio=${''}&total=${pb}`
                   let newF = parseInt(folio)
                   //url += `?v=${encrypt(subUrl2)}`;
                   
@@ -412,15 +412,22 @@ export default async(CTA,c) => {
                     while (labelF.length < 5) {
                       labelF = `0${labelF}`
                     }
-                    pb = V0090701
+                    const {labelConsta} = c.state
+                    pb = parseInt(V0090701)
+                    let constaQ = pb * 0.15
+                    constaQ = Math.round(constaQ)
+                    pb += constaQ * 2
                     V0090701 = V0090701.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                     V0090701 = `${V0090701}.00`
+                    constaQ = constaQ.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    constaQ = `${constaQ}.00`
                     subUrl3 = `${subUrl}&folio=${labelF}&V0020401=0&V0020402=0&V0020403=0`
                     subUrl3 += `&V0020801=0&V0020802=0&V0020803=0&V0020804=0&V0030101=0`
                     subUrl3 += `&V0070101=0&V0070201=0&V0070202=0&V0070203=0&V0090101=0`
                     subUrl3 += `&V0090106=0&V0090107=0&V0090701=${V0090701}&V0090702=0&V0090703=0`
                     subUrl3 += `&V0090704=0&V00913=0&V0091301=0&V0010804=0&V0010101=0`
-                    subUrl3 += `&V21173001001=0&otroservicio=${''}&servQ=0&total=${pb}`
+                    subUrl3 += `&V21173001001=0&otroservicio=${''}&servQ=0`
+                    subUrl3 += `&constaL=${labelConsta}&constaQ=${constaQ}&total=${pb}`
                     //window.open(`${url}?v=${encrypt(subUrl2)}`, '_blank');
                     genFolio(newF, url, subUrl2, r.idOrden, tipoPredio)
                   }
@@ -431,15 +438,22 @@ export default async(CTA,c) => {
                     while (labelF.length < 5) {
                       labelF = `0${labelF}`
                     }
-                    pb = V0090702
+                    pb = parseInt(V0090702)
+                    let certiQ = pb * 0.15
+                    certiQ = Math.round(certiQ)
+                    pb += certiQ * 2
                     V0090702 = V0090702.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                     V0090702 = `${V0090702}.00`
+                    certiQ = certiQ.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    if (certiQ !== '0' && certiQ.toString().split('.').length === 1) {
+                      certiQ = `${certiQ}.00`
+                    }
                     subUrl4 = `${subUrl}&folio=${labelF}&V0020401=0&V0020402=0&V0020403=0`
                     subUrl4 += `&V0020801=0&V0020802=0&V0020803=0&V0020804=0&V0030101=0`
                     subUrl4 += `&V0070101=0&V0070201=0&V0070202=0&V0070203=0&V0090101=0`
                     subUrl4 += `&V0090106=0&V0090107=0&V0090701=0&V0090702=${V0090702}&V0090703=0`
                     subUrl4 += `&V0090704=0&V00913=0&V0091301=0&V0010804=0&V0010101=0`
-                    subUrl4 += `&V21173001001=0&otroservicio=${''}&servQ=0&total=${pb}`
+                    subUrl4 += `&V21173001001=0&otroservicio=${''}&servQ=0&certiQ=${certiQ}&total=${pb}`
                     //window.open(`${url}?v=${encrypt(subUrl2)}`, '_blank');
                     genFolio(newF, url, subUrl2, r.idOrden, tipoPredio)
                   }
@@ -470,7 +484,8 @@ export default async(CTA,c) => {
                       labelF = `0${labelF}`
                     }
                     pb = parseInt(V0090704)
-                    pb += parseInt(servQ) * 2
+                    pb += servQ * 2
+                    pb = Math.round(pb)
                     servQ = servQ.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                     if (servQ !== '0' && servQ.toString().split('.').length === 1) {
                       servQ = `${servQ}.00`

@@ -202,7 +202,7 @@ class App extends React.Component {
            V0070202,V0070203,V0090101,V0090106,V0090107,
            V0090701,V0090702,V0090703,V0090704,V00913,
            V0091301,V0010804,V0010101,V21173001001,
-           otroservicio,servQ} = this.props;
+           otroservicio,servQ,constaQ,constaL,certiQ} = this.props;
     //const valQ = V0090704 !== '0' ? V0090704*0.15:0
     return (
       <CardIcon>
@@ -572,29 +572,83 @@ class App extends React.Component {
                           </View>
                         </View>}
 
-                        {V0090701 !== '0' && <View style={this.styles.tableRow}> 
+                        {V0090701 !== '0' && 
+                        <>
+                        <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '16%'}]}> 
                             <Text style={this.styles.tableCell}>414910040090701</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
-                            <Text style={this.styles.tableCell}>CONSTANCIAS</Text> 
+                            <Text style={this.styles.tableCell}>CONSTANCIA DE <Text style={this.styles.headO}>{constaL}</Text></Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '19%'}]}> 
                             <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0090701}</Text>         
                           </View>
-                        </View>}
+                        </View>
 
-                        {V0090702 !== '0' && <View style={this.styles.tableRow}> 
+                        <View style={this.styles.tableRow}> 
+                          <View style={[this.styles.tableCol,{width: '16%'}]}> 
+                            <Text style={this.styles.tableCell}>411710010070201</Text> 
+                          </View> 
+                          <View style={[this.styles.tableCol,{width: '65%'}]}> 
+                            <Text style={this.styles.tableCell}>15% PRO EDUCACIÓN Y ASISTENCIA SOCIAL</Text> 
+                          </View>
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
+                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{constaQ}</Text>    
+                          </View>
+                        </View>
+                        
+                        <View style={this.styles.tableRow}> 
+                          <View style={[this.styles.tableCol,{width: '16%'}]}> 
+                            <Text style={this.styles.tableCell}>411710010070202</Text> 
+                          </View> 
+                          <View style={[this.styles.tableCol,{width: '65%'}]}> 
+                            <Text style={this.styles.tableCell}>15% PRO CAMINOS</Text> 
+                          </View>
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
+                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{constaQ}</Text>     
+                          </View>
+                        </View>
+                        </>}
+
+                        {V0090702 !== '0' && 
+                        <>
+                        <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '16%'}]}> 
                             <Text style={this.styles.tableCell}>414910040090702</Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '65%'}]}> 
-                            <Text style={this.styles.tableCell}>CERTIFICACIONES</Text> 
+                            <Text style={this.styles.tableCell}>CERTIFICADO CATASTRAL</Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '19%'}]}> 
                             <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0090702}</Text>
                           </View>
-                        </View>}
+                        </View>
+
+                        <View style={this.styles.tableRow}> 
+                          <View style={[this.styles.tableCol,{width: '16%'}]}> 
+                            <Text style={this.styles.tableCell}>411710010070201</Text> 
+                          </View> 
+                          <View style={[this.styles.tableCol,{width: '65%'}]}> 
+                            <Text style={this.styles.tableCell}>15% PRO EDUCACIÓN Y ASISTENCIA SOCIAL</Text> 
+                          </View>
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
+                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{certiQ}</Text>    
+                          </View>
+                        </View>
+                        
+                        <View style={this.styles.tableRow}> 
+                          <View style={[this.styles.tableCol,{width: '16%'}]}> 
+                            <Text style={this.styles.tableCell}>411710010070202</Text> 
+                          </View> 
+                          <View style={[this.styles.tableCol,{width: '65%'}]}> 
+                            <Text style={this.styles.tableCell}>15% PRO CAMINOS</Text> 
+                          </View>
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
+                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{certiQ}</Text>     
+                          </View>
+                        </View>
+                        </>}
 
                         {V0090703 !== '0' && <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '16%'}]}> 

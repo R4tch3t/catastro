@@ -11,10 +11,7 @@ import CheckCircle from "@material-ui/icons/CheckCircle"
 //import LocalOffer from "@material-ui/icons/LocalOffer";
 //import Update from "@material-ui/icons/Update";
 import Pdf from "./renderPDF.js";
-//import Accessibility from "@material-ui/icons/Accessibility";
-//import BugReport from "@material-ui/icons/BugReport";
-//import Code from "@material-ui/icons/Code";
-//import Cloud from "@material-ui/icons/Cloud";
+import WN from "@material-ui/icons/Warning"
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
@@ -85,6 +82,7 @@ state={
     openZona: null,
     openTC: null,
     openCTA: null,
+    labelConsta: '',
     lastD: null,
     currentD: null,
     ctasIndexes: [],
@@ -98,6 +96,8 @@ state={
     tc: 0,
     readOnly: false,
     disabledReg: false,
+    labelW: null,
+    tr: false,
     trA: false
 }
 map = null;
@@ -141,6 +141,7 @@ constructor(props){
       openZona: null,
       openTC: null,
       openCTA: null,
+      labelConsta: '',
       lastD: date,
       currentD: date,
       ctasIndexes: [],
@@ -154,6 +155,8 @@ constructor(props){
       tc: 0,
       readOnly: this.props.idRol==='0',
       disabledReg: false,
+      labelW: '',
+      tr: false,
       trA: false
       /*
       checkeds: {
@@ -208,11 +211,19 @@ padrones=async(CTAnombre, tp, tipoB, idOrden)=>{
 
 registrarO=async()=>{
   const CTA = document.getElementById('CTA').value;
-  if(CTA!==''){
-    registrarO(CTA,this)
-  }else{
+  const nombre = document.getElementById('nombre');
 
-    registrarF(this)
+  if (nombre.value === '' || nombre.value === '\0') {
+    const labelW = 'Advertencia, NOMBRE INVÁLIDO'
+    nombre.focus()
+    this.setState({labelW})
+    this.showNotification('tr')
+  }else{
+    if(CTA!==''){
+      registrarO(CTA,this)
+    }else{
+      registrarF(this)
+    }
   }
 }
 
@@ -528,8 +539,16 @@ setZero=async(id)=>{
 }
 
 showNotification = place => {
-const {trA} = this.state
+const {tr, trA} = this.state
   switch (place) {
+      case "tr":
+      if (!tr) {
+        this.setState({tr: true})
+        setTimeout(() => {
+          this.setState({tr: false})
+        }, 6000);
+      }
+      break;
       case "trA":
       if (!trA) {
         this.setState({trA: true})
@@ -538,6 +557,7 @@ const {trA} = this.state
         }, 6000);
       }
       break;
+      
     default:
       break;
   }
@@ -570,7 +590,6 @@ componentDidMount(){
   if (bandCTA==='1'){
     document.getElementById('CTANM').value=genCTA
     this.padrones(genCTA, tp, 0,idOrden)
-    
   }
   
 }
@@ -600,7 +619,7 @@ render() {
            V0070202,V0070203,V0090101,V0090106,V0090107,
            V0090701,V0090702,V0090703,V0090704,V00913,
            V0091301,V0010804,V0010101,V21173001001, 
-           otroservicio,servQ} = this.props;
+           otroservicio,servQ,constaQ,constaL,certiQ} = this.props;
     
      return(<Pdf classes={classes} CTA={CTA} folio={folio} nombre={nombre} 
                  calle={calle} lote={lote} manzana={manzana} numero={numero} colonia={colonia}
@@ -614,13 +633,23 @@ render() {
                  V0090701={V0090701} V0090702={V0090702} V0090703={V0090703}
                  V0090704={V0090704} V00913={V00913} V0091301={V0091301}
                  V0010804={V0010804} V0010101={V0010101} V21173001001={V21173001001}
-                 otroservicio={otroservicio} servQ={servQ} /> )
+                 otroservicio={otroservicio} servQ={servQ} constaQ={constaQ} 
+                 constaL={constaL} certiQ={certiQ} /> )
   }else
   if(bandPdf==='0'){
-    const {Y, trA} = this.state;
+    const {Y, labelW, tr, trA} = this.state;
     const {totalN} = this.state;
     return (
       <CardIcon>
+        <Snackbar
+          place="tr"
+          color="warning"
+          icon={WN}
+          message={labelW}
+          open={tr}
+          closeNotification={() => this.setState({tr: false})}
+          close
+        />
         <Snackbar
           place="tr"
           color="success"
@@ -630,6 +659,7 @@ render() {
           closeNotification={() => this.setState({trA: false})}
           close
         />
+        
         <GridContainer>
           <GridItem xs={12} sm={12} md={12}>
             <Card>
@@ -656,29 +686,6 @@ render() {
           </GridItem>
         </GridContainer>
         <GridContainer>
-          {/*<GridItem xs={12} sm={6} md={3}>
-            <Card>
-              <CardHeader color="warning" stats icon>
-                <CardIcon color="warning">
-                  <Icon>content_copy</Icon>
-                </CardIcon>
-                <p className={classes.cardCategory}>Used Space</p>
-                <h3 className={classes.cardTitle}>
-                  49/50 <small>GB</small>
-                </h3>
-              </CardHeader>
-              <CardFooter stats>
-                <div className={classes.stats}>
-                  <Danger>
-                    <Warning />
-                  </Danger>
-                  <a href="#pablo" onClick={e => e.preventDefault()}>
-                    Get more space
-                  </a>
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem>*/}
           
           <GridItem xs={12} sm={6} md={12}>
             <Card>
@@ -697,141 +704,7 @@ render() {
               </CardFooter>
             </Card>
           </GridItem>
-          {/*
-          <GridItem xs={12} sm={6} md={6}>
-            <Card>
-              <CardHeader color="success" stats icon>
-                <CardIcon color="success">
-                  <LocalAtm />
-                </CardIcon>
-                <p className={classes.cardCategory}>Seguro de daños FOVISSTE</p>
-                <h3 className={classes.cardTitle}>{`TOTAL: $`}{totalS}</h3>
-              </CardHeader>
-              <CardFooter stats>
-                <div className={classes.stats}>
-                  <DateRange />
-                  Últimos {lastD} meses
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem>
-          <GridItem xs={12} sm={6} md={3}>
-            <Card>
-              <CardHeader color="danger" stats icon>
-                <CardIcon color="danger">
-                  <Icon>info_outline</Icon>
-                </CardIcon>
-                <p className={classes.cardCategory}>Fixed Issues</p>
-                <h3 className={classes.cardTitle}>75</h3>
-              </CardHeader>
-              <CardFooter stats>
-                <div className={classes.stats}>
-                  <LocalOffer />
-                  Tracked from Github
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem>
-          <GridItem xs={12} sm={6} md={3}>
-            <Card>
-              <CardHeader color="info" stats icon>
-                <CardIcon color="info">
-                  <Accessibility />
-                </CardIcon>
-                <p className={classes.cardCategory}>Followers</p>
-                <h3 className={classes.cardTitle}>+245</h3>
-              </CardHeader>
-              <CardFooter stats>
-                <div className={classes.stats}>
-                  <Update />
-                  Just Updated
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem>
-          */}
-          {/*
-        </GridContainer>
-        <GridContainer>
-          <GridItem xs={12} sm={12} md={12}>
-            <Card chart>
-              <CardHeader color="success">
-                <ChartistGraph
-                  className="ct-chart"
-                  data={creditoFovisste.data}
-                  type="Line"
-                  options={creditoFovisste.options}
-                  listener={creditoFovisste.animation}
-                />
-              </CardHeader>
-              <CardBody>
-                <h4 className={classes.cardTitle}>Credito FOVISSTE</h4>
-                <p className={classes.cardCategory}>
-                  <span className={classes.successText}>
-                    <ArrowUpward className={classes.upArrowCardCategory} /> {porcentajeC}%
-                  </span>{" "}
-                  créditos por quincena.
-                </p>
-              </CardBody>
-              <CardFooter chart>
-                <div className={classes.stats}>
-                  <AccessTime /> Créditos de 2019
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem>
-          </GridContainer>
-          <GridContainer>
-          <GridItem xs={12} sm={12} md={12}>
-            <Card chart>
-              <CardHeader color="danger">
-                <ChartistGraph
-                  className="ct-chart"
-                  data={seguroFovisste.data}
-                  type="Bar"
-                  options={seguroFovisste.options}
-                  responsiveOptions={seguroFovisste.responsiveOptions}
-                  listener={seguroFovisste.animation}
-                />
-              </CardHeader>
-              <CardBody>
-                <h4 className={classes.cardTitle}>Seguro de daños FOVISSTE</h4>
-                <p className={classes.cardCategory}>
-                  <span className={classes.successText}>
-                    <ArrowUpward className={classes.upArrowCardCategory} /> {porcentajeS}%
-                  </span>{" "}
-                  seguro por quincena.</p>
-              </CardBody>
-              <CardFooter chart>
-                <div className={classes.stats}>
-                  <AccessTime /> Seguros de 2019
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem>
-          <GridItem xs={12} sm={12} md={4}>
-            <Card chart>
-              <CardHeader color="danger">
-                <ChartistGraph
-                  className="ct-chart"
-                  data={completedTasksChart.data}
-                  type="Line"
-                  options={completedTasksChart.options}
-                  listener={completedTasksChart.animation}
-                />
-              </CardHeader>
-              <CardBody>
-                <h4 className={classes.cardTitle}>Completed Tasks</h4>
-                <p className={classes.cardCategory}>Last Campaign Performance</p>
-              </CardBody>
-              <CardFooter chart>
-                <div className={classes.stats}>
-                  <AccessTime /> campaign sent 2 days ago
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem>*/
-          }
+          
         </GridContainer>
         
       </CardIcon>

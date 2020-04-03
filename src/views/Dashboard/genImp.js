@@ -69,6 +69,18 @@ export default (predial,c) => {
      if (e.idImpuesto === 16) {
        checkeds[8].push(0)
        document.getElementById('0090701').value = e.val
+       if(e.val===66){
+         c.setState({labelConsta: 'NO ADEUDO DEL IMPUESTO PREDIAL'})
+       }
+       if(e.val===112){
+         c.setState({labelConsta: 'NO PROPIEDAD'})
+       }
+       if(e.val===225){
+         c.setState({labelConsta: 'NO AFECTACIÓN'})
+       }
+       if(e.val===218){
+         c.setState({labelConsta: 'NO GRAVAMEN'})
+       }
      }
      if (e.idImpuesto === 17) {
        checkeds[8].push(1)
@@ -153,7 +165,7 @@ export default (predial,c) => {
    if (checkeds[8].length > 0) {
      renderCI('subCop0', task, 6, checkeds[8], ['41491004', '41491004'],
        ['CONSTANCIAS',
-         'CERTIFICACIONES'
+         'CERTIFICADO CATASTRAL'
        ],
        ['0090701', '0090702'], c);
    }

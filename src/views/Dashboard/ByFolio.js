@@ -5,7 +5,7 @@ import genPredio from "./genPredio";
 export default async (CTAnombre, c) => {
     try {
         const sendUri = ip('3028');
-        c.idOrden = ''
+        c.idOrden = 0
         const bodyJSON = {
           idFolio: CTAnombre
         }

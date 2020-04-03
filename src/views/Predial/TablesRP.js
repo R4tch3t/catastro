@@ -241,7 +241,6 @@ render() {
   const {
     tr, trE, trE2, trA,
     classes,
-    classesM,
     disabledReg
   } = this.state;
  

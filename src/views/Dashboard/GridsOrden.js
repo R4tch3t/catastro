@@ -929,7 +929,7 @@ export default (props) => {
         </div>
         <div style={{ height: 40 }} />
 
-        <Impuestos classes={classes} c={c} />
+        <Impuestos classes={classes} classesM={classesM} c={c} />
 
         <div style={{ height: 40 }} />
 

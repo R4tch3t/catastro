@@ -155,4 +155,26 @@ export default (id,c) => {
         'DESCUENTO PREDIAL DE NATURALEZA DEUDORA'
       ], ['0070202', '0070203'], c);
   }
+  
+  if (id === '0090702') {  
+    const bg = document.getElementById('baseGravable');
+    const vi = document.getElementById(id);
+    
+    if(bg.value<10792){
+      vi.value=193
+    }
+    if(bg.value>10791&&bg.value<21583){
+      vi.value=483
+    }
+    if(bg.value>21582&&bg.value<43165){
+      vi.value=964
+    }
+    if(bg.value>43164&&bg.value<86329){
+      vi.value=1449
+    }
+    if(bg.value>86328){
+      vi.value=1932
+    }
+    
+  }
 }

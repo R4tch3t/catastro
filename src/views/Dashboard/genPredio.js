@@ -78,6 +78,7 @@ export default (r,tp,c) => {
           bg.value = 0;
           clearCheck(c)
           dateUpL.value = ''
+          c.idOrden = 0
           c.setState({tc: 0, zona: 0, totalN: 0});
 
           return false;
