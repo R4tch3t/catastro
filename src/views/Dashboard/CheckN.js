@@ -22,14 +22,9 @@ export default (props)=>{
       newChecked.push(value);
      // console.log(fa)
       if (c) {
-      //  c.showMap()
-        //fa(id);
-        //let tzoffset = (new Date()).getTimezoneOffset() * 60000;
-        //let dateUp = new Date()
         const dateUpL = document.getElementById('dateUp');
         const regB = document.getElementById('regB');
         dateUpL.value='';
-        //dateUpL.value = new Date(dateUp - tzoffset).toISOString().slice(0, -1)
         regB.innerHTML = 'GENERAR ORDEN DE PAGO';
         c.idOrden = 0;
       }
