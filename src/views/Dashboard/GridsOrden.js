@@ -304,6 +304,8 @@ export default (props) => {
                 )}
               </Poppers>
             </GridItem>
+            <GridItem id='checkerN' xs={12} sm={12} md={3}> </GridItem>
+            
           </GridContainer>
           {/*<Map c={c} />*/}
           {/*<div><iframe frameBorder='0' height='450' src='https://www.mapdevelopers.com/area_calculator_adv.php?zoom=1&lat=40&lng=-73&height=450&width=500&button_color=eeeeee&text_color=000000&' width='500'></iframe><div style={{fontSize: 10}}><a href="https://www.mapdevelopers.com/area_finder.php">Area calculator</a> provided by <a href="https://www.mapdevelopers.com">Map Developers</a></div></div>*/}

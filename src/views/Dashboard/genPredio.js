@@ -1,6 +1,7 @@
 import getPredial from "./getPredial";
 import clearCheck from './clearCheck.js';
 import encrypt from "./encrypt";
+import clearCheckN from "./clearCheckN";
 export default (r,tp,c) => {
   const genCarta = (CTA, nombre, ubi, tp, añoI, añoF) => {
     const {
@@ -69,6 +70,8 @@ export default (r,tp,c) => {
         //  this.setState({tipoPredio: tp})
         //}
         document.getElementById('otroservicio').value=''
+        clearCheck(c)
+        clearCheckN(c)
         if(!orden){
           if (calle.value===''){
             calle.value = contribuyente.ubicacion
@@ -76,7 +79,7 @@ export default (r,tp,c) => {
           m1.value = 0
           m2.value = 0
           bg.value = 0;
-          clearCheck(c)
+          
           dateUpL.value = ''
           c.idOrden = 0
           c.setState({tc: 0, zona: 0, totalN: 0});

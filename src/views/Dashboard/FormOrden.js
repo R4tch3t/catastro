@@ -41,6 +41,7 @@ import registrarO from './registrarO.js';
 import padrones from './padrones.js';
 import registrarF from './registrarF.js';
 import ByFolio from './ByFolio.js';
+import clearCheckN from './clearCheckN.js';
 
 
 if (!String.prototype.splice) {
@@ -582,10 +583,13 @@ blurPeriodo=(e)=>{
 
 componentDidMount(){
   const {bandPdf,bandCTA,genCTA,tp,idOrden} = this.props
+  const {readOnly} = this.state
   const checks = tp === 'u' || tp === '' ? [0] : [1]
   if (bandPdf !== '1') {
     clearCheckCP(checks)
     clearCheckM(this)
+    clearCheckN(this)
+
   }
   if (bandCTA==='1'){
     document.getElementById('CTANM').value=genCTA
