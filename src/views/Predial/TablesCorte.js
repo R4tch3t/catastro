@@ -3,6 +3,7 @@ import cookie from "react-cookies";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
 import Pdf from "./renderPDF";
+import PdfG from "./renderPDFG";
 // @material-ui/core
 //import { makeStyles } from "@material-ui/core/styles";
 //import Icon from "@material-ui/core/Icon";
@@ -413,6 +414,21 @@ recorte = () => {
   this.obtenerOF(dateSI, dateNSF);
 }
 
+informeG = () => {
+  let tzoffset = (new Date()).getTimezoneOffset() * 60000;
+  let {dateSF} = this.state
+  let {dateSI} = this.state
+  let dateNSF = new Date(dateSF);
+  dateNSF.setDate(dateSF.getDate() + 1);
+  dateSI = new Date(dateSI - tzoffset).toISOString().slice(0, -1)
+  dateNSF = new Date(dateNSF - tzoffset).toISOString().slice(0, -1)
+  let subUrl = `?bandInfoG=1&dateSI=${dateSI}&dateSF=${dateNSF}`
+  let url = `#/admin/corte`
+  url += `?v=${encrypt(subUrl)}`;
+  const win = window.open(url, '_blank');
+  win.focus();
+}
+
 informe = () => {
   let tzoffset = (new Date()).getTimezoneOffset() * 60000;
   let {dateSF} = this.state
@@ -428,10 +444,15 @@ informe = () => {
   win.focus();
 }
 
+
 render() {
-  const {bandInfo} = this.props
+  const {bandInfoG,bandInfo} = this.props;
   const {classes} = this.state;
-  if(bandInfo==='1'){
+  if(bandInfoG==='1'){
+    const {dateSI, dateSF} = this.props;
+    return(<PdfG classes={classes}
+            dateSI={dateSI} dateSF={dateSF} /> )
+  }else if(bandInfo==='1'){
     const {dateSI, dateSF} = this.props;
     return(<Pdf classes={classes}
             dateSI={dateSI} dateSF={dateSF} /> )
@@ -488,6 +509,20 @@ render() {
                 <div style={{height: 30}} />
                 <GridContainer>
                   <Button
+                    id="infoA"
+                    color="info"
+                    style={{
+                      display: "flex",
+                      flex: 1,
+                      alignItems: "center"
+                    }}
+                    onClick={this.informeG}
+                  >
+                    INFORME GENERAL
+                  </Button>
+                </GridContainer>
+                <GridContainer>
+                  <Button
                     id="infoB"
                     color="primary"
                     style={{
@@ -497,7 +532,7 @@ render() {
                     }}
                     onClick={this.informe}
                   >
-                    GNERAR INFORME
+                    INFORME MENSUAL
                   </Button>
                 </GridContainer>
                 <GridContainer>
@@ -514,71 +549,7 @@ render() {
                     GENERAR RECORTE
                   </Button>
                   </GridContainer>
-                {/*
-                <CustomInput
-                  formControlProps={{
-                    className: classes.margin + " " + classes.search
-                  }}
-                  id='idEmpleado'
-                  inputProps={{
-                    placeholder: "CTA O NOMBRE",
-                    type: 'text',
-                    //onKeyUp: this.handleKup,
-                    //value: idUsuario,
-                    inputProps: {
-                      "aria-label": "Search"
-                    }
-                  }}
-                />
-                <Button color="white" onClick={this.handleClickDash} aria-label="edit"
-                aria-owns={openDash ? "profile-menu-list-grow" : null}
-                aria-haspopup="true"
-                justIcon round>
-                  <Search />
-                </Button>
                 
-                <Poppers
-                  open={Boolean(openDash)}
-                  anchorEl={openDash}
-                  transition
-                  disablePortal
-                  className={
-                    classNames({ [classes.popperClose]: !openDash }) +
-                    " " +
-                    classes.popperNav
-                  }
-                >
-                  {({ TransitionProps, placement }) => (
-                    <Grow
-                      {...TransitionProps}
-                      id="profile-menu-list-grow"
-                      style={{
-                        transformOrigin:
-                          placement === "bottom" ? "center top" : "center bottom"
-                      }}
-                    >
-                      <Paper>
-                        <ClickAwayListener onClickAway={this.handleCloseDash}>
-                            <MenuList role="menu">
-                              <MenuItem key={'cuenta'}
-                                className={classes.dropdownItem}
-                                //onClick={this.irA(key)}
-                              >
-                                Por CTE. 
-                              </MenuItem>
-                              <MenuItem key={'nombre'}
-                                className={classes.dropdownItem}
-                                //onClick={this.irA(key)}
-                              >
-                                Por nombre 
-                              </MenuItem>
-                            </MenuList>
-                        </ClickAwayListener>
-                      </Paper>
-                    </Grow>
-                  )}
-                </Poppers>
-                */}
               </div>
 
               <Table
@@ -591,29 +562,6 @@ render() {
         </GridItem>
       </GridContainer>
       <GridContainer>
-        {/*<GridItem xs={12} sm={6} md={3}>
-          <Card>
-            <CardHeader color="warning" stats icon>
-              <CardIcon color="warning">
-                <Icon>content_copy</Icon>
-              </CardIcon>
-              <p className={classes.cardCategory}>Used Space</p>
-              <h3 className={classes.cardTitle}>
-                49/50 <small>GB</small>
-              </h3>
-            </CardHeader>
-            <CardFooter stats>
-              <div className={classes.stats}>
-                <Danger>
-                  <Warning />
-                </Danger>
-                <a href="#pablo" onClick={e => e.preventDefault()}>
-                  Get more space
-                </a>
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>*/}
 
         <GridItem xs={12} sm={6} md={12}>
           <Card>
@@ -632,61 +580,7 @@ render() {
             </CardFooter>
           </Card>
         </GridItem>
-        {/*<GridItem xs={12} sm={6} md={6}>
-          <Card>
-            <CardHeader color="success" stats icon>
-              <CardIcon color="success">
-                <LocalAtm />
-              </CardIcon>
-              <p className={classes.cardCategory}>Seguro de daños FOVISSTE</p>
-              <h3 className={classes.cardTitle}>
-                {`TOTAL: $`}
-                {totalS}
-              </h3>
-            </CardHeader>
-            <CardFooter stats>
-              <div className={classes.stats}>
-                <DateRange />
-                Últimos {lastD} meses
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-        <GridItem xs={12} sm={6} md={3}>
-          <Card>
-            <CardHeader color="danger" stats icon>
-              <CardIcon color="danger">
-                <Icon>info_outline</Icon>
-              </CardIcon>
-              <p className={classes.cardCategory}>Fixed Issues</p>
-              <h3 className={classes.cardTitle}>75</h3>
-            </CardHeader>
-            <CardFooter stats>
-              <div className={classes.stats}>
-                <LocalOffer />
-                Tracked from Github
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-        <GridItem xs={12} sm={6} md={3}>
-          <Card>
-            <CardHeader color="info" stats icon>
-              <CardIcon color="info">
-                <Accessibility />
-              </CardIcon>
-              <p className={classes.cardCategory}>Followers</p>
-              <h3 className={classes.cardTitle}>+245</h3>
-            </CardHeader>
-            <CardFooter stats>
-              <div className={classes.stats}>
-                <Update />
-                Just Updated
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-        */}
+        
       </GridContainer>
       <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
@@ -718,60 +612,7 @@ render() {
           </Card>
         </GridItem>
       </GridContainer>
-{/*
-      <GridContainer>
-        <GridItem xs={12} sm={12} md={12}>
-          <Card chart>
-            <CardHeader color="danger">
-              <ChartistGraph
-                className="ct-chart"
-                data={seguroFovisste.data}
-                type="Bar"
-                options={seguroFovisste.options}
-                responsiveOptions={seguroFovisste.responsiveOptions}
-                listener={seguroFovisste.animation}
-              />
-            </CardHeader>
-            <CardBody>
-              <h4 className={classes.cardTitle}>Seguro de daños FOVISSTE</h4>
-              <p className={classes.cardCategory}>
-                <span className={classes.successText}>
-                  <ArrowUpward className={classes.upArrowCardCategory} />{" "}
-                  {porcentajeS}%
-                </span>{" "}
-                seguro por quincena.
-              </p>
-            </CardBody>
-            <CardFooter chart>
-              <div className={classes.stats}>
-                <AccessTime /> Seguros de 2019
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-        {/*<GridItem xs={12} sm={12} md={4}>
-          <Card chart>
-            <CardHeader color="danger">
-              <ChartistGraph
-                className="ct-chart"
-                data={completedTasksChart.data}
-                type="Line"
-                options={completedTasksChart.options}
-                listener={completedTasksChart.animation}
-              />
-            </CardHeader>
-            <CardBody>
-              <h4 className={classes.cardTitle}>Completed Tasks</h4>
-              <p className={classes.cardCategory}>Last Campaign Performance</p>
-            </CardBody>
-            <CardFooter chart>
-              <div className={classes.stats}>
-                <AccessTime /> campaign sent 2 days ago
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>//
-      </GridContainer>*/}
+
     </CardIcon>
   );
   }

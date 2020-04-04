@@ -24,13 +24,15 @@ export default () => {
   const classes = useStyles();
   let urlDec = getParameterByName('v');
   urlDec = decrypt(urlDec);
+  const bandInfoG = getParameterByName('bandInfoG', urlDec)
   const bandInfo = getParameterByName('bandInfo', urlDec)
   const dateSI = getParameterByName('dateSI', urlDec)
   const dateSF = getParameterByName('dateSF', urlDec)  
  
   return (
    <TablesCorte
-                classes={classes} bandInfo={bandInfo}
+                classes={classes}
+                bandInfoG={bandInfoG} bandInfo={bandInfo}
                 dateSI={dateSI} dateSF={dateSF} />
   );
 }

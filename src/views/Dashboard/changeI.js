@@ -175,6 +175,6 @@ export default (id,c) => {
     if(bg.value>86328){
       vi.value=1932
     }
-    
+
   }
 }

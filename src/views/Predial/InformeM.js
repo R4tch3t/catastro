@@ -19,7 +19,8 @@ export default async (fi, ff, c)=>{
       
       const bodyJSON = {
         fi: fi,
-        ff: ff
+        ff: ff,
+        bandG: false
       };
       const response = await fetch(sendUri, {
         method: "POST",
@@ -415,6 +416,7 @@ export default async (fi, ff, c)=>{
           c.setState({
             dia: dateFI.getDate(),
             mes: meses[dateFI.getMonth()],
+            año: dateFI.getFullYear(),
             dataTable: data,
             total: total,
             renderPDF: true

@@ -308,28 +308,28 @@ class App extends React.Component {
                             <Text style={[this.styles.tableCell,{textAlign: 'left'}]}>Recargos</Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '7%'}]}>  
-                            <Text style={[this.styles.tableCell2]}>{dataTable.recargosN}</Text> 
+                            <Text style={[this.styles.tableCell2]}></Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '9%'}]}>  
                             <Text style={[this.styles.tableCell2]}></Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '7%'}]}>  
-                            <Text style={[this.styles.tableCell2]}>{dataTable.recargosNR}</Text> 
+                            <Text style={[this.styles.tableCell2]}></Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '7%'}]}>  
-                            <Text style={[this.styles.tableCell2]}>{dataTable.recargosN+dataTable.recargosNR}</Text> 
+                            <Text style={[this.styles.tableCell2]}></Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '10%'}]}>  
-                            <Text style={this.styles.tableCell2}>{dataTable.recargosI}</Text> 
+                            <Text style={this.styles.tableCell2}></Text> 
                           </View> 
                           <View style={[this.styles.tableCol,{width: '15%'}]}>  
                             <Text style={this.styles.tableCell2}></Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '10%'}]}>  
-                            <Text style={this.styles.tableCell2}>{dataTable.recargosIR}</Text> 
+                            <Text style={this.styles.tableCell2}></Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '15%'}]}>  
-                            <Text style={this.styles.tableCell2}>{dataTable.totalRI}</Text> 
+                            <Text style={this.styles.tableCell2}></Text> 
                           </View> 
                         </View>
 

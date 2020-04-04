@@ -29,6 +29,7 @@ export default (props)=>{
         dateUpL.value='';
         regB.innerHTML = 'GENERAR ORDEN DE PAGO';
         c.idOrden = 0;
+        c.state.currentD = new Date()
         clearCheck(c)
         c.sumaT()
       }

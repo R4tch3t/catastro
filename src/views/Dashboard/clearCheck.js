@@ -19,7 +19,7 @@ export default (fa) => {
        ['INSEN',
          'PERSONAS DE CAPACIDADES DIFERENTES'
        ], ['0020802', '0020803'], fa);
-       document.getElementById('0020802').Value = 0
+       document.getElementById('0020802').value = 0
        document.getElementById('0020803').value = 0
    
      renderCI('subIm3', task, 6, [], ['41121001', '41131001'],
