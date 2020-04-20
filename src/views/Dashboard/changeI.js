@@ -127,7 +127,7 @@ export default (id,c) => {
     pb = Math.round(pb)
     const vi = document.getElementById(id);
     vi.value = pb * 2
-    const d = new Date()
+    const d = c.state.currentD
     const m = d.getMonth()
     let mul = 1.5
     if (m > 1 && m < 6) {

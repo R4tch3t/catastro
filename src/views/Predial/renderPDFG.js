@@ -314,7 +314,7 @@ class App extends React.Component {
                         <Text style={[{margin: 'auto', top: '50', left: '165', fontSize: 10, textDecoration: "underline"}]}>LIC. ALDY ESTEBAN ROMAN</Text>        
                       </View>
                       <View>
-                        <Text style={[this.styles.headO,{margin: 'auto', top: '50', left: '165', fontSize: 10}]}>EL TESORERO MUNICIPAL Y/O EQUIVALENTE</Text>        
+                        <Text style={[this.styles.headO,{margin: 'auto', top: '50', left: '165', fontSize: 10}]}>SECRETARIO DE FINANZAS MUNICIPAL</Text>        
                       </View>
                       <View>
                         <Text style={[{margin: 'auto', top: '60', left: '0', fontSize: 8}]}>Calle 13 Norte No. 1312, Esquina Avenida Constitución, C.P 41100, Correo Electrónico: catastro_301015@hotmail.com

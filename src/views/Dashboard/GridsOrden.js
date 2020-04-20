@@ -343,6 +343,20 @@ export default (props) => {
             </GridItem>
             <GridItem xs={12} sm={12} md={2}>
               <CustomInput
+                labelText="NÚMERO EXT:"
+                id="numCalle"
+                formControlProps={{
+                  fullWidth: true
+                }}
+                inputProps={{
+                  type: "text",
+                  defaultValue: 0,
+                  onKeyUp: c.handleUpper
+                }}
+              />
+            </GridItem>
+            <GridItem xs={12} sm={12} md={2}>
+              <CustomInput
               labelText="LOTE:"
               id="lote"
               formControlProps={{
@@ -366,20 +380,6 @@ export default (props) => {
                   defaultValue: "\0",
                   onKeyUp: c.handleUpper
               }}
-              />
-            </GridItem>
-            <GridItem xs={12} sm={12} md={2}>
-              <CustomInput
-                labelText="NÚMERO EXT:"
-                id="numCalle"
-                formControlProps={{
-                  fullWidth: true
-                }}
-                inputProps={{
-                  type: "text",
-                  defaultValue: 0,
-                  onKeyUp: c.handleUpper
-                }}
               />
             </GridItem>
             <GridItem xs={12} sm={12} md={3}>

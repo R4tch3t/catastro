@@ -98,8 +98,9 @@ export default (c) => {
     pb = Math.round(pb)
     const vi = document.getElementById('0030101');
     vi.value = pb * 2
-    const d = new Date()
+    const d = c.state.currentD
     const m = d.getMonth()
+    console.log(`month: ${m}`)
     let mul = 1.5
     if (m > 1 && m < 6) {
       mul = 2

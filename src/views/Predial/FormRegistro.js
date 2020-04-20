@@ -104,6 +104,19 @@ return(
             }}
             />
         </GridItem>
+        <GridItem xs={12} sm={12} md={2}>
+            <CustomInput
+            labelText="NUMERO EXT:"
+            id="numCalle"
+            formControlProps={{
+                fullWidth: true
+            }}
+            inputProps={{
+                type: "text",
+                defaultValue: c.dValInt
+            }}
+            />
+        </GridItem>
          <GridItem xs={12} sm={12} md={2}>
             <CustomInput
             labelText="LOTE:"
@@ -128,19 +141,6 @@ return(
                 type: "text",
                 defaultValue: c.dValue,
                 onKeyUp: handleUpper
-            }}
-            />
-        </GridItem>
-        <GridItem xs={12} sm={12} md={2}>
-            <CustomInput
-            labelText="NUMERO EXT:"
-            id="numCalle"
-            formControlProps={{
-                fullWidth: true
-            }}
-            inputProps={{
-                type: "text",
-                defaultValue: c.dValInt
             }}
             />
         </GridItem>

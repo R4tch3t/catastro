@@ -274,14 +274,14 @@ class App extends React.Component {
                           <View style={this.styles.tableCol2}> 
                             <Text style={this.styles.tableCell}>CALLE: <Text style={[this.styles.tableCell,this.styles.labelR]}>{calle}</Text> </Text>
                           </View>
+                          <View style={[this.styles.tableCol,{width: '15%'}]}>  
+                            <Text style={this.styles.tableCell}>NÚM: <Text style={[this.styles.tableCell,this.styles.labelR]}>{numero}</Text></Text> 
+                          </View>
                           <View style={[this.styles.tableCol,{width: '20%'}]}>  
                             <Text style={this.styles.tableCell}>LTE: <Text style={[this.styles.tableCell,this.styles.labelR]}>{lote}</Text></Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '15%'}]}>  
                             <Text style={this.styles.tableCell}>MZA: <Text style={[this.styles.tableCell,this.styles.labelR]}>{manzana}</Text></Text> 
-                          </View>
-                          <View style={[this.styles.tableCol,{width: '15%'}]}>  
-                            <Text style={this.styles.tableCell}>NÚM: <Text style={[this.styles.tableCell,this.styles.labelR]}>{numero}</Text></Text> 
                           </View> 
                         </View>
 

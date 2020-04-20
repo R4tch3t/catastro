@@ -262,7 +262,6 @@ handleNombre = e => {
     this.setState({nombre: val})
   }else
   if(e.which===8){
-    
     let val = ''
     if (this.selectionStartNombre === this.selectionEndNombre){
       this.selectionEndNombre-=1
