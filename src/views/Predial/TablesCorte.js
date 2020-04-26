@@ -136,6 +136,27 @@ mes = (i) => {
       return 'DICIEMBRE'
   }
 }
+
+addEx=async()=>{
+  console.log('addEx')
+  const sendUri = ip("3030");
+  const bodyJSON = {
+      exStr: ''
+  };
+  const response = await fetch(sendUri, {
+      method: "POST",
+      headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+      },
+      body: JSON.stringify(bodyJSON)
+  });
+
+  const responseJson = await response.json().then(r => {
+  
+  });
+}
+
 obtenerOF=async(fi,ff)=>{
     try {
         const sendUri = ip("3014");
@@ -507,6 +528,20 @@ render() {
                   </GridItem>
                 </GridContainer>
                 <div style={{height: 30}} />
+                <GridContainer>
+                  <Button
+                    id="add Excel"
+                    color="warning"
+                    style={{
+                      display: "none",
+                      flex: 1,
+                      alignItems: "center"
+                    }}
+                    onClick={this.addEx}
+                  >
+                    AGREGAR EXCEL
+                  </Button>
+                </GridContainer>
                 <GridContainer>
                   <Button
                     id="infoA"

@@ -35,6 +35,7 @@ export default (predial,c) => {
        document.getElementById('0020804').value = e.val
      }
      if (e.idImpuesto === 8) {
+       c.esAlta=true
        checkeds[3].push(1)
        document.getElementById('0030101').value = e.val
      }

@@ -154,6 +154,14 @@ export default (id,c) => {
       ['15% PRO CAMINOS',
         'DESCUENTO PREDIAL DE NATURALEZA DEUDORA'
       ], ['0070202', '0070203'], c);
+    if (!c.esAlta && !c.state.readOnly) {
+      const dateUpL = document.getElementById('dateUp');
+      const regB = document.getElementById('regB');
+      dateUpL.value = '';
+      regB.innerHTML = 'GENERAR ORDEN DE PAGO';
+      c.idOrden = 0;
+      c.state.currentD = new Date()
+    }
   }
   
   if (id === '0090702') {  

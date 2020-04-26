@@ -119,6 +119,7 @@ street = '';
 barr = '';
 saveZ = 0;
 idOrden=0;
+esAlta=false;
 constructor(props){
     super(props);
     const date = new Date()
