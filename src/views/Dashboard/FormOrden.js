@@ -531,11 +531,22 @@ addImpuesto = (id) => {
 sumaT=async()=>{
   sumaT(this);
 }
-
+oldDateUpL=''
+oldIdOrden=0
+oldCurrentD=null
 setZero=async(id)=>{
   const i = document.getElementById(id);
   i.blur();
   i.value = 0;
+  if (id === '0030101' && this.oldCurrentD!==null) {
+    const dateUpL = document.getElementById('dateUp');
+    const regB = document.getElementById('regB');
+    dateUpL.value = this.oldDateUpL;
+    regB.innerHTML = 'ACTUALIZAR ORDEN DE PAGO';
+    this.idOrden = this.oldIdOrden;
+    this.setState({currentD: this.oldCurrentD});
+    //this.state.currentD = new Date()
+  }
   sumaT(this);
 }
 

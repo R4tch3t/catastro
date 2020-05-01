@@ -41,7 +41,7 @@ export default async(idOrden, tp, c) => {
 
         let distance = c.google.maps.geometry.spherical.computeDistanceBetween(needle.latlng, needle2.latlng);
         const area = c.google.maps.geometry.spherical.computeArea(poly.getPath())
-        console.log(`area: ${area}`)
+        //console.log(`area: ${area}`)
         let infowindow = new c.google.maps.InfoWindow();
         infowindow.setContent(`<div><b>Area: ${c.round(area,3)}</b></div>${c.round(distance,3)} Metros`);
 
@@ -155,7 +155,7 @@ export default async(idOrden, tp, c) => {
                 let i = 0
                 r.pc.forEach(e => {
                     const latLng = {lat: parseFloat(e.latC), lng: parseFloat(e.lngC)}
-                    console.log(e)
+                   // console.log(e)
                     let marker = new c.google.maps.Marker({
                         position: latLng,
                         draggable: true,
@@ -204,7 +204,7 @@ export default async(idOrden, tp, c) => {
                 let i = 0
                 r.pt.forEach(e => {
                     const latLng = {lat: parseFloat(e.latT), lng: parseFloat(e.lngT)}
-                    console.log(e)
+                   // console.log(e)
                     let marker = new c.google.maps.Marker({
                         position: latLng,
                         draggable: true,
