@@ -294,8 +294,8 @@ class App extends React.Component {
                           </View>
                         </View>
                       </View>
-                      <View>
-                        <Text style={[this.styles.tableCell,{margin: 'auto', top: '30', right: '23%'}]}>CANTIDAD CON LETRA:   (  <Text style={[this.styles.labelR,{textDecoration: "underline"}]}>{totalS}00/100 M.N.</Text>  )</Text>
+                      <View >
+                        <Text style={[{margin: 'auto', top: '30', fontSize: 9}]} >CANTIDAD CON LETRA:   (  <Text style={[this.styles.labelR,{textDecoration: "underline"}]}>{totalS}00/100 M.N.</Text>  )</Text>
                       </View>
                       <View>
                         <Text style={[this.styles.headO,{margin: 'auto', top: '60', right: '185', fontSize: 10}]}>ELABORÓ</Text>        

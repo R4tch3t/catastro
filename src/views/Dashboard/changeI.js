@@ -161,10 +161,10 @@ export default (id,c) => {
       c.oldDateUpL = dateUpL.value
       c.oldIdOrden = c.idOrden
       c.oldCurrentD = c.state.currentD
-      dateUpL.value = '';
+     // dateUpL.value = '';
       regB.innerHTML = 'GENERAR ORDEN DE PAGO';
       c.idOrden = 0;
-      c.state.currentD = new Date()
+     // c.state.currentD = new Date()
     }
   }
   
