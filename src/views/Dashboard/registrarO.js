@@ -203,7 +203,8 @@ export default async(CTA,c) => {
         let V0090704 = document.getElementById('0090704').value
         if (I0090704) {
           idImpuestos.push({id: 19, val: V0090704});
-          servQ = parseInt(V0090704)*0.15
+          servQ = parseInt(V0090704)*0.15;
+          servQ = Math.round(servQ);
           //pb = parseInt(V0090704)
           //pb += parseInt(servQ)*2
           /*servQ = servQ.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
