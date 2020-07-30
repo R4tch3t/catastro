@@ -374,25 +374,26 @@ export default async(CTA,c) => {
                   const win = window.open(url, '_blank');
                   win.focus();
                 }else{
-                  let subUrl2 = ''
-                  let subUrl3 = ''
-                  let subUrl4 = ''
-                  let subUrl5 = ''
-                  let subUrl6 = ''
-                  let urlPb = ''
+                  const arrSub = ['', '', '', '', '', '']
+                  //let subUrl2 = ''
+                  //let subUrl3 = ''
+                  //let subUrl4 = ''
+                  //let subUrl5 = ''
+                  //let subUrl6 = ''
+                  //let urlPb = ''
                   if ((V0020401 > 0 && I0020401) || (V0020402 > 0 && I0020402) || (V0020403 > 0 && I0020403)) {
-                      urlPb = `${subUrl}&folio=${folio}&V0020401=${V0020401}&V0020402=${V0020402}&V0020403=${V0020403}`
-                      urlPb += `&V0020801=${V0020801}&V0020802=${V0020802}&V0020803=${V0020803}&V0020804=${V0020804}&V0030101=0`
-                      urlPb += `&V0070101=${V0070101}&V0070201=${V0070201}&V0070202=${V0070202}&V0070203=${V0070203}&V0090101=${V0090101}`
-                      urlPb += `&V0090106=${V0090106}&V0090107=${V0090107}&V0090701=0&V0090702=0&V0090703=0`
-                      urlPb += `&V0090704=0&V00913=${V00913}&V0091301=${V0091301}&V0010804=${V0010804}&V0010101=${V0010101}`
-                      urlPb += `&V21173001001=${V21173001001}&otroservicio=${''}&total=${pb}`
+                      arrSub[0] = `${subUrl}&folio=${folio}&V0020401=${V0020401}&V0020402=${V0020402}&V0020403=${V0020403}`
+                      arrSub[0] += `&V0020801=${V0020801}&V0020802=${V0020802}&V0020803=${V0020803}&V0020804=${V0020804}&V0030101=0`
+                      arrSub[0] += `&V0070101=${V0070101}&V0070201=${V0070201}&V0070202=${V0070202}&V0070203=${V0070203}&V0090101=${V0090101}`
+                      arrSub[0] += `&V0090106=${V0090106}&V0090107=${V0090107}&V0090701=0&V0090702=0&V0090703=0`
+                      arrSub[0] += `&V0090704=0&V00913=${V00913}&V0091301=${V0091301}&V0010804=${V0010804}&V0010101=${V0010101}`
+                      arrSub[0] += `&V21173001001=${V21173001001}&otroservicio=${''}&total=${pb}`
                   }
-                  let newF = 0
+                  let indexS = 1
                   let countF = 0
                   let toFolio = parseInt(folio)
                   //url += `?v=${encrypt(subUrl2)}`;
-                  if (urlPb.length > 0) {
+                  if (arrSub[0].length > 0) {
                     toFolio++
                     //countF++
                   }
@@ -402,25 +403,26 @@ export default async(CTA,c) => {
                     //if (urlPb.length > 0) {
                    //   newF++
                     //countF++
-                    newF = toFolio + countF
+                    /*newF = toFolio + countF
                     //genFolio(newF, url, subUrl2, r.idOrden, tipoPredio)
                    // }
                     let labelF = newF.toString()
                     while (labelF.length < 5) {
                       labelF = `0${labelF}`
-                    }
+                    }*/
                     pb = V0030101
                     V0030101 = V0030101.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                     V0030101 = `${V0030101}.00`
-                    subUrl2 = `${subUrl}&folio=${labelF}&V0020401=0&V0020402=0&V0020403=0`
-                    subUrl2 += `&V0020801=0&V0020802=0&V0020803=0&V0020804=0&V0030101=${V0030101}`
-                    subUrl2 += `&V0070101=0&V0070201=0&V0070202=0&V0070203=0&V0090101=0`
-                    subUrl2 += `&V0090106=0&V0090107=0&V0090701=0&V0090702=0&V0090703=0`
-                    subUrl2 += `&V0090704=0&V00913=0&V0091301=0&V0010804=0&V0010101=0`
-                    subUrl2 += `&V21173001001=0&otroservicio=${''}&servQ=0&total=${pb}`
+                    arrSub[indexS] = `${subUrl}&V0020401=0&V0020402=0&V0020403=0`
+                    arrSub[indexS] += `&V0020801=0&V0020802=0&V0020803=0&V0020804=0&V0030101=${V0030101}`
+                    arrSub[indexS] += `&V0070101=0&V0070201=0&V0070202=0&V0070203=0&V0090101=0`
+                    arrSub[indexS] += `&V0090106=0&V0090107=0&V0090701=0&V0090702=0&V0090703=0`
+                    arrSub[indexS] += `&V0090704=0&V00913=0&V0091301=0&V0010804=0&V0010101=0`
+                    arrSub[indexS] += `&V21173001001=0&otroservicio=${''}&servQ=0&total=${pb}`
                     //window.open(`${url}?v=${encrypt(subUrl2)}`, '_blank');
                     //genFolio(newF, url, subUrl2, r.idOrden, tipoPredio)
                     countF++
+                    indexS++
                   }
 
                   if (I0090701) {
@@ -429,11 +431,11 @@ export default async(CTA,c) => {
                       //genFolio(newF, url, subUrl2, r.idOrden, tipoPredio)
                    // }
                     //countF++
-                    newF = toFolio + countF
-                    let labelF = newF.toString()
+                    //newF = toFolio + countF
+                    /*let labelF = newF.toString()
                     while (labelF.length < 5) {
                       labelF = `0${labelF}`
-                    }
+                    }*/
                     const {labelConsta} = c.state
                     pb = parseInt(V0090701)
                     let constaQ = pb * 0.15
@@ -443,15 +445,16 @@ export default async(CTA,c) => {
                     V0090701 = `${V0090701}.00`
                     constaQ = constaQ.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                     constaQ = `${constaQ}.00`
-                    subUrl3 = `${subUrl}&folio=${labelF}&V0020401=0&V0020402=0&V0020403=0`
-                    subUrl3 += `&V0020801=0&V0020802=0&V0020803=0&V0020804=0&V0030101=0`
-                    subUrl3 += `&V0070101=0&V0070201=0&V0070202=0&V0070203=0&V0090101=0`
-                    subUrl3 += `&V0090106=0&V0090107=0&V0090701=${V0090701}&V0090702=0&V0090703=0`
-                    subUrl3 += `&V0090704=0&V00913=0&V0091301=0&V0010804=0&V0010101=0`
-                    subUrl3 += `&V21173001001=0&otroservicio=${''}&servQ=0`
-                    subUrl3 += `&constaL=${labelConsta}&constaQ=${constaQ}&total=${pb}`
+                    arrSub[indexS] = `${subUrl}&V0020401=0&V0020402=0&V0020403=0`
+                    arrSub[indexS] += `&V0020801=0&V0020802=0&V0020803=0&V0020804=0&V0030101=0`
+                    arrSub[indexS] += `&V0070101=0&V0070201=0&V0070202=0&V0070203=0&V0090101=0`
+                    arrSub[indexS] += `&V0090106=0&V0090107=0&V0090701=${V0090701}&V0090702=0&V0090703=0`
+                    arrSub[indexS] += `&V0090704=0&V00913=0&V0091301=0&V0010804=0&V0010101=0`
+                    arrSub[indexS] += `&V21173001001=0&otroservicio=${''}&servQ=0`
+                    arrSub[indexS] += `&constaL=${labelConsta}&constaQ=${constaQ}&total=${pb}`
                     //window.open(`${url}?v=${encrypt(subUrl2)}`, '_blank');
                     countF++
+                    indexS++
                   }
 
                   if (I0090702) {
@@ -461,11 +464,11 @@ export default async(CTA,c) => {
                       //genFolio(newF, url, subUrl2, r.idOrden, tipoPredio)
                     //}
                     //countF++
-                    newF = toFolio + countF
+                    /*newF = toFolio + countF
                     let labelF = newF.toString()
                     while (labelF.length < 5) {
                       labelF = `0${labelF}`
-                    }
+                    }*/
                     pb = parseInt(V0090702)
                     let certiQ = pb * 0.15
                     certiQ = Math.round(certiQ)
@@ -476,15 +479,16 @@ export default async(CTA,c) => {
                     if (certiQ !== '0' && certiQ.toString().split('.').length === 1) {
                       certiQ = `${certiQ}.00`
                     }
-                    subUrl4 = `${subUrl}&folio=${labelF}&V0020401=0&V0020402=0&V0020403=0`
-                    subUrl4 += `&V0020801=0&V0020802=0&V0020803=0&V0020804=0&V0030101=0`
-                    subUrl4 += `&V0070101=0&V0070201=0&V0070202=0&V0070203=0&V0090101=0`
-                    subUrl4 += `&V0090106=0&V0090107=0&V0090701=0&V0090702=${V0090702}&V0090703=0`
-                    subUrl4 += `&V0090704=0&V00913=0&V0091301=0&V0010804=0&V0010101=0`
-                    subUrl4 += `&V21173001001=0&otroservicio=${''}&servQ=0&certiQ=${certiQ}&total=${pb}`
+                    arrSub[indexS] = `${subUrl}&V0020401=0&V0020402=0&V0020403=0`
+                    arrSub[indexS] += `&V0020801=0&V0020802=0&V0020803=0&V0020804=0&V0030101=0`
+                    arrSub[indexS] += `&V0070101=0&V0070201=0&V0070202=0&V0070203=0&V0090101=0`
+                    arrSub[indexS] += `&V0090106=0&V0090107=0&V0090701=0&V0090702=${V0090702}&V0090703=0`
+                    arrSub[indexS] += `&V0090704=0&V00913=0&V0091301=0&V0010804=0&V0010101=0`
+                    arrSub[indexS] += `&V21173001001=0&otroservicio=${''}&servQ=0&certiQ=${certiQ}&total=${pb}`
                     //window.open(`${url}?v=${encrypt(subUrl2)}`, '_blank');
                     //genFolio(newF, url, subUrl2, r.idOrden, tipoPredio)
                     countF++
+                    indexS++
                   }
                   
                   if (I0090703) {
@@ -494,23 +498,24 @@ export default async(CTA,c) => {
                       //genFolio(newF, url, subUrl2, r.idOrden, tipoPredio)
                     //}
                     //countF++
-                    newF = toFolio + countF
+                    /*newF = toFolio + countF
                     let labelF = newF.toString()
                     while (labelF.length < 5) {
                       labelF = `0${labelF}`
-                    }
+                    }*/
                     pb = V0090703
                     V0090703 = V0090703.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                     V0090703 = `${V0090703}.00`
-                    subUrl5 = `${subUrl}&folio=${labelF}&V0020401=0&V0020402=0&V0020403=0`
-                    subUrl5 += `&V0020801=0&V0020802=0&V0020803=0&V0020804=0&V0030101=0`
-                    subUrl5 += `&V0070101=0&V0070201=0&V0070202=0&V0070203=0&V0090101=0`
-                    subUrl5 += `&V0090106=0&V0090107=0&V0090701=0&V0090702=0&V0090703=${V0090703}`
-                    subUrl5 += `&V0090704=0&V00913=0&V0091301=0&V0010804=0&V0010101=0`
-                    subUrl5 += `&V21173001001=0&otroservicio=${''}&servQ=0&total=${pb}`
+                    arrSub[indexS] = `${subUrl}&V0020401=0&V0020402=0&V0020403=0`
+                    arrSub[indexS] += `&V0020801=0&V0020802=0&V0020803=0&V0020804=0&V0030101=0`
+                    arrSub[indexS] += `&V0070101=0&V0070201=0&V0070202=0&V0070203=0&V0090101=0`
+                    arrSub[indexS] += `&V0090106=0&V0090107=0&V0090701=0&V0090702=0&V0090703=${V0090703}`
+                    arrSub[indexS] += `&V0090704=0&V00913=0&V0091301=0&V0010804=0&V0010101=0`
+                    arrSub[indexS] += `&V21173001001=0&otroservicio=${''}&servQ=0&total=${pb}`
                    // window.open(`${url}?v=${encrypt(subUrl2)}`, '_blank');
                     //genFolio(newF, url, subUrl2, r.idOrden, tipoPredio)
                     countF++
+                    indexS++
                   }
 
                   if (I0090704) {
@@ -518,13 +523,13 @@ export default async(CTA,c) => {
                     //if (urlPb.length > 0) {
                       //newF++
                     //countF++
-                    newF = toFolio + countF
+                    /*newF = toFolio + countF
                       //genFolio(newF, url, subUrl2, r.idOrden, tipoPredio)
                     //}
                     let labelF = newF.toString()
                     while (labelF.length < 5) {
                       labelF = `0${labelF}`
-                    }
+                    }*/
                     pb = parseInt(V0090704)
                     pb += servQ * 2
                     pb = Math.round(pb)
@@ -535,39 +540,22 @@ export default async(CTA,c) => {
                     V0090704 = V0090704.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                     V0090704 = `${V0090704}.00`
 
-                    subUrl6 = `${subUrl}&folio=${labelF}&V0020401=0&V0020402=0&V0020403=0`
-                    subUrl6 += `&V0020801=0&V0020802=0&V0020803=0&V0020804=0&V0030101=0`
-                    subUrl6 += `&V0070101=0&V0070201=0&V0070202=0&V0070203=0&V0090101=0`
-                    subUrl6 += `&V0090106=0&V0090107=0&V0090701=0&V0090702=0&V0090703=0`
-                    subUrl6 += `&V0090704=${V0090704}&V00913=0&V0091301=0&V0010804=0&V0010101=0`
-                    subUrl6 += `&V21173001001=0&otroservicio=${otroservicio}&servQ=${servQ}&total=${pb}`
+                    arrSub[indexS] = `${subUrl}&V0020401=0&V0020402=0&V0020403=0`
+                    arrSub[indexS] += `&V0020801=0&V0020802=0&V0020803=0&V0020804=0&V0030101=0`
+                    arrSub[indexS] += `&V0070101=0&V0070201=0&V0070202=0&V0070203=0&V0090101=0`
+                    arrSub[indexS] += `&V0090106=0&V0090107=0&V0090701=0&V0090702=0&V0090703=0`
+                    arrSub[indexS] += `&V0090704=${V0090704}&V00913=0&V0091301=0&V0010804=0&V0010101=0`
+                    arrSub[indexS] += `&V21173001001=0&otroservicio=${otroservicio}&servQ=${servQ}&total=${pb}`
                     //genFolio(newF, url, subUrl2, r.idOrden, tipoPredio)
                     //window.open(`${url}?v=${encrypt(subUrl2)}`, '_blank');
                     countF++
+                    indexS++
                   }
-                  if (subUrl6 !== '') {
-                    window.open(`${url}?v=${encrypt(subUrl6)}`, '_blank');
-                  }
-                  if (subUrl5!=='') {
-                    window.open(`${url}?v=${encrypt(subUrl5)}`, '_blank');
-                  }
-                  if (subUrl4!=='') {
-                    window.open(`${url}?v=${encrypt(subUrl4)}`, '_blank');
-                  }
-                  if (subUrl3 !== '') {
-                    window.open(`${url}?v=${encrypt(subUrl3)}`, '_blank');
-                  }
-                  if (subUrl2 !== '') {
-                    window.open(`${url}?v=${encrypt(subUrl2)}`, '_blank');
-                  }
-                  if (urlPb.length>0){
-                    let win = window.open(`${url}?v=${encrypt(urlPb)}`, '_blank');
-                    win.focus();
-                  }
-                  newF = 0
-                  countF--;
+                  
+                  //newF = 0
+                  //countF--;
                   //while (newF < countF) {
-                    genFolio(toFolio, 0, countF, r.idOrden, tipoPredio)
+                    genFolio(toFolio, 0, countF, r.idOrden, tipoPredio, url, arrSub, toFolio === parseInt(folio))
                     //newF++
                     //toFolio++
                   //}
