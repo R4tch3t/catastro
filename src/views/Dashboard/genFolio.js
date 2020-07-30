@@ -1,6 +1,6 @@
 import ip from "variables/ip.js";
-import encrypt from "./encrypt";
-export default async(idFolio, url, subUrl, idOrden, tp) => {
+//import encrypt from "./encrypt";
+const genFolio = async (idFolio, c, t, idOrden, tp) => {
     try {
 
         const sendUri = ip('3029');
@@ -10,7 +10,9 @@ export default async(idFolio, url, subUrl, idOrden, tp) => {
           idOrden: idOrden,
           tp: `${tp}${idFolio}`
         }
-
+        console.log(bodyJSON)
+        console.log(c)
+        console.log(t)
         const response = await fetch(sendUri, {
             method: "POST",
             headers: {
@@ -20,10 +22,13 @@ export default async(idFolio, url, subUrl, idOrden, tp) => {
             body: JSON.stringify(bodyJSON)
         });
 
-        const responseJson = await response.json().then(r => {
+        await response.json().then(r => {
             //console.log(r)
             if (r.idFolio !== undefined) {
-              
+              if(c<t){
+                c++
+                genFolio(idFolio+1, c, t, idOrden, tp)
+              }
               //if(r.idFolio===idFolio){
                 //let url = idRol === '1' ? `#/admin/orden` : `#/usuario/orden`
                 //url += `?v=${encrypt(subUrl)}`;
@@ -34,7 +39,6 @@ export default async(idFolio, url, subUrl, idOrden, tp) => {
                 //win.focus();
               //  console.log(r)
               //}
-
             }
             
         });
@@ -42,3 +46,7 @@ export default async(idFolio, url, subUrl, idOrden, tp) => {
         console.log(`Error: ${e}`);
     }
 }
+export default genFolio
+/*autoGen = (c, t) => {
+
+}*/

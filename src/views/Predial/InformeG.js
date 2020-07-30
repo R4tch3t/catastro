@@ -46,9 +46,16 @@ export default async (fi, ff, c)=>{
           data.total = 0
           r.ordenesu.forEach(e => {
             
+            /*switch (e.idImpuesto) {
+              case 16:
+                data.totalF += parseInt(e.val)
+              break;
+            }*/
+            
+
             if (idOrden !== e.idOrden) {
-              data.totalP += e.total
-              idOrden = e.idOrden
+                data.totalP += e.total
+                idOrden = e.idOrden              
             }
             
           });

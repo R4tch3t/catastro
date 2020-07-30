@@ -533,7 +533,7 @@ render() {
                     id="add Excel"
                     color="warning"
                     style={{
-                      display: "none",
+                      //display: "none",
                       flex: 1,
                       alignItems: "center"
                     }}

@@ -379,17 +379,32 @@ export default async(CTA,c) => {
                   let subUrl4 = ''
                   let subUrl5 = ''
                   let subUrl6 = ''
-                  let urlPb = `${subUrl}&folio=${folio}&V0020401=${V0020401}&V0020402=${V0020402}&V0020403=${V0020403}`
-                  urlPb += `&V0020801=${V0020801}&V0020802=${V0020802}&V0020803=${V0020803}&V0020804=${V0020804}&V0030101=0`
-                  urlPb += `&V0070101=${V0070101}&V0070201=${V0070201}&V0070202=${V0070202}&V0070203=${V0070203}&V0090101=${V0090101}`
-                  urlPb += `&V0090106=${V0090106}&V0090107=${V0090107}&V0090701=0&V0090702=0&V0090703=0`
-                  urlPb += `&V0090704=0&V00913=${V00913}&V0091301=${V0091301}&V0010804=${V0010804}&V0010101=${V0010101}`
-                  urlPb += `&V21173001001=${V21173001001}&otroservicio=${''}&total=${pb}`
-                  let newF = parseInt(folio)
+                  let urlPb = ''
+                  if ((V0020401 > 0 && I0020401) || (V0020402 > 0 && I0020402) || (V0020403 > 0 && I0020403)) {
+                      urlPb = `${subUrl}&folio=${folio}&V0020401=${V0020401}&V0020402=${V0020402}&V0020403=${V0020403}`
+                      urlPb += `&V0020801=${V0020801}&V0020802=${V0020802}&V0020803=${V0020803}&V0020804=${V0020804}&V0030101=0`
+                      urlPb += `&V0070101=${V0070101}&V0070201=${V0070201}&V0070202=${V0070202}&V0070203=${V0070203}&V0090101=${V0090101}`
+                      urlPb += `&V0090106=${V0090106}&V0090107=${V0090107}&V0090701=0&V0090702=0&V0090703=0`
+                      urlPb += `&V0090704=0&V00913=${V00913}&V0091301=${V0091301}&V0010804=${V0010804}&V0010101=${V0010101}`
+                      urlPb += `&V21173001001=${V21173001001}&otroservicio=${''}&total=${pb}`
+                  }
+                  let newF = 0
+                  let countF = 0
+                  let toFolio = parseInt(folio)
                   //url += `?v=${encrypt(subUrl2)}`;
+                  if (urlPb.length > 0) {
+                    toFolio++
+                    //countF++
+                  }
                   
                   if (I0030101) {
-                    newF++
+                    //newF++
+                    //if (urlPb.length > 0) {
+                   //   newF++
+                    //countF++
+                    newF = toFolio + countF
+                    //genFolio(newF, url, subUrl2, r.idOrden, tipoPredio)
+                   // }
                     let labelF = newF.toString()
                     while (labelF.length < 5) {
                       labelF = `0${labelF}`
@@ -404,11 +419,17 @@ export default async(CTA,c) => {
                     subUrl2 += `&V0090704=0&V00913=0&V0091301=0&V0010804=0&V0010101=0`
                     subUrl2 += `&V21173001001=0&otroservicio=${''}&servQ=0&total=${pb}`
                     //window.open(`${url}?v=${encrypt(subUrl2)}`, '_blank');
-                    genFolio(newF, url, subUrl2, r.idOrden, tipoPredio)
+                    //genFolio(newF, url, subUrl2, r.idOrden, tipoPredio)
+                    countF++
                   }
 
                   if (I0090701) {
-                    newF++
+                    //if (urlPb.length > 0) {
+                    //  newF++
+                      //genFolio(newF, url, subUrl2, r.idOrden, tipoPredio)
+                   // }
+                    //countF++
+                    newF = toFolio + countF
                     let labelF = newF.toString()
                     while (labelF.length < 5) {
                       labelF = `0${labelF}`
@@ -430,11 +451,17 @@ export default async(CTA,c) => {
                     subUrl3 += `&V21173001001=0&otroservicio=${''}&servQ=0`
                     subUrl3 += `&constaL=${labelConsta}&constaQ=${constaQ}&total=${pb}`
                     //window.open(`${url}?v=${encrypt(subUrl2)}`, '_blank');
-                    genFolio(newF, url, subUrl2, r.idOrden, tipoPredio)
+                    countF++
                   }
 
                   if (I0090702) {
-                    newF++
+                    //newF++
+                    //if (urlPb.length > 0) {
+                      //newF++
+                      //genFolio(newF, url, subUrl2, r.idOrden, tipoPredio)
+                    //}
+                    //countF++
+                    newF = toFolio + countF
                     let labelF = newF.toString()
                     while (labelF.length < 5) {
                       labelF = `0${labelF}`
@@ -456,11 +483,18 @@ export default async(CTA,c) => {
                     subUrl4 += `&V0090704=0&V00913=0&V0091301=0&V0010804=0&V0010101=0`
                     subUrl4 += `&V21173001001=0&otroservicio=${''}&servQ=0&certiQ=${certiQ}&total=${pb}`
                     //window.open(`${url}?v=${encrypt(subUrl2)}`, '_blank');
-                    genFolio(newF, url, subUrl2, r.idOrden, tipoPredio)
+                    //genFolio(newF, url, subUrl2, r.idOrden, tipoPredio)
+                    countF++
                   }
                   
                   if (I0090703) {
-                    newF++
+                    //newF++
+                    //if (urlPb.length > 0) {
+                      //newF++
+                      //genFolio(newF, url, subUrl2, r.idOrden, tipoPredio)
+                    //}
+                    //countF++
+                    newF = toFolio + countF
                     let labelF = newF.toString()
                     while (labelF.length < 5) {
                       labelF = `0${labelF}`
@@ -475,11 +509,18 @@ export default async(CTA,c) => {
                     subUrl5 += `&V0090704=0&V00913=0&V0091301=0&V0010804=0&V0010101=0`
                     subUrl5 += `&V21173001001=0&otroservicio=${''}&servQ=0&total=${pb}`
                    // window.open(`${url}?v=${encrypt(subUrl2)}`, '_blank');
-                    genFolio(newF, url, subUrl2, r.idOrden, tipoPredio)
+                    //genFolio(newF, url, subUrl2, r.idOrden, tipoPredio)
+                    countF++
                   }
 
                   if (I0090704) {
-                    newF++
+                    //newF++
+                    //if (urlPb.length > 0) {
+                      //newF++
+                    //countF++
+                    newF = toFolio + countF
+                      //genFolio(newF, url, subUrl2, r.idOrden, tipoPredio)
+                    //}
                     let labelF = newF.toString()
                     while (labelF.length < 5) {
                       labelF = `0${labelF}`
@@ -500,8 +541,9 @@ export default async(CTA,c) => {
                     subUrl6 += `&V0090106=0&V0090107=0&V0090701=0&V0090702=0&V0090703=0`
                     subUrl6 += `&V0090704=${V0090704}&V00913=0&V0091301=0&V0010804=0&V0010101=0`
                     subUrl6 += `&V21173001001=0&otroservicio=${otroservicio}&servQ=${servQ}&total=${pb}`
-                    genFolio(newF, url, subUrl2, r.idOrden, tipoPredio)
+                    //genFolio(newF, url, subUrl2, r.idOrden, tipoPredio)
                     //window.open(`${url}?v=${encrypt(subUrl2)}`, '_blank');
+                    countF++
                   }
                   if (subUrl6 !== '') {
                     window.open(`${url}?v=${encrypt(subUrl6)}`, '_blank');
@@ -518,8 +560,17 @@ export default async(CTA,c) => {
                   if (subUrl2 !== '') {
                     window.open(`${url}?v=${encrypt(subUrl2)}`, '_blank');
                   }
-                  let win = window.open(`${url}?v=${encrypt(urlPb)}`, '_blank');
-                  win.focus();
+                  if (urlPb.length>0){
+                    let win = window.open(`${url}?v=${encrypt(urlPb)}`, '_blank');
+                    win.focus();
+                  }
+                  newF = 0
+                  countF--;
+                  //while (newF < countF) {
+                    genFolio(toFolio, 0, countF, r.idOrden, tipoPredio)
+                    //newF++
+                    //toFolio++
+                  //}
                   
                 }
                 
