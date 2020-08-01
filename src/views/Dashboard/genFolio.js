@@ -11,7 +11,7 @@ const genFolio = async (idFolio, c, t, idOrden, tp, url, arrSub, bandF) => {
           tp: `${tp}${idFolio}`,
           bandF: bandF
         }
-        console.log(bodyJSON)
+        //console.log(bodyJSON)
         const response = await fetch(sendUri, {
             method: "POST",
             headers: {
@@ -35,7 +35,7 @@ const genFolio = async (idFolio, c, t, idOrden, tp, url, arrSub, bandF) => {
               //console.log(arrSub[c])
               if(c<t){
                 //c++
-                genFolio(idFolio + 1, c, t, idOrden, tp, url, arrSub, false)
+                genFolio(r.idFolio + 1, c, t, idOrden, tp, url, arrSub, false)
               }else{
                   if (arrSub[5] !== '') {
                       window.open(`${url}?v=${encrypt(arrSub[5])}`, '_blank');

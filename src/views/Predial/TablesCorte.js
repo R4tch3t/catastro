@@ -210,23 +210,34 @@ obtenerOF=async(fi,ff)=>{
                   construccion: e.m2
                 })
                 i++
-                if ((dateLast!==''&&e.dateUp.toLocaleDateString() !== dateLast) || i === r.ordenesu.length) {
+               // console.log(`e.date: ${e.dateUp.toLocaleDateString()}`)
+               // console.log(`dateLast: ${dateLast}`)
+                if (e.dateUp.getDate() < 10) {
+                  e.dateUp = `0${e.dateUp.toLocaleDateString()}`
+                } else {
+                  e.dateUp = e.dateUp.toLocaleDateString()
+                }
+
+                if ((dateLast!==''&&e.dateUp !== dateLast) || i === r.ordenesu.length) {
                   if (i === r.ordenesu.length) {
                     totalD += parseInt(e.total);
                   }
-                  
+                  //console.log(`totalD: ${totalD}`)
                   data.objects[`${dateLast}`] = totalD
                   totalD=0
                 }
-                if (e.dateUp.getDate() < 10) {
+                dateLast = e.dateUp
+                /*if (e.dateUp.getDate() < 10) {
                   dateLast = `0${e.dateUp.toLocaleDateString()}`
                 }else{
                   dateLast = e.dateUp.toLocaleDateString()
-                }
+                }*/
+
                 total += parseInt(e.total); 
                 totalD += parseInt(e.total);
               });
-
+              //console.log(data)
+              //console.log(total)
               i=0
               dateLabel = dateSI
               totalD=0
@@ -248,8 +259,13 @@ obtenerOF=async(fi,ff)=>{
                 //data.labels.push(`D${data.labels.length+1}`)
                 //data.labels.push(`${dateLabel.toLocaleDateString()}`)
                 //dateLabel.setDate(dateLabel.getDate() + 1);
+                if (e.dateUp.getDate() < 10) {
+                  e.dateUp = `0${e.dateUp.toLocaleDateString()}`
+                } else {
+                  e.dateUp = e.dateUp.toLocaleDateString()
+                }
                 i++
-                if ((dateLast !== '' && e.dateUp.toLocaleDateString() !== dateLast) || i === r.ordenesr.length) {
+                if ((dateLast !== '' && e.dateUp !== dateLast) || i === r.ordenesr.length) {
                   if (i === r.ordenesr.length){
                     totalD += parseInt(e.total);
                   }
@@ -262,16 +278,18 @@ obtenerOF=async(fi,ff)=>{
                   totalD = 0
                 }
                 
-                if (e.dateUp.getDate() < 10) {
+                /*if (e.dateUp.getDate() < 10) {
                   dateLast = `0${e.dateUp.toLocaleDateString()}`
                 } else {
                   dateLast = e.dateUp.toLocaleDateString()
-                }
+                }*/
                // data.totales.push(e.total)
+                dateLast = e.dateUp
                 total += parseInt(e.total); 
                 totalD += parseInt(e.total);
               });
-              const objects = Object.entries(data.objects).sort();
+              const objects = Object.entries(data.objects)//.sort();
+              //console.log(objects)
               if (objects.length<16){
                 for (let [key, value] of objects) {
                   data.labels.push(key)
@@ -282,25 +300,40 @@ obtenerOF=async(fi,ff)=>{
                   porcentaje++
                 }
               }else if(objects.length<30&&objects.length>15){
+                let semC = 0
                 dateLabel = new Date(dateSI)
-                dateLabel.setDate(dateLabel+7)
+                //console.log(`dateLabel: ${dateLabel}`)
+                dateLabel.setDate(dateLabel.getDate() + 7)
+                //console.log(`dateLabelAf: ${dateLabel}`)
                 totalD = 0
                 i=0
+                
                 for (let [key, value] of objects) {
-                  
+                  //console.log(`key: ${key.split("/").join("-")}`)
+                  //console.log(`dateKey: ${new Date(key.split("/").join("-"))}`)
+                  const keyDate = new Date()
+                  const arrKey = key.split("/")
+                  //keyDate.setDate(arrKey[0])
+                  //keyDate.setMonth(arrKey[1])
+                  keyDate.setFullYear(arrKey[2], arrKey[1]-1, arrKey[0])
+                  //console.log(`keyDate: ${keyDate}`)
+                  //console.log(`dateLabel: ${dateLabel}`)
+                  //console.log(`keyDate > dateLabel ${keyDate > dateLabel}`)
                   i++
-                  if(new Date(key)>dateLabel||i===objects.length){
+                  if (keyDate > dateLabel || i === objects.length) {
                     if (i === objects.length){
-                      totalD += value
-                      if (totalD > high) {
-                        high = totalD
-                      }
-                      data.labels.push(`SEM ${i}`)
+                        totalD += value
+                        if (totalD > high) {
+                          high = totalD
+                        }
+                       }
+                      semC++
+                      data.labels.push(`SEMANA ${semC}`)
                       data.totales.push(totalD)
                       totalD=0
-                      dateLabel = new Date(key)
-                      dateLabel.setDate(dateLabel + 7)
-                    }
+                      dateLabel = new Date(keyDate)
+                      dateLabel.setDate(dateLabel.getDate() + 7)
+                   
 
                     porcentaje++
                   }
@@ -310,26 +343,32 @@ obtenerOF=async(fi,ff)=>{
                   }
                   
                 }
+                //console.log(data)
               } else {
                 dateLabel = new Date(dateSI)
                 dateLabel.setMonth(dateLabel.getMonth() + 1)
                 totalD = 0
                 i = 0
+               // console.log(dateLabel)
                 for (let [key, value] of objects) {
+                  const keyDate = new Date()
+                  const arrKey = key.split("/")
+                  keyDate.setFullYear(arrKey[2], arrKey[1] - 1, arrKey[0])
 
                   i++
-                  if (new Date(key) > dateLabel || i === objects.length) {
+                  if (keyDate > dateLabel || i === objects.length) {
                     if (i === objects.length) {
                       totalD += value
                       if (totalD > high) {
                         high = totalD
                       }
-                      data.labels.push(this.mes(dateLabel.getMonth()))
-                      data.totales.push(totalD)
-                      totalD = 0
-                      dateLabel = new Date(key)
-                      dateLabel.setMonth(dateLabel.getMonth() + 1)
                     }
+                    data.labels.push(this.mes(dateLabel.getMonth()-1))
+                    data.totales.push(totalD)
+                    totalD = 0
+                    dateLabel = new Date(keyDate)
+                    dateLabel.setMonth(dateLabel.getMonth() + 1)
+                    
 
                     porcentaje++
                   }
@@ -339,8 +378,9 @@ obtenerOF=async(fi,ff)=>{
                   }
 
                 }
+                
               }
-
+//console.log(data)
               
               porcentaje = ((total/(porcentaje))/total)*100
               if (isNaN(porcentaje)){
@@ -528,7 +568,7 @@ render() {
                   </GridItem>
                 </GridContainer>
                 <div style={{height: 30}} />
-                <GridContainer>
+                {/*<GridContainer>
                   <Button
                     id="add Excel"
                     color="warning"
@@ -541,7 +581,7 @@ render() {
                   >
                     AGREGAR EXCEL
                   </Button>
-                </GridContainer>
+                </GridContainer>*/}
                 <GridContainer>
                   <Button
                     id="infoA"

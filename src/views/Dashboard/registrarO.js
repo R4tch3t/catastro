@@ -2,13 +2,18 @@ import ip from "variables/ip.js";
 import saveDataL from "./saveDataL";
 import encrypt from "./encrypt";
 import genFolio from "./genFolio";
-export default async(CTA,c) => {
+const sleep = (milliseconds) => {
+  return new Promise(resolve => setTimeout(resolve, milliseconds))
+}
+let sendUri = ip('3016');
+let ports = 3040
+const registrarO = async(CTA,c) => {
    
     try {
 
         //const sendUri = "http://localhost:3016/";
         c.setState({disabledReg:true})
-        const sendUri = ip('3016');
+        
         //const CTA = document.getElementById('CTA').value;
         const calle = document.getElementById('calle').value.toUpperCase();
         let lote = document.getElementById('lote').value.toUpperCase();
@@ -298,7 +303,10 @@ export default async(CTA,c) => {
         });
 
         const responseJson = await response.json().then(r => {
-            //console.log(r)
+            /*console.log(r)
+            if(r.reload){
+              registrarO(CTA,c)
+            }else*/
             if (r.exito !== undefined) {
               
               if(r.exito===0){
@@ -330,6 +338,8 @@ export default async(CTA,c) => {
                 const tipoP = tipoPredio === 'u' ? 'URBANO' : tipoPredio === 'r' ? 'RÚSTICO' : ''
                 const {idRol} = c.props
                 let url = idRol === '1' ? `#/admin/orden` : `#/usuario/orden`
+                const regB = document.getElementById('regB')
+                regB.innerHTML = 'ACTUALIZAR ORDEN DE PAGO'
                 if(lote==='0'){
                   lote=''
                 }
@@ -569,7 +579,13 @@ export default async(CTA,c) => {
             }
             
         });
-    } catch (e) {
-        console.log(`Error: ${e}`);
+    }catch  (e) {
+        console.log(`ErrorCatch: ${e}`);
+        //await sleep(50)
+        sendUri = ip((ports+1)+'');
+        ports = ports===3044?3040:ports+1;
+        registrarO(CTA, c)
     }
 }
+//const reload = async (){}
+export default registrarO
