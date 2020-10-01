@@ -269,10 +269,19 @@ class App extends React.Component {
 
                         <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '30%'}]}>  
-                            <Text style={this.styles.tableCell2}>PREDIAL Y ALTAS</Text> 
+                            <Text style={this.styles.tableCell2}>PREDIAL</Text> 
                           </View>
                           <View style={[this.styles.tableCol,{width: '70%'}]}>  
                             <Text style={[this.styles.tableCell2]}>{dataTable.totalP}</Text> 
+                          </View>
+                        </View>
+
+                        <View style={this.styles.tableRow}> 
+                          <View style={[this.styles.tableCol,{width: '30%'}]}>  
+                            <Text style={this.styles.tableCell2}>ALTAS</Text> 
+                          </View>
+                          <View style={[this.styles.tableCol,{width: '70%'}]}>  
+                            <Text style={[this.styles.tableCell2]}>{dataTable.totalA}</Text> 
                           </View>
                         </View>
 

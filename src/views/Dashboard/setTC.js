@@ -17,19 +17,19 @@ export default (n,c) => {
   //const p1 = m1 * m2;
   let p1 = m1;
   let p2 = m2;
-  let umaZ = 84.49 * zona;
-  umaZ = redondeo(umaZ);
-  let umaC = 84.49 * n; 
-  umaC = redondeo(umaC);
+  let umaZ = 86.88 * zona;
+  //umaZ = redondeo(umaZ);
+  let umaC = 86.88 * n; 
+  //umaC = redondeo(umaC);
 
   p1 = p1 * umaZ
-  p1=redondeo(p1);
+  //p1=redondeo(p1);
   
   p2 = p2 * umaC
-  p2=redondeo(p2);
+  //p2=redondeo(p2);
   
   bg.value=p1+p2;
-  
+  bg.value = redondeo(bg.value)
   let pb = bg.value * 0.004;
   //subStr = pb.toString().split(".");
   //pb = parseInt(subStr[0]);

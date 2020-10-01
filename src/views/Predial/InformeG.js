@@ -41,41 +41,120 @@ export default async (fi, ff, c)=>{
           let data = {};
           let total = 0;
           let idOrden = 0
+          data.totalA = 0
           data.totalP = 0
           data.totalF = 0
           data.total = 0
+          data.aux = 0
+          data.isAlta = false
+          console.log(r.ordenesu)
           r.ordenesu.forEach(e => {
             
-            /*switch (e.idImpuesto) {
+            switch (e.idImpuesto) {
+              case 1:
+              case 2:
+              case 3:
+                data.aux = parseInt(e.val)
+                data.isAlta = false
+                break;
+              case 8:
+                data.isAlta = true;
+                data.totalA += data.aux
+                data.totalA += parseInt(e.val)
+                break;
+              case 10:
+              case 11:
+              case 13:
+              //data.aux += parseInt(e.val)
+              if (data.isAlta){
+                data.totalA += parseInt(e.val)
+              }else{
+
+                //if (idOrden !== e.idOrden) {
+                  data.totalP += parseInt(e.val);
+                  data.totalP += data.aux;
+                  data.aux = 0
+               // }
+
+              }
+                break;
               case 16:
-                data.totalF += parseInt(e.val)
+              case 17:
+              case 19:
+                if(data.isAlta){
+                  data.totalA += parseInt(e.val)
+                  //data.totalA += parseInt(e.val) * 0.3
+                }
+              
               break;
-            }*/
+            }
             
 
-            if (idOrden !== e.idOrden) {
+
+            /*if (idOrden !== e.idOrden) {
                 data.totalP += e.total
                 idOrden = e.idOrden              
-            }
+            }*/
             
           });
+          
           idOrden=0
           r.ordenesr.forEach(e => {
+            switch (e.idImpuesto) {
+              case 1:
+              case 2:
+              case 3:
+                data.aux = parseInt(e.val)
+                data.isAlta = false
+              case 8:
+                data.isAlta = true
+                data.totalA += data.aux
+                data.totalA += parseInt(e.val)
+                break;
+              case 10:
+              case 11:
+              case 13:
+              if (data.isAlta){
+                data.totalA += parseInt(e.val)
+              } else {
 
-            if (idOrden !== e.idOrden) {
+               // if (idOrden !== e.idOrden) {
+                data.totalP += parseInt(e.val);
+                data.totalP += data.aux;
+                data.aux = 0
+               // idOrden = e.idOrden;
+               // }
+
+              }
+                break;
+              /*case 13:
+                data.totalA += parseInt(e.val)
+                break;*/
+              
+              case 16:
+              case 17:
+              case 19:
+                if(data.isAlta){
+                  data.totalA += parseInt(e.val)
+                 // data.totalA += parseInt(e.val) * 0.3
+                }
+                
+                break;
+            }
+            /*if (idOrden !== e.idOrden) {
               data.totalP += e.total
               idOrden = e.idOrden
-            }
+            }*/
 
           });
-
+          console.log(`data.totalA: ${data.totalA}`)
           r.ordenes.forEach(e => {
 
               data.totalF += e.total
             
 
           });
-          data.total = data.totalP + data.totalF
+          data.total = data.totalP + data.totalF + data.totalA
          // if (data.numU === 0) data.numU=''
          const totalS = spellNumber(data.total)
           data.totalP=data.totalP.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
@@ -84,6 +163,14 @@ export default async (fi, ff, c)=>{
             data.totalP = `${data.totalP}.00`
           } else if (data.totalP === '0') {
             data.totalP = ''
+          }
+
+          data.totalA = data.totalA.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+
+          if (data.totalA !== '0' && data.totalA.toString().split('.').length === 1) {
+            data.totalA = `${data.totalA}.00`
+          } else if (data.totalA === '0') {
+            data.totalA = ''
           }
 
           data.totalF = data.totalF.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")

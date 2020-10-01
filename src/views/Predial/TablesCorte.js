@@ -90,7 +90,8 @@ constructor(props){
       dateSI: dateSI,
       dateSF: dateSF,
       total: 0,
-      porcentaje: 0
+      porcentaje: 0,
+      porcentaje2: 0
     };
     
     //this.obtenerQ(this.state.idUsuario,this.state.idQuincena)
@@ -187,6 +188,7 @@ obtenerOF=async(fi,ff)=>{
               let i = 0;
               let high = 0;
               let porcentaje=0;
+              let porcentaje2 = 0;
               data.objects = {}
               data.labels = []
               data.totales = []
@@ -382,19 +384,39 @@ obtenerOF=async(fi,ff)=>{
               }
 //console.log(data)
               
-              porcentaje = ((total/(porcentaje))/total)*100
+              //porcentaje = ((objects.length / (porcentaje)) / objects.length) * 100
+              const media = total/data.length
+              porcentaje2 = total / porcentaje
+             // console.log(total)
+              //console.log(data.length)
+              //porcentaje = ((media / porcentaje)) // * 100
+              //porcentaje = ((media)/(objects.length))
+              porcentaje2 = (porcentaje2 / total) * 100
+              porcentaje = ((media) / total)*100
+          //    console.log(porcentaje)
               if (isNaN(porcentaje)){
                 porcentaje = 0
                 data.totales = [1]
               }else{
-                porcentaje = this.round(porcentaje)
+                const arrPor = porcentaje.toString().split(".")
+                porcentaje = this.round(porcentaje, 4)
+                /*if (arrPor.length>1){
+                  if(parseInt(arrPor[1][2])>4){
+                    porcentaje = this.round(porcentaje, 3)
+                  }else{
+                    porcentaje = this.round(porcentaje)
+                  }
+                }else{
+                  porcentaje = this.round(porcentaje)
+                }*/
+
               }
               corte.options.high = high
               corte.data.labels = data.labels
               corte.data.series = [data.totales]
               
               //porcentaje = isNaN(porcentaje) ? 0:this.round(porcentaje)
-              this.setState({dataTable: data, total: total, porcentaje});
+              this.setState({dataTable: data, total: total, porcentaje, porcentaje2});
               
               
             }
@@ -523,6 +545,7 @@ render() {
   //const {setOpenDash} = this.state;
   const {total} = this.state;
   const {porcentaje} = this.state;
+  const {porcentaje2} = this.state;
   const headCells = [
     { id: 'cta', numeric: true, disablePadding: true, label: 'CTA' },
     { id: 'NOMBRE', numeric: false, disablePadding: false, label: 'Nombre' },
@@ -676,7 +699,14 @@ render() {
                   <ArrowUpward className={classes.upArrowCardCategory} />{" "}
                   {porcentaje}%
                 </span>{" "}
-                total por día.
+                de ingresos por predio.
+              </p>
+              <p className={classes.cardCategory}>
+                <span className={classes.successText}>
+                  <ArrowUpward className={classes.upArrowCardCategory} />{" "}
+                  {porcentaje2}%
+                </span>{" "}
+                de ingresos por día.
               </p>
             </CardBody>
             <CardFooter chart>
