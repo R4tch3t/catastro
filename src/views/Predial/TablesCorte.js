@@ -139,7 +139,7 @@ mes = (i) => {
 }
 
 addEx=async()=>{
-  console.log('addEx')
+  //console.log('addEx')
   const sendUri = ip("3030");
   const bodyJSON = {
       exStr: ''

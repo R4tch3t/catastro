@@ -262,17 +262,35 @@ class App extends React.Component {
                           <View style={[this.styles.tableColB,{width: '30%'}]}>  
                             <Text style={[this.styles.tableCell2,this.styles.headO,{paddingVertical: 2}]}>CONCEPTOS</Text> 
                           </View>
-                          <View style={[this.styles.tableColB,{width: '70%'}]}>  
+                          <View style={[this.styles.tableColB,{width: '50%'}]}>  
                             <Text style={[this.styles.tableCell2,this.styles.headO,{paddingVertical: 2}]}>TOTAL</Text> 
+                          </View>
+                          <View style={[this.styles.tableColB,{width: '20%'}]}>  
+                            <Text style={[this.styles.tableCell2,this.styles.headO,{paddingVertical: 2}]}>PORCENTAJE</Text> 
                           </View> 
                         </View>
 
                         <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '30%'}]}>  
-                            <Text style={this.styles.tableCell2}>PREDIAL</Text> 
+                            <Text style={this.styles.tableCell2}>PREDIAL URBANO</Text> 
                           </View>
-                          <View style={[this.styles.tableCol,{width: '70%'}]}>  
-                            <Text style={[this.styles.tableCell2]}>{dataTable.totalP}</Text> 
+                          <View style={[this.styles.tableCol,{width: '50%'}]}>  
+                            <Text style={[this.styles.tableCell2]}>{dataTable.totalPU}</Text> 
+                          </View>
+                          <View style={[this.styles.tableCol,{width: '20%'}]}>  
+                            <Text style={[this.styles.tableCell2]}>{dataTable.porcentajeU} %</Text> 
+                          </View>
+                        </View>
+
+                        <View style={this.styles.tableRow}> 
+                          <View style={[this.styles.tableCol,{width: '30%'}]}>  
+                            <Text style={this.styles.tableCell2}>PREDIAL RÚSTICO</Text> 
+                          </View>
+                          <View style={[this.styles.tableCol,{width: '50%'}]}>  
+                            <Text style={[this.styles.tableCell2]}>{dataTable.totalPR}</Text> 
+                          </View>
+                          <View style={[this.styles.tableCol,{width: '20%'}]}>  
+                            <Text style={[this.styles.tableCell2]}>{dataTable.porcentajeR} %</Text> 
                           </View>
                         </View>
 
@@ -280,8 +298,11 @@ class App extends React.Component {
                           <View style={[this.styles.tableCol,{width: '30%'}]}>  
                             <Text style={this.styles.tableCell2}>ALTAS</Text> 
                           </View>
-                          <View style={[this.styles.tableCol,{width: '70%'}]}>  
+                          <View style={[this.styles.tableCol,{width: '50%'}]}>  
                             <Text style={[this.styles.tableCell2]}>{dataTable.totalA}</Text> 
+                          </View>
+                          <View style={[this.styles.tableCol,{width: '20%'}]}>  
+                            <Text style={[this.styles.tableCell2]}></Text> 
                           </View>
                         </View>
 
@@ -289,17 +310,23 @@ class App extends React.Component {
                           <View style={[this.styles.tableCol,{width: '30%'}]}>  
                             <Text style={this.styles.tableCell2}>FORMAS Y CONSTANCIAS</Text> 
                           </View>
-                          <View style={[this.styles.tableCol,{width: '70%'}]}>  
+                          <View style={[this.styles.tableCol,{width: '50%'}]}>  
                             <Text style={[this.styles.tableCell2]}>{dataTable.totalF}</Text> 
+                          </View>
+                          <View style={[this.styles.tableCol,{width: '20%'}]}>  
+                            <Text style={[this.styles.tableCell2]}></Text> 
                           </View>
                         </View>
 
                         <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '30%'}]}>  
-                            <Text style={this.styles.tableCell2}>TOTAL</Text> 
+                            <Text style={this.styles.tableCell2}>SUMA TOTAL</Text> 
                           </View>
-                          <View style={[this.styles.tableCol,{width: '70%'}]}>  
+                          <View style={[this.styles.tableCol,{width: '50%'}]}>  
                             <Text style={[this.styles.tableCell2]}>{dataTable.total}</Text> 
+                          </View>
+                          <View style={[this.styles.tableCol,{width: '20%'}]}>  
+                            <Text style={[this.styles.tableCell2]}>{dataTable.porcentajeT} %</Text> 
                           </View>
                         </View>
                       </View>

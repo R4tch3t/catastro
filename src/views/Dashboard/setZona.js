@@ -6,7 +6,7 @@ function redondeo(n) {
   return n;
 }
 export default (n,c) => {
-  console.log(`setZona: ${n} ${c}`)
+  //console.log(`setZona: ${n} ${c}`)
   const checkU = document.getElementById('check0');
   const bg = document.getElementById('baseGravable');
   const m1 = document.getElementById('m1').value;
@@ -30,7 +30,7 @@ export default (n,c) => {
   //p2=redondeo(p2);
   
   bg.value=p1+p2;
-  bg.value = redondeo(bg.value)
+  bg.value = redondeo(bg.value);
   
   let pb = bg.value * 0.004;
   

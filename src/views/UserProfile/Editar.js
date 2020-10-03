@@ -230,7 +230,7 @@ this.getAvatar(idEmpleado)
       pass.focus()
       return false
     }
-    console.log(`pass: ${pass.value} passC: ${passC}`)
+    //console.log(`pass: ${pass.value} passC: ${passC}`)
     if (passC !== pass.value) {
       showNotification("trP")
       pass.focus()
