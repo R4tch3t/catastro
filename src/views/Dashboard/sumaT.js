@@ -75,6 +75,7 @@ export default (c) => {
   t += parseInt(V0090702.value)
   t += Math.round((parseInt(V0090702.value)*0.15))*2
   t += parseInt(V0090703.value)
+  t += Math.round((parseInt(V0090703.value)*0.15))*2
   t += parseInt(V0090704.value)
   t += Math.round((parseInt(V0090704.value)*0.15))*2
   t += parseInt(V00913.value)

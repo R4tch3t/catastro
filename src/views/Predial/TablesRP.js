@@ -99,6 +99,11 @@ registrarC=async()=>{
        cp = cp === ''? 0:cp
        const municipio = document.getElementById('municipio').value.toUpperCase()
        const localidad = document.getElementById('localidad').value.toUpperCase()
+       const m1 = document.getElementById('m1').value
+       const m2 = document.getElementById('m2').value
+       const tc = document.getElementById('tc').value
+       const zona = document.getElementById('zona').value
+       const bg = document.getElementById('baseGravable').value;
        const check0 = document.getElementById('check0')
        const tp = check0.checked ? 'u':'r'
        const periodo = document.getElementById('periodo').value
@@ -116,6 +121,11 @@ registrarC=async()=>{
          municipio: municipio,
          localidad: localidad,
          tp: tp,
+         m1: m1,
+         m2: m2,
+         tc: tc,
+         zona: zona,
+         bg: bg,
          periodo: periodo
        }
         const response = await fetch(sendUri, {

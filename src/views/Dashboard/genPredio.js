@@ -45,6 +45,8 @@ export default (r,tp,c) => {
         const bg = document.getElementById('baseGravable');
         const m1 = document.getElementById('m1');
         const m2 = document.getElementById('m2');
+        const tc = document.getElementById('tc');
+        const zona = document.getElementById('zona');
         const periodo = document.getElementById('periodo');
         const dateUpL = document.getElementById('dateUp');
         const regB=document.getElementById('regB')
@@ -76,14 +78,18 @@ export default (r,tp,c) => {
           if (calle.value===''){
             calle.value = contribuyente.ubicacion
           }
-          m1.value = 0
-          m2.value = 0
-          bg.value = 0;
-          
+
+          m1.value = contribuyente.m1;
+          m2.value = contribuyente.m2;
+          bg.value = contribuyente.bg;
+          tc.value = contribuyente.tc;
+          zona.value = contribuyente.zona;
           dateUpL.value = ''
           c.idOrden = 0
-          c.setState({tc: 0, zona: 0, totalN: 0});
-
+          c.setState({tc: tc.value, zona: zona.value, totalN: 0});
+          if (bg.value>0){
+            c.setBg()
+          }
           return false;
         }
         
@@ -95,7 +101,7 @@ export default (r,tp,c) => {
                     horas: dateUp.getHours(),
                     minutos: dateUp.getUTCMinutes(),
                     segundos: dateUp.getSeconds()
-                    })
+        })
         if ((parseInt(Y)) > parseInt(dateUp.getFullYear())){
           const añoI = dateUp.getFullYear()
           const añoF = new Date().getFullYear()

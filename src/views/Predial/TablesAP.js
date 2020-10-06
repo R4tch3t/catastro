@@ -73,7 +73,6 @@ validarDatos = () => {
     nombre.focus()
     return false
   }
-  
 
   this.actualizarC()
 }
@@ -90,6 +89,11 @@ padrones=async(tp)=>{
     let cp = document.getElementById('cp')
     const municipio = document.getElementById('municipio')
     const localidad = document.getElementById('localidad')
+    const m1 = document.getElementById('m1')
+    const m2 = document.getElementById('m2')
+    const tc = document.getElementById('tc')
+    const zona = document.getElementById('zona')
+    const bg = document.getElementById('baseGravable');
     const sendUri = ip('3015');
     const bodyJSON = {
       CTAnombre: CTAnombre.value,
@@ -115,7 +119,11 @@ padrones=async(tp)=>{
     cp.value = 41100;
     municipio.value = 'CHILAPA DE ÁLVAREZ'
     localidad.value = 'CHILAPA DE ÁLVAREZ'
-
+    m1.value = 0
+    m2.value = 0
+    tc.value = 0
+    zona.value = 0
+    bg.value = 0
     const responseJson = await response.json().then(r => {
       //console.log(`Response1: ${r}`)
 
@@ -137,6 +145,11 @@ padrones=async(tp)=>{
         if(calle.value === ''){
           calle.value = contribuyente.ubicacion
         }
+        m1.value = contribuyente.m1
+        m2.value = contribuyente.m2
+        tc.value = contribuyente.tc ? contribuyente.tc:0
+        zona.value = contribuyente.zona ? contribuyente.zona:0
+        bg.value = contribuyente.bg ? contribuyente.bg : 0
         cp.value = cp.value === '' ? 0 : cp.value
         numCalle.value = numCalle.value === '' ? 0 : numCalle.value
         manzana.value = manzana.value === '' ? 0 : manzana.value
@@ -164,7 +177,6 @@ padrones=async(tp)=>{
 
 actualizarC=async()=>{
     try {
-
        this.setState({disabledReg: true})
        const sendUri = ip("3026");
        const CTA = document.getElementById('CTA').value
@@ -181,6 +193,11 @@ actualizarC=async()=>{
        cp = cp === ''? 0:cp
        const municipio = document.getElementById('municipio').value.toUpperCase()
        const localidad = document.getElementById('localidad').value.toUpperCase()
+       const m1 = document.getElementById('m1').value
+       const m2 = document.getElementById('m2').value
+       const tc = document.getElementById('tc').value
+       const zona = document.getElementById('zona').value
+       const bg = document.getElementById('baseGravable').value;
        const check0 = document.getElementById('check0')
        const tp = check0.checked ? 'u':'r'
        const periodo = document.getElementById('periodo').value
@@ -198,9 +215,15 @@ actualizarC=async()=>{
          municipio: municipio,
          localidad: localidad,
          tp: tp,
+         m1: m1,
+         m2: m2,
+         tc: tc,
+         zona: zona,
+         bg: bg,
          periodo: periodo
        }
-        const response = await fetch(sendUri, {
+       
+       const response = await fetch(sendUri, {
             method: "POST",
             headers: {
                 Accept: "application/json",
@@ -208,7 +231,7 @@ actualizarC=async()=>{
             },
             body: JSON.stringify(bodyJSON)
         });
-
+        
         const responseJson = await response.json().then(r => {
             //  console.log(`Response1: ${r}`)
             if (r.contribuyente) {

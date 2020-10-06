@@ -650,7 +650,9 @@ class App extends React.Component {
                         </View>
                         </>}
 
-                        {V0090703 !== '0' && <View style={this.styles.tableRow}> 
+                        {V0090703 !== '0' && 
+                        <>
+                        <View style={this.styles.tableRow}> 
                           <View style={[this.styles.tableCol,{width: '16%'}]}> 
                             <Text style={this.styles.tableCell}>414910040090703</Text> 
                           </View> 
@@ -660,7 +662,34 @@ class App extends React.Component {
                           <View style={[this.styles.tableCol,{width: '19%'}]}> 
                             <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{V0090703}</Text> 
                           </View>
-                        </View>}
+                        </View>
+                        
+                        <View style={this.styles.tableRow}> 
+                          <View style={[this.styles.tableCol,{width: '16%'}]}> 
+                            <Text style={this.styles.tableCell}>411710010070201</Text> 
+                          </View> 
+                          <View style={[this.styles.tableCol,{width: '65%'}]}> 
+                            <Text style={this.styles.tableCell}>15% PRO EDUCACIÓN Y ASISTENCIA SOCIAL</Text> 
+                          </View>
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
+                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{servQ}</Text>    
+                          </View>
+                        </View>
+                        
+                        <View style={this.styles.tableRow}> 
+                          <View style={[this.styles.tableCol,{width: '16%'}]}> 
+                            <Text style={this.styles.tableCell}>411710010070202</Text> 
+                          </View> 
+                          <View style={[this.styles.tableCol,{width: '65%'}]}> 
+                            <Text style={this.styles.tableCell}>15% PRO CAMINOS</Text> 
+                          </View>
+                          <View style={[this.styles.tableCol,{width: '19%'}]}> 
+                            <Text style={[this.styles.tableCell,{position: 'absolute'}]}>$</Text><Text style={[this.styles.tableCell,this.styles.labelR,{margin: 'auto'}]}>{servQ}</Text>     
+                          </View>
+                        </View>
+
+                        </>
+                        }
 
                         {V0090704 !== '0' && 
                         <> 

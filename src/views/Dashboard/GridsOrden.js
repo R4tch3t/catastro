@@ -68,13 +68,14 @@ export default (props) => {
       s = value
       return `${value}`;
     }
-    /*
-    const valueLM = (e)=>{
+    
+    /*const valueLM = (e)=>{
       if (e.target.value !== undefined) {
         console.log(`v: ${e.target.value}`)
         c.setState({horas: e.target.value})
       }
     }*/
+
     return (
       <div id="bodyOrden">
         <div className={classes.searchWrapper}>
@@ -827,6 +828,7 @@ export default (props) => {
               </Poppers>
             </GridItem>
           </GridContainer>
+          
           <GridContainer>
             <GridItem xs={12} sm={12} md={3}>
               <CustomInput

@@ -199,6 +199,8 @@ const registrarO = async(CTA,c) => {
         let V0090703 = document.getElementById('0090703').value
         if (I0090703) {
           idImpuestos.push({id: 18, val: V0090703});
+          //servQ = parseInt(V0090703) * 0.15;
+          //servQ = Math.round(servQ);
           //V0090703 = V0090703.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
           //V0090703 = `${V0090703}.00`
         }else{
@@ -513,7 +515,16 @@ const registrarO = async(CTA,c) => {
                     while (labelF.length < 5) {
                       labelF = `0${labelF}`
                     }*/
-                    pb = V0090703
+                    pb = parseInt(V0090703)
+                    let copiQ = pb * 0.15
+                    copiQ = Math.round(copiQ)
+                    pb += copiQ * 2
+                    console.log(`pb: ${pb}`)
+                    //pb = Math.round(pb)
+                    copiQ = copiQ.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    if (copiQ !== '0' && copiQ.toString().split('.').length === 1) {
+                      copiQ = `${copiQ}.00`
+                    }
                     V0090703 = V0090703.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                     V0090703 = `${V0090703}.00`
                     arrSub[indexS] = `${subUrl}&V0020401=0&V0020402=0&V0020403=0`
@@ -521,7 +532,7 @@ const registrarO = async(CTA,c) => {
                     arrSub[indexS] += `&V0070101=0&V0070201=0&V0070202=0&V0070203=0&V0090101=0`
                     arrSub[indexS] += `&V0090106=0&V0090107=0&V0090701=0&V0090702=0&V0090703=${V0090703}`
                     arrSub[indexS] += `&V0090704=0&V00913=0&V0091301=0&V0010804=0&V0010101=0`
-                    arrSub[indexS] += `&V21173001001=0&otroservicio=${''}&servQ=0&total=${pb}`
+                    arrSub[indexS] += `&V21173001001=0&otroservicio=${''}&servQ=${copiQ}&total=${pb}`
                    // window.open(`${url}?v=${encrypt(subUrl2)}`, '_blank');
                     //genFolio(newF, url, subUrl2, r.idOrden, tipoPredio)
                     countF++
