@@ -92,7 +92,7 @@ state={
     minutos: 0,
     segundos: 0,
     totalN: 0,
-    CBG: true,
+    CBG: false,
     zona: 0,
     tc: 0,
     readOnly: false,
@@ -120,6 +120,7 @@ barr = '';
 saveZ = 0;
 idOrden=0;
 esAlta=false;
+contribuyente = {}
 constructor(props){
     super(props);
     const date = new Date()
@@ -152,7 +153,7 @@ constructor(props){
       minutos: date.getUTCMinutes(),
       segundos: date.getSeconds(),
       totalN: 0.0,
-      CBG: true,
+      CBG: false,
       zona: 0,
       tc: 0,
       readOnly: this.props.idRol==='0',

@@ -24,14 +24,25 @@ export default (props)=>{
       if (c) {
         const dateUpL = document.getElementById('dateUp');
         const regB = document.getElementById('regB');
+        const m1 = document.getElementById('m1');
+        const m2 = document.getElementById('m2');
+        const tc = document.getElementById('tc');
+        const zona = document.getElementById('zona');
         const bg = document.getElementById('baseGravable');
-        bg.value=0
+      //  bg.value=0
         dateUpL.value='';
         regB.innerHTML = 'GENERAR ORDEN DE PAGO';
         c.idOrden = 0;
-        c.state.currentD = new Date()
-        clearCheck(c)
-        c.sumaT()
+        m1.value = c.contribuyente.m1
+        m2.value = c.contribuyente.m2
+        tc.value = c.contribuyente.tc
+        zona.value = c.contribuyente.zona
+        bg.value = c.contribuyente.bg
+        c.setState({tc: tc.value, zona: zona.value})
+        c.state.currentD = new Date();
+        clearCheck(c);
+        //c.sumaT()
+        c.setBg();
       }
     } else {
      // c.hideMap()

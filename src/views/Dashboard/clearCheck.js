@@ -13,7 +13,7 @@ export default (fa) => {
          'PENSIONADOS Y JUBILADOS'
        ], ['0020403', '0020801'], fa);
        document.getElementById('0020403').value = 0
-       document.getElementById('0020801').Value = 0
+       document.getElementById('0020801').value = 0
 
      renderCI('subIm2', task, 6, [], ['41121001', '41121001'],
        ['INSEN',

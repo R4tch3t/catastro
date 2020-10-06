@@ -443,7 +443,7 @@ export default (props) => {
           </GridContainer>
           <GridContainer>
             <Checker
-              checkedIndexes={[]}
+              checkedIndexes={[0]}
               tasksIndexes={[0]}
               strs={["CALCULAR BASE GRAVABLE"]}
               ids={["cbg"]}

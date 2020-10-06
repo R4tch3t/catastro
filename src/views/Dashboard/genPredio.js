@@ -74,6 +74,7 @@ export default (r,tp,c) => {
         document.getElementById('otroservicio').value=''
         clearCheck(c)
         clearCheckN(c)
+        c.contribuyente = contribuyente
         if(!orden){
           if (calle.value===''){
             calle.value = contribuyente.ubicacion
