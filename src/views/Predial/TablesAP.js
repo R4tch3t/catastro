@@ -31,6 +31,9 @@ state={
 //dValue = "\0"
 dValue = "\0"
 dValInt = 0
+bandUpTramite = true
+base64=null
+countA = 0
 constructor(props){
     super(props);
     this.state = {
@@ -61,7 +64,8 @@ round = (num, decimales = 2)=>{
 validarDatos = () => {
   const CTA = document.getElementById('CTA')
   const nombre = document.getElementById('nombre')
-  
+  const pdfToUp = document.getElementById('pdfToUp')
+
   if (CTA.value === '') {
       this.showNotification("tr")
       CTA.focus()
@@ -75,6 +79,145 @@ validarDatos = () => {
   }
 
   this.actualizarC()
+  
+  if(this.bandUpTramite===false||pdfToUp.value===""){
+   // console.log(this.bandUpTramite)
+    this.checkPorts()
+  }
+
+}
+
+checkPorts = async() => {
+  try{
+    const sendUri = ip(2999);
+    const CTA = document.getElementById('CTA').value
+    const bodyJSON = {
+      op: 0,
+      CTA,
+    }
+  //console.log(`bodyJSON ${bodyJSON}`)
+  //console.log(bodyJSON)
+  //console.log(this.base64)
+  
+  const response = await fetch(sendUri, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(bodyJSON)
+    });
+  const responseJson = await response.json().then(r => {
+      //console.log(`Response1: ${r}`)
+
+      if (r.portEn) {
+        this.regE(r.portEn.n);
+      }
+  });
+  }catch(e){
+
+  }
+}
+
+setUnPort = async(port) => {
+  try{
+    const sendUri = ip(2999);
+    const CTA = document.getElementById('CTA').value
+    const bodyJSON = {
+      op: 1,
+      CTA,
+      port
+    }
+  //console.log(`bodyJSON ${bodyJSON}`)
+  //console.log(bodyJSON)
+  //console.log(this.base64)
+  
+  const response = await fetch(sendUri, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(bodyJSON)
+    });
+  const responseJson = await response.json().then(r => {
+      //console.log(`Response1: ${r}`)
+
+      if (r.portEn) {
+       // this.regE(r.portEn.n);
+      }
+  });
+  }catch(e){
+
+  }
+}
+
+regE = async(port=3031)=>{
+  const buffer = 64000
+  try{
+  const CTA = document.getElementById('CTA').value
+  let dataPart = '';
+  let lengthE = this.base64.length;
+  const check0 = document.getElementById('check0');
+  const regP = document.getElementById('regP');
+  const tp = check0.checked ? 'u':'r';
+  const pdfToUp = document.getElementById('pdfToUp');
+  const sendUri = ip(port);
+  
+  if(this.countA<lengthE){
+    let auxA = this.countA + buffer;
+    while(auxA>this.countA&&this.base64.length>this.countA){
+      dataPart+=this.base64[this.countA]
+      this.countA++
+    }
+    regP.innerHTML = "Cargando... "+parseInt(this.countA/lengthE*100)+" %"
+  }
+  const bodyJSON = {
+    CTA,
+    tp,
+    dataPart,
+    lengthE,
+    count: this.countA,
+    fileName: pdfToUp.innerHTML,
+    port
+  }
+  //console.log(`bodyJSON ${bodyJSON}`)
+  //console.log(bodyJSON)
+  //console.log(this.base64)
+  
+  const response = await fetch(sendUri, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(bodyJSON)
+    });
+  const responseJson = await response.json().then(r => {
+      //console.log(`Response1: ${r}`)
+//console.log(bodyJSON);
+      if (r.next) {
+        this.regE(port);
+      }else if(r.nextNode){
+        //console.log(r.currentCTA)
+        this.countA=0;
+        this.regE(port+1)
+      }else{
+        this.setUnPort(port);
+        regP.innerHTML = "- CARGA COMPLETADA - " + parseInt(this.countA/lengthE*100)+" % "
+        this.countA=0
+      }
+  });  
+  }catch(e){
+    console.log(e)
+    this.countA -= (buffer-1)
+    this.regE(port);
+  }
+}
+
+updateNB = () => {
+  const regP = document.getElementById('regP');
+  regP.innerHTML="Actualizar Contribuyente"
 }
 
 padrones=async(tp)=>{
@@ -94,6 +237,8 @@ padrones=async(tp)=>{
     const tc = document.getElementById('tc')
     const zona = document.getElementById('zona')
     const bg = document.getElementById('baseGravable');
+    const pdfToUp = document.getElementById('pdfToUp');
+    const regP = document.getElementById('regP');
     const sendUri = ip('3015');
     const bodyJSON = {
       CTAnombre: CTAnombre.value,
@@ -110,6 +255,7 @@ padrones=async(tp)=>{
       body: JSON.stringify(bodyJSON)
     });
 
+    regP.innerHTML="Actualizar Contribuyente"
     nombre.value='';
     calle.value = '';
     lote.value = '';
@@ -124,14 +270,19 @@ padrones=async(tp)=>{
     tc.value = 0
     zona.value = 0
     bg.value = 0
+    
     const responseJson = await response.json().then(r => {
       //console.log(`Response1: ${r}`)
 
       if (r.contribuyente) {
         const contribuyente = r.contribuyente[0]
         const ubicacion = r.ubicacion[0]
+        const nameFile = contribuyente.escriturasPath
         nombre.value = contribuyente.contribuyente
-      
+        pdfToUp.innerHTML=nameFile
+        if(nameFile!==""){  
+          this.bandUpTramite=true
+        }
         if(ubicacion){
           calle.value = ubicacion.calle;
           lote.value = ubicacion.lote;

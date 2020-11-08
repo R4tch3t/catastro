@@ -13,6 +13,7 @@ import classNames from "classnames";
 import Paper from "@material-ui/core/Paper";
 import Grow from "@material-ui/core/Grow";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import Button from "components/CustomButtons/Button.js";
 //import setTCG from "../Dasboard/setTC";
 
 const useStylesM = makeStyles(stylesM);
@@ -27,10 +28,15 @@ export default (props) => {
     const [openTC, setOpenTC] = React.useState(false);
     const [openZona, setOpenZona] = React.useState(false);
     const classesM = useStylesM();
+    const checkU = document.getElementById('check0');
+    //const tp = checkU.checked ? 'u' : 'r'
+    //let avatar64 = null;
 
     const handleUpper = e => {
-        noDisabled(e)
-        if ((e.which === 32 || e.which > 39) && !isMobile) {
+        c.updateNB();
+       // c.bandUpTramite=true
+        noDisabled(e);
+        if (e&&(e.which === 32 || e.which > 39) && !isMobile) {
             selectionStartNombre = e.target.selectionStart
             selectionEndNombre = e.target.selectionEnd
             e.target.value = e.target.value.toUpperCase()
@@ -51,12 +57,15 @@ export default (props) => {
     }
 
     const handleKUpper = e => {
+        c.updateNB();
         noDisabled(e)
         if(props.a){
             padrones()
         }
     }
     const handleMUpper = e => {
+        c.updateNB();
+        c.bandUpTramite=true
         noDisabled(e)
         if (props.a) {
             padrones()
@@ -78,6 +87,7 @@ export default (props) => {
         /*if (this.state.CBG) {
             return false;
         }*/
+    
         changeTC(event);
     };
 
@@ -98,6 +108,7 @@ export default (props) => {
     const tcHandle = (tc) => (e) => {
         //setTC(tc)
         document.getElementById('tc').value=tc;
+        handleUpper()
         handleCloseTC();
         const zona = document.getElementById('zona').value
         calcBG(tc,zona);
@@ -129,6 +140,7 @@ export default (props) => {
     const zonaHandle = (zona) => (e) => {
         //setZona(zona)
         document.getElementById('zona').value=zona
+        handleUpper()
         handleCloseZona();
         const tc = document.getElementById('tc').value
         calcBG(tc, zona);
@@ -148,7 +160,9 @@ export default (props) => {
     }
 
     const handleClickZona = event => {
+        
         changeZona(event);
+
     };
 
     const handleKeyZona = event => {
@@ -157,6 +171,36 @@ export default (props) => {
         });*/
         setOpenZona(event.currentTarget)
     };
+    const toBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+    const selectFile = async () => {    
+        const file = document.querySelector('#file-input').files[0]
+        const result = await toBase64(file).catch(e => e);
+        //document.querySelector('#file-input').files = null
+        document.getElementById("file-input").value=""
+        if (result instanceof Error) {
+        console.log('Error: ', result.message);
+            return;
+        }
+        c.base64 = `${result}`
+        document.getElementById('pdfToUp').innerHTML = file.name
+        console.log(file)
+        //console.log(c.base64)
+        c.bandUpTramite = false
+        noDisabled()
+        c.updateNB()
+        /*if(props.a){
+            padrones()
+        }*/
+        //document.getElementById('avatarProfile').src = result
+
+
+    };
+
 return(
     <>
     <GridContainer>
@@ -212,7 +256,8 @@ return(
                 type: "text",
                 defaultValue: c.dValue,
                 //style: {"textTransform": "uppercase"}
-                onKeyUp: handleUpper
+                onKeyUp: handleUpper,
+                onMouseUp: handleUpper
             }}
             />
         </GridItem>
@@ -225,7 +270,9 @@ return(
             }}
             inputProps={{
                 type: "text",
-                defaultValue: c.dValInt
+                defaultValue: c.dValInt,
+                onKeyUp: handleUpper,
+                onMouseUp: handleUpper
             }}
             />
         </GridItem>
@@ -238,7 +285,8 @@ return(
             }}
             inputProps={{
                 defaultValue: c.dValue,
-                onKeyUp: handleUpper
+                onKeyUp: handleUpper,
+                onMouseUp: handleUpper
             }}
             />
         </GridItem>
@@ -252,7 +300,8 @@ return(
             inputProps={{
                 type: "text",
                 defaultValue: c.dValue,
-                onKeyUp: handleUpper
+                onKeyUp: handleUpper,
+                onMouseUp: handleUpper
             }}
             />
         </GridItem>
@@ -266,7 +315,8 @@ return(
             inputProps={{
                 type: "text",
                 defaultValue: c.dValue,
-                onKeyUp: handleUpper
+                onKeyUp: handleUpper,
+                onMouseUp: handleUpper
                 /* onClick: getinfoReg,
                     onChange: getinfoReg*/
             }}
@@ -281,7 +331,9 @@ return(
             }}
             inputProps={{
                 type: "number",
-                defaultValue: 41100
+                defaultValue: 41100,
+                onKeyUp: handleUpper,
+                onMouseUp: handleUpper
             }}
             />
         </GridItem>
@@ -295,7 +347,8 @@ return(
             inputProps={{
                 type: "text",
                 defaultValue: 'CHILAPA DE ÁLVAREZ',
-                onKeyUp: handleUpper
+                onKeyUp: handleUpper,
+                onMouseUp: handleUpper
             }}
             />
         </GridItem>
@@ -309,7 +362,8 @@ return(
             inputProps={{
                 type: "text",
                 defaultValue: 'CHILAPA DE ÁLVAREZ',
-                onKeyUp: handleUpper
+                onKeyUp: handleUpper,
+                onMouseUp: handleUpper
             }}
             />
         </GridItem>
@@ -322,7 +376,9 @@ return(
             }}
             inputProps={{
                 type: "text",
-                defaultValue: Y
+                defaultValue: Y,
+                onKeyUp: handleUpper,
+                onMouseUp: handleUpper
             }}
             />
         </GridItem>
@@ -343,9 +399,11 @@ return(
                     calcBG()
                 },
                 onMouseUp: e => {
+                    handleUpper()
                     calcBG()
                 },
                 onKeyUp: e => {
+                    handleUpper()
                     calcBG()
                 }
             }}
@@ -366,9 +424,11 @@ return(
                     calcBG()
                 },
                 onMouseUp: e => {
+                    handleUpper()
                     calcBG()
                 },
                 onKeyUp: e => {
+                    handleUpper()
                     calcBG()
                 }
             }}
@@ -652,7 +712,7 @@ return(
             }}
             />
 
-            <Poppers
+             <Poppers
             open={Boolean(openZona)}
             anchorEl={openZona}
             transition
@@ -674,7 +734,8 @@ return(
                 }}
                 >
                 <Paper>
-                    <ClickAwayListener onClickAway={handleCloseZona}>
+
+                    { checkU.checked &&<ClickAwayListener onClickAway={handleCloseZona}>
                     <MenuList role="menu">
                         <MenuItem
                         key={"zona1-1"}
@@ -706,10 +767,67 @@ return(
                         </MenuItem>
                     </MenuList>
                     </ClickAwayListener>
+                    }
+                    {!checkU.checked && 
+                      <ClickAwayListener onClickAway={handleCloseZona}>
+                        <MenuList role="menu">
+                          <MenuItem
+                            key={"zona1"}
+                            className={classesM.dropdownItem}
+                            onClick={zonaHandle(473.5)}
+                          >
+                            473.5: Terrenos de Riego
+                          </MenuItem>
+                          <MenuItem
+                            key={"zona2"}
+                            className={classesM.dropdownItem}
+                            onClick={zonaHandle(438)}
+                          >
+                            438: Terrenos de Humedad
+                          </MenuItem>
+                          <MenuItem
+                            key={"zona3"}
+                            className={classesM.dropdownItem}
+                            onClick={zonaHandle(414)}
+                          >
+                            414: Terrenos de Temporal
+                          </MenuItem>
+                          <MenuItem
+                            key={"zona4"}
+                            className={classesM.dropdownItem}
+                            onClick={zonaHandle(402.5)}
+                          >
+                            402.5: Terreno de Agostadero Laborable
+                          </MenuItem>
+                          <MenuItem
+                            key={"zona5"}
+                            className={classesM.dropdownItem}
+                            onClick={zonaHandle(367)}
+                          >
+                            367: Terreno de Agostadero Cerril
+                          </MenuItem>
+                          <MenuItem
+                            key={"zona6"}
+                            className={classesM.dropdownItem}
+                            onClick={zonaHandle(473)}
+                          >
+                            473: Terreno de monte alto susceptibles para explotación forestal
+                          </MenuItem>
+                          <MenuItem
+                            key={"zona7"}
+                            className={classesM.dropdownItem}
+                            onClick={zonaHandle(1.5)}
+                          >
+                            1.5 (Zona 3)
+                          </MenuItem>
+                        </MenuList>
+                        </ClickAwayListener>
+                      }
                 </Paper>
                 </Grow>
             )}
             </Poppers>
+            
         </GridItem>
     </GridContainer>
     <GridContainer>
@@ -724,9 +842,29 @@ return(
                 type: "number",
                 defaultValue: 0,
                 onKeyUp: c.KUEnter,
-                onBlur: c.setBg
+                onBlur: c.setBg,
+                onMouseUp: handleUpper
             }}
             />
+        </GridItem>
+        <GridItem xs={12} sm={12} md={3}>    
+            <input id="file-input" type="file" onChange={selectFile} name="avatar" style={{display: 'none'}} />
+                <a  /*style={{cursor: 'pointer'}}*/ >  
+                  <div style={{height: 28}} >Subir escrituras:</div>
+                  <div style={{height: 28, width: 600, color: 'red'}} id='pdfToUp' ></div>
+                    <Button
+                        color="primary"  
+                        style={{
+                            display: 'flex',
+                            flex: 1, 
+                            alignItems: 'center',
+                            cursor: 'pointer'
+                        }}
+                        onClick={()=>{document.getElementById('file-input').click()}}
+                    >
+                        Seleccionar archivo
+                    </Button>
+                </a>
         </GridItem>
     </GridContainer>        
     </>

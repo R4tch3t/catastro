@@ -32,6 +32,9 @@ state={
 //dValue = "\0"
 dValue = ""
 dValInt = ''
+bandUpTramite = true
+base64=null
+countA = 0
 constructor(props){
     super(props);
     this.state = {
@@ -78,6 +81,139 @@ validarDatos = () => {
 
   this.registrarC()
 }
+updateNB = () => {
+  const regP = document.getElementById('regP');
+  regP.innerHTML="Registrar Contribuyente"
+}
+
+checkPorts = async() => {
+  try{
+    const sendUri = ip(2999);
+    const CTA = document.getElementById('CTA').value
+    const bodyJSON = {
+      op: 0,
+      CTA,
+    }
+  //console.log(`bodyJSON ${bodyJSON}`)
+  //console.log(bodyJSON)
+  //console.log(this.base64)
+  
+  const response = await fetch(sendUri, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(bodyJSON)
+    });
+  const responseJson = await response.json().then(r => {
+      //console.log(`Response1: ${r}`)
+
+      if (r.portEn) {
+        this.regE(r.portEn.n);
+      }
+  });
+  }catch(e){
+
+  }
+}
+
+setUnPort = async(port) => {
+  try{
+    const sendUri = ip(2999);
+    const CTA = document.getElementById('CTA').value
+    const bodyJSON = {
+      op: 1,
+      CTA,
+      port
+    }
+  //console.log(`bodyJSON ${bodyJSON}`)
+  //console.log(bodyJSON)
+  //console.log(this.base64)
+  
+  const response = await fetch(sendUri, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(bodyJSON)
+    });
+  const responseJson = await response.json().then(r => {
+      //console.log(`Response1: ${r}`)
+
+      if (r.portEn) {
+       // this.regE(r.portEn.n);
+      }
+  });
+  }catch(e){
+
+  }
+}
+
+regE = async(port=3031)=>{
+  const buffer = 64000
+  try{
+  const CTA = document.getElementById('CTA').value
+  let dataPart = '';
+  let lengthE = this.base64.length;
+  const check0 = document.getElementById('check0');
+  const regP = document.getElementById('regP');
+  const tp = check0.checked ? 'u':'r';
+  const pdfToUp = document.getElementById('pdfToUp');
+  const sendUri = ip(port);
+  
+  if(this.countA<lengthE){
+    let auxA = this.countA + buffer;
+    while(auxA>this.countA&&this.base64.length>this.countA){
+      dataPart+=this.base64[this.countA]
+      this.countA++
+    }
+    regP.innerHTML = "Cargando..." + parseInt(this.countA/lengthE*100)+" %"
+  }
+  const bodyJSON = {
+    CTA,
+    tp,
+    dataPart,
+    lengthE,
+    count: this.countA,
+    fileName: pdfToUp.innerHTML,
+    port
+  }
+  //console.log(`bodyJSON ${bodyJSON}`)
+  //console.log(bodyJSON)
+  //console.log(this.base64)
+  
+  const response = await fetch(sendUri, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(bodyJSON)
+    });
+  const responseJson = await response.json().then(r => {
+      //console.log(`Response1: ${r}`)
+//console.log(bodyJSON);
+      if (r.next) {
+        this.regE(port);
+      }else if(r.nextNode){
+        //console.log(r.currentCTA)
+        this.countA=0;
+        this.regE(port+1)
+      }else{
+        this.setUnPort(port);
+        regP.innerHTML = "- CARGA COMPLETADA - " + parseInt(this.countA/lengthE*100)+" % "
+        this.countA=0
+        this.showNotification("trA")
+      }
+  });  
+  }catch(e){
+    console.log(e)
+    this.countA -= (buffer-1)
+    this.regE(port);
+  }
+}
 
 registrarC=async()=>{
     try {
@@ -107,6 +243,7 @@ registrarC=async()=>{
        const check0 = document.getElementById('check0')
        const tp = check0.checked ? 'u':'r'
        const periodo = document.getElementById('periodo').value
+       const pdfToUp = document.getElementById('pdfToUp')
        // const sendUri = "http://localhost:3015/";
         //const sendUri = "http://192.168.1.74:3015/";
        const bodyJSON = {
@@ -126,7 +263,8 @@ registrarC=async()=>{
          tc: tc,
          zona: zona,
          bg: bg,
-         periodo: periodo
+         periodo: periodo,
+         escrituraPath: pdfToUp.value
        }
         const response = await fetch(sendUri, {
             method: "POST",
@@ -141,7 +279,11 @@ registrarC=async()=>{
             //  console.log(`Response1: ${r}`)
             if (r.contribuyente) {
               //if(CAT===r.contribuyente[0].CTA)
-              this.showNotification("trA")
+              if(this.bandUpTramite===false||pdfToUp.value===""){
+                this.checkPorts()
+              }else{
+                this.showNotification("trA")
+              }
             }else
               if (r.error) {
                 if (r.error.name === "error01") {

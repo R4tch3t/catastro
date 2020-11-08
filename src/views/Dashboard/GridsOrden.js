@@ -75,7 +75,7 @@ export default (props) => {
         c.setState({horas: e.target.value})
       }
     }*/
-
+    
     return (
       <div id="bodyOrden">
         <div className={classes.searchWrapper}>
@@ -790,7 +790,9 @@ export default (props) => {
                     }}
                   >
                     <Paper>
-                      <ClickAwayListener onClickAway={c.handleCloseZona}>
+                      
+                       {c.state.tipoPredio==="u" && 
+                       <ClickAwayListener onClickAway={c.handleCloseZona}>
                         <MenuList role="menu">
                           <MenuItem
                             key={"zona1-1"}
@@ -820,8 +822,66 @@ export default (props) => {
                           >
                             1.5 (Zona 3)
                           </MenuItem>
+                          
                         </MenuList>
-                      </ClickAwayListener>
+                        </ClickAwayListener>
+                      }
+
+                      {c.state.tipoPredio==="r" && 
+                      <ClickAwayListener onClickAway={c.handleCloseZona}>
+                        <MenuList role="menu">
+                          <MenuItem
+                            key={"zona1"}
+                            className={classesM.dropdownItem}
+                            onClick={c.zonaHandle(473.5)}
+                          >
+                            473.5: Terrenos de Riego
+                          </MenuItem>
+                          <MenuItem
+                            key={"zona2"}
+                            className={classesM.dropdownItem}
+                            onClick={c.zonaHandle(438)}
+                          >
+                            438: Terrenos de Humedad
+                          </MenuItem>
+                          <MenuItem
+                            key={"zona3"}
+                            className={classesM.dropdownItem}
+                            onClick={c.zonaHandle(414)}
+                          >
+                            414: Terrenos de Temporal
+                          </MenuItem>
+                          <MenuItem
+                            key={"zona4"}
+                            className={classesM.dropdownItem}
+                            onClick={c.zonaHandle(402.5)}
+                          >
+                            402.5: Terreno de Agostadero Laborable
+                          </MenuItem>
+                          <MenuItem
+                            key={"zona5"}
+                            className={classesM.dropdownItem}
+                            onClick={c.zonaHandle(367)}
+                          >
+                            367: Terreno de Agostadero Cerril
+                          </MenuItem>
+                          <MenuItem
+                            key={"zona6"}
+                            className={classesM.dropdownItem}
+                            onClick={c.zonaHandle(473)}
+                          >
+                            473: Terreno de monte alto susceptibles para explotación forestal
+                          </MenuItem>
+                          <MenuItem
+                            key={"zona7"}
+                            className={classesM.dropdownItem}
+                            onClick={c.zonaHandle(1.5)}
+                          >
+                            1.5 (Zona 3)
+                          </MenuItem>
+                        </MenuList>
+                        </ClickAwayListener>
+                      }
                     </Paper>
                   </Grow>
                 )}

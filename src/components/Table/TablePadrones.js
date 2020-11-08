@@ -15,6 +15,7 @@ import cookie from "react-cookies";
 import styles from "assets/jss/material-dashboard-react/components/tableStyle.js";
 import encrypt from "views/Dashboard/encrypt";
 import GridContainer from "components/Grid/GridContainer";
+import ip from "../../variables/ip.js";
 
 const useStyles = makeStyles(styles);
 function desc(a, b, orderBy) {
@@ -126,6 +127,20 @@ function EnhancedTableHead(props) {
                     {tableHead[3].label}
                     </TableSortLabel>
               </TableCell>
+              <TableCell
+                    className={classes.tableCell + " " + classes.tableHeadCell}
+                    key={tableHead[4].id}
+                    sortDirection={orderBy === tableHead[4].id ? order : false}
+                    rowSpan='2'
+                  >
+                    <TableSortLabel
+                      active={orderBy === tableHead[4].id}
+                      direction={order}
+                      onClick={createSortHandler(tableHead[4].id)} 
+                      >
+                    {tableHead[4].label}
+                    </TableSortLabel>
+              </TableCell>
              {/* <TableCell
                     className={classes.tableCell + " " + classes.tableHeadCell}
                     colSpan='2'
@@ -190,6 +205,14 @@ const genCarta = (CTA, nombre, ubi, tp) => {
   const win = window.open(url, '_blank');
   win.focus();
 }
+
+const getE = (tp, CTA, escriturasPath) => {
+  tp = tp[0].toLowerCase()
+  let url = `${ip(2998)}escrituras/${tp}/${CTA}/${escriturasPath}`;
+  const win = window.open(url, '_blank');
+  win.focus();
+}
+
 export default function CustomTable(props) {
   
   const classes = useStyles();
@@ -268,6 +291,24 @@ export default function CustomTable(props) {
                       onMouseUp={(e)=>{genCarta(row.cta,row.NOMBRE,row.ubi,row.tp)}}
                     >
                       CARTA INVITACIÓN
+                    </Button>
+                  </GridContainer>
+                </TableCell>
+                <TableCell className={classes.tableCell}>
+                  <GridContainer> 
+                    <Button
+                      id="getE"
+                      color="info"
+                      style = {
+                        {
+                          display: "flex",
+                          flex: 1,
+                          alignItems: "center"
+                        }
+                      }
+                      onMouseUp={(e)=>{getE(row.tp,row.cta,row.escriturasPath)}}
+                    >
+                      VER ESCRITURAS
                     </Button>
                   </GridContainer>
                 </TableCell>

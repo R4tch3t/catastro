@@ -122,11 +122,11 @@ export default (id,c) => {
   }
   if (id === '0030101') {
     const bg = document.getElementById('baseGravable');
-    let pb = bg.value * 0.004 //* 0.70;
+    let pb = bg.value * 0.02 //* 0.70;
     let pq = pb * 0.15 //* 0.70;
     pb = Math.round(pb)
     const vi = document.getElementById(id);
-    vi.value = pb * 2
+    vi.value = pb //* 2
     const d = c.state.currentD
     const m = d.getMonth()
     let mul = 1.5

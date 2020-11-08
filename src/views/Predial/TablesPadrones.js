@@ -100,6 +100,7 @@ allPadrones=async(CTAnombre)=>{
                   NOMBRE: e.contribuyente,
                   ubi: e.ubicacion,
                   tp: 'URBANO',
+                  escriturasPath: e.escriturasPath
                 })
              })
 
@@ -112,7 +113,7 @@ allPadrones=async(CTAnombre)=>{
                   NOMBRE: e.contribuyente,
                   ubi: e.ubicacion,
                   tp: 'RÚSTICO',
-                  
+                  escriturasPath: e.escriturasPath
                 })
               })
 
@@ -207,6 +208,7 @@ render() {
     { id: 'NOMBRE', numeric: false, disablePadding: false, label: 'Nombre' },
     { id: 'tp', numeric: false, disablePadding: false, label: 'Tipo' },
     { id: 'carta', numeric: false, disablePadding: false, label: 'Carta' },
+    { id: 'escritura', numeric: false, disablePadding: false, label: 'Escritura' },
    // { id: 'construccion', numeric: true, disablePadding: false, label: 'Construccion' },
   ]
   return (

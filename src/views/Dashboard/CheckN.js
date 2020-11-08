@@ -38,7 +38,7 @@ export default (props)=>{
         tc.value = c.contribuyente.tc
         zona.value = c.contribuyente.zona
         bg.value = c.contribuyente.bg
-        c.setState({tc: tc.value, zona: zona.value})
+        c.setState({tc: tc.value, zona: zona.value});
         c.state.currentD = new Date();
         clearCheck(c);
         //c.sumaT()
