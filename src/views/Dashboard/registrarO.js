@@ -334,6 +334,8 @@ const registrarO = async(CTA,c) => {
                   message = decrypted.message;
                   console.log(decrypted.message);
                 });*/
+                const bandNew = c.idOrden===0;
+                
                 c.idOrden=r.idOrden
                 c.showNotification("trA")
                 const nombre = document.getElementById('nombre').value;
@@ -457,6 +459,13 @@ const registrarO = async(CTA,c) => {
                     V0090701 = `${V0090701}.00`
                     constaQ = constaQ.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                     constaQ = `${constaQ}.00`
+                    if(!bandNew&&!I0030101){
+                      const tzoffset = (new Date()).getTimezoneOffset() * 60000;
+                      const newDate = new Date(new Date() - tzoffset)
+                      subUrl = `?bandPdf=1&CTA=${CTA}&nombre=${nombre}&calle=${calle}&lote=${lote}&manzana=${manzana}&numero=${numCalle}`
+                      subUrl += `&colonia=${colonia}&cp=${cp}&municipio=${municipio}&localidad=${localidad}&tipoP=${tipoP}`
+                      subUrl += `&bg=${bg}&periodo=${periodo}&dateUp=${newDate.toISOString().slice(0, -1)}`
+                    }
                     arrSub[indexS] = `${subUrl}&V0020401=0&V0020402=0&V0020403=0`
                     arrSub[indexS] += `&V0020801=0&V0020802=0&V0020803=0&V0020804=0&V0030101=0`
                     arrSub[indexS] += `&V0070101=0&V0070201=0&V0070202=0&V0070203=0&V0090101=0`
@@ -467,6 +476,7 @@ const registrarO = async(CTA,c) => {
                     //window.open(`${url}?v=${encrypt(subUrl2)}`, '_blank');
                     countF++
                     indexS++
+
                   }
 
                   if (I0090702) {

@@ -206,6 +206,7 @@ regE = async(port=3031)=>{
         this.setUnPort(port);
         regP.innerHTML = "- CARGA COMPLETADA - " + parseInt(this.countA/lengthE*100)+" % "
         this.countA=0
+        this.showNotification("trA")
       }
   });  
   }catch(e){
@@ -387,7 +388,9 @@ actualizarC=async()=>{
             //  console.log(`Response1: ${r}`)
             if (r.contribuyente) {
               //if(CAT===r.contribuyente[0].CTA)
-              this.showNotification("trA")
+              if(this.bandUpTramite){
+                this.showNotification("trA")
+              }
             }else
               if (r.error) {
                 if (r.error.name === "error01") {

@@ -50,7 +50,45 @@
 .ct-label {
   color: rgba(255, 255, 255, 0.7);
 }
+.fadeIN {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 1;
+  z-index: 9;
+  height: 100%;
+  -webkit-transition: all 0.7s ease-out;
+  -moz-transition: all 0.7s ease-out;
+  -ms-transition: all 0.7s ease-out;
+  -o-transition: all 0.7s ease-out;
+  transition: all 0.7s ease-out;
+}
+.sideIN {
+  left: 260px;
+  width: 100%-260px;
+}
+.fadeIN.fade-active {
+  position: fixed;
+  left: -260px;
+  top: 0px;
+  height: 100%;
+  opacity: 0;
+  
+}
+.wraper {
+  left: 0px;
+  opacity: 1;
+  -webkit-transition: all 0.7s ease-out;
+  -moz-transition: all 0.7s ease-out;
+  -ms-transition: all 0.7s ease-out;
+  -o-transition: all 0.7s ease-out;
+  transition: all 0.7s ease-out;
+}
 
+.wraper:active{
+  left: -250px;
+  opacity: 0;
+}
 .ct-chart-line .ct-label,
 .ct-chart-bar .ct-label {
   display: block;

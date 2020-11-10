@@ -11,7 +11,6 @@ const genFolio = async (idFolio, c, t, idOrden, tp, url, arrSub, bandF) => {
           tp: `${tp}${idFolio}`,
           bandF: bandF
         }
-        //console.log(bodyJSON)
         const response = await fetch(sendUri, {
             method: "POST",
             headers: {
@@ -22,7 +21,7 @@ const genFolio = async (idFolio, c, t, idOrden, tp, url, arrSub, bandF) => {
         });
 
         await response.json().then(r => {
-            //console.log(r)
+            
             if (r.idFolio !== undefined) {
               c++;
               let labelF = r.idFolio.toString()

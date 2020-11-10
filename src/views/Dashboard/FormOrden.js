@@ -424,6 +424,24 @@ handleKeyCTA = event => {
 };
 
 handleUpper = e => {
+ // console.log(e.which)
+  if(e.which===13){
+    let CTAnombre = document.getElementById('CTANM');
+    //let key=0
+   // console.log(CTAnombre.placeholder)
+    switch(CTAnombre.placeholder){
+      case 'NOMBRE':
+        this.buscarCTA(1)();
+        break;
+      case 'FOLIO':
+        this.buscarFolio()();
+        break;
+      case 'CTA':
+        this.buscarCTA(0)();
+        break;
+    }
+    
+  }
   if ((e.which === 32 || e.which > 39) && !isMobile) {
     this.selectionStartNombre = e.target.selectionStart
     this.selectionEndNombre = e.target.selectionEnd

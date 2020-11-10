@@ -18,8 +18,10 @@ import styles from "assets/jss/material-dashboard-react/layouts/adminStyle.js";
 import bgImage from "assets/img/sidebar-5.jpg";
 import logo from "@material-ui/icons/Home";
 
-let ps;
+import IconButton from "@material-ui/core/IconButton";
+import Menu from "@material-ui/icons/Menu";
 
+let ps;
 const switchRoutes = (
   <Switch>
     {routes.map((prop, key) => {
@@ -42,14 +44,17 @@ const useStyles = makeStyles(styles);
 
 export default function Login({ ...rest }) {
   // styles
+  let bandFadeSide = [true]
   const classes = useStyles();
   // ref to help us initialize PerfectScrollbar on windows devices
   const mainPanel = React.createRef();
+  
   // states and functions
   const [image, setImage] = React.useState(bgImage);
   const [color, setColor] = React.useState("blue");
   const [fixedClasses, setFixedClasses] = React.useState("dropdown");
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  
   const handleImageClick = image => {
     setImage(image);
   };
@@ -69,11 +74,25 @@ export default function Login({ ...rest }) {
   const getRoute = () => {
     return window.location.pathname !== "/admin/maps";
   };
+
   const resizeFunction = () => {
+    const sideBtn = document.getElementById("sideBtn")
+  
     if (window.innerWidth >= 960) {
+      sideBtn.style.display='block'
+      if(bandFadeSide[0]){
+        sideBtn.nextSibling.nextSibling.style.left='260px'
+        sideBtn.nextSibling.nextSibling.style.width=(window.innerWidth-260)+'px'
+      }
+     
       setMobileOpen(false);
+    }else{
+      sideBtn.style.display='none'
+      sideBtn.nextSibling.nextSibling.style.left='0'
+      sideBtn.nextSibling.nextSibling.style.width='100%'
     }
   };
+
   // initialize and destroy the PerfectScrollbar plugin
   React.useEffect(() => {
     if (navigator.platform.indexOf("Win") > -1) {
@@ -93,8 +112,12 @@ export default function Login({ ...rest }) {
     };
   }, [mainPanel]);
   return (
-    <div className={classes.wrapper}>
+    <>
+  
+    <div  className={classes.wrapper}  >
+      
       <Sidebar
+        
         routes={routes}
         logoText={"Bienvenido"}
         logo={logo}
@@ -102,9 +125,12 @@ export default function Login({ ...rest }) {
         handleDrawerToggle={handleDrawerToggle}
         open={mobileOpen}
         color={color}
+        bandFadeSide={bandFadeSide}
+        setMobileOpen={setMobileOpen}
         {...rest}
       />
-      <div className={classes.mainPanel} ref={mainPanel}>
+      
+      <div className={classes.mainPanel} style={{position: 'absolute', left:260}} ref={mainPanel}>
         <Navbar
           routes={routes}
           handleDrawerToggle={handleDrawerToggle}
@@ -129,5 +155,6 @@ export default function Login({ ...rest }) {
         />
       </div>
     </div>
+    </>
   );
 }

@@ -57,7 +57,7 @@ export default function Header(props) {
             {makeBrand()} 
           </Button>
           */}
-          <img style={{position: 'relative', width: '100%', height: 90 }} src={chilapa} />
+          <img style={{position: 'relative', left: "10%", width: '80%', height: 90}} src={chilapa} />
         </div>
         <Hidden smDown implementation="css">
           {props.rtlActive ? <RTLNavbarLinks /> : <AdminNavbarLinks />}

@@ -145,7 +145,7 @@ export default function AdminNavbarLinks() {
         </Poppers>
       </div>
       */ }
-      <div className={classes.manager}>
+      <div className={classes.manager} style={{zIndex: 99999}} >
         <Button
           color={window.innerWidth > 959 ? "transparent" : "white"}
           justIcon={window.innerWidth > 959}

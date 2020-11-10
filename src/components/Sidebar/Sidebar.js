@@ -12,6 +12,10 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Icon from "@material-ui/core/Icon";
 import Home from "@material-ui/icons/Home";
+import IconButton from "@material-ui/core/IconButton";
+import ArrowBack from "@material-ui/icons/ArrowBack";
+import Apps from "@material-ui/icons/Apps"
+
 // core components
 import AdminNavbarLinks from "components/Navbars/AdminNavbarLinks.js";
 import RTLNavbarLinks from "components/Navbars/RTLNavbarLinks.js";
@@ -22,6 +26,8 @@ const useStyles = makeStyles(styles);
 
 export default function Sidebar(props) {
   const classes = useStyles();
+  const sideBar = React.createRef();
+  const [showArrow, setShowArrow] = React.useState(0)
   // verifies if routeName is the one active (in browser input)
   function activeRoute(routeName) {
     return window.location.href.indexOf(routeName) > -1 ? true : false;
@@ -82,23 +88,69 @@ export default function Sidebar(props) {
     </List>
   );
   var brand = (
-    <div className={classes.logo}>
-      <a
-        href="#"
-        className={classNames(classes.logoLink, {
-          [classes.logoLinkRTL]: props.rtlActive
-        })}
-        target="_blank"
-      >
-        <div className={classes.logoImage}>
+    <>
+    
+    <div className={classes.logo} style={{color: 'white'}}>
+      
+      
+        
+        <div className={classes.logoImage} style={{display: 'inline-block', cursor: 'pointer'}} >
           <Home />
         </div>
+        <div style={{position: 'absolute', top: 15, left: 93}} >
         {logoText}
-      </a>
+        </div>
+        {window.innerWidth>=960 && showArrow < 2 && <div className={classes.logoImage} style={{position: 'absolute',cursor: 'pointer', right: 0}}>
+          <ArrowBack onClick={()=>{
+            console.log(sideBar)
+            const nextsSider = sideBar.current.children[1].children[0].children[0];
+            const bodySide = sideBar.current.nextSibling
+            console.log(nextsSider)
+            props.bandFadeSide[0] = false
+            document.getElementById("sideBtn").style.display='block'
+           nextsSider.style.position='relative'
+           sideBar.current.classList.toggle("fade-active")
+           bodySide.style.position="absolute" 
+           bodySide.style.left="0px"
+           bodySide.style.width="100%"
+           bodySide.children[0].style.zIndex='0'
+
+  }
+    } />
+        </div>
+        
+  }
+      
     </div>
+    </>
   );
   return (
-    <div>
+    <>
+    <div id='sideBtn' style={{position: 'absolute', display: 'none', left: 0, zIndex: 5}}>
+          <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={()=>{
+                const bodySide = sideBar.current.nextSibling
+                //window.innerWidth
+                bodySide.style.left="260px"
+               // bodySide.style.width="calc(100% - 260px);"
+                bodySide.style.width=window.innerWidth-260+"px"
+                props.bandFadeSide[0] = true
+                //bodySide.classList.toggle('sideIN')
+                document.getElementById("sideBtn").style.display='none'
+                sideBar.current.classList.toggle("fade-active")
+                setShowArrow(showArrow===0?1:0)
+              //  document.getElementById("headImg").style.width='80%'
+               // document.getElementById("headImg").style.left='5%'
+              }}
+
+            
+            >
+              <Apps />
+          </IconButton>
+        </div>
+    <div ref={sideBar} className="fadeIN" >
       <Hidden mdUp implementation="css">
         <Drawer
           variant="temporary"
@@ -149,6 +201,7 @@ export default function Sidebar(props) {
         </Drawer>
       </Hidden>
     </div>
+    </>
   );
 }
 

@@ -42,6 +42,7 @@ const switchRoutes = (
 const useStyles = makeStyles(styles);
 
 export default function Admin({ ...rest }) {
+  let bandFadeSide = [true]
   // styles
   const classes = useStyles();
   // ref to help us initialize PerfectScrollbar on windows devices
@@ -71,8 +72,20 @@ export default function Admin({ ...rest }) {
     return window.location.pathname !== "/admin/maps";
   };
   const resizeFunction = () => {
+    const sideBtn = document.getElementById("sideBtn")
+  
     if (window.innerWidth >= 960) {
+      sideBtn.style.display='block'
+      if(bandFadeSide[0]){
+        sideBtn.nextSibling.nextSibling.style.left='260px'
+        sideBtn.nextSibling.nextSibling.style.width=(window.innerWidth-260)+'px'
+      }
+     
       setMobileOpen(false);
+    }else{
+      sideBtn.style.display='none'
+      sideBtn.nextSibling.nextSibling.style.left='0'
+      sideBtn.nextSibling.nextSibling.style.width='100%'
     }
   };
   // initialize and destroy the PerfectScrollbar plugin
@@ -103,9 +116,10 @@ export default function Admin({ ...rest }) {
         handleDrawerToggle={handleDrawerToggle}
         open={mobileOpen}
         color={color}
+        bandFadeSide={bandFadeSide}
         {...rest}
       />
-      <div className={classes.mainPanel} ref={mainPanel}>
+      <div className={classes.mainPanel} style={{position: 'absolute', left:260}} ref={mainPanel}>
         <Navbar
           routes={routes}
           handleDrawerToggle={handleDrawerToggle}
