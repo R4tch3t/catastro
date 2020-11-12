@@ -834,7 +834,7 @@ export class MapContainer extends React.Component {
 const LoadingContainer = (props) => ( <div> Cargando mapa... </div>)
 
 export default GoogleApiWrapper({
-  apiKey: ('AIzaSyANj5mOWxsA6b7AQREOz-SYFkv5GlEQl6o'),
+  apiKey: ('AIzaSyDhC-bWwWeNI0XrC6kFH5KinWGUUWBtJBo'),
   language: 'es',
   LoadingContainer: LoadingContainer
 })(MapContainer)

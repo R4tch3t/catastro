@@ -43,6 +43,12 @@ const useStyles = makeStyles(styles);
 
 export default function Admin({ ...rest }) {
   let bandFadeSide = [true]
+  let posMain = ''
+  let leftMain = 0
+  if(window.innerWidth>=960){
+    posMain='absolute'
+    leftMain=260
+  }
   // styles
   const classes = useStyles();
   // ref to help us initialize PerfectScrollbar on windows devices
@@ -79,11 +85,15 @@ export default function Admin({ ...rest }) {
       if(bandFadeSide[0]){
         sideBtn.nextSibling.nextSibling.style.left='260px'
         sideBtn.nextSibling.nextSibling.style.width=(window.innerWidth-260)+'px'
+        sideBtn.style.zIndex=0
+      }else{
+        sideBtn.style.zIndex=9999
       }
      
       setMobileOpen(false);
     }else{
       sideBtn.style.display='none'
+      sideBtn.style.zIndex=0
       sideBtn.nextSibling.nextSibling.style.left='0'
       sideBtn.nextSibling.nextSibling.style.width='100%'
     }
@@ -119,7 +129,8 @@ export default function Admin({ ...rest }) {
         bandFadeSide={bandFadeSide}
         {...rest}
       />
-      <div className={classes.mainPanel} style={{position: 'absolute', left:260}} ref={mainPanel}>
+      
+      <div className={classes.mainPanel} style={{position: posMain, left:leftMain}} ref={mainPanel}>
         <Navbar
           routes={routes}
           handleDrawerToggle={handleDrawerToggle}

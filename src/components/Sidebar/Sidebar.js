@@ -102,18 +102,18 @@ export default function Sidebar(props) {
         </div>
         {window.innerWidth>=960 && showArrow < 2 && <div className={classes.logoImage} style={{position: 'absolute',cursor: 'pointer', right: 0}}>
           <ArrowBack onClick={()=>{
-            console.log(sideBar)
             const nextsSider = sideBar.current.children[1].children[0].children[0];
             const bodySide = sideBar.current.nextSibling
-            console.log(nextsSider)
             props.bandFadeSide[0] = false
-            document.getElementById("sideBtn").style.display='block'
+            const sideBtn = document.getElementById("sideBtn") 
+            sideBtn.style.display='block'
+            sideBtn.style.zIndex=9999
            nextsSider.style.position='relative'
            sideBar.current.classList.toggle("fade-active")
            bodySide.style.position="absolute" 
            bodySide.style.left="0px"
            bodySide.style.width="100%"
-           bodySide.children[0].style.zIndex='0'
+           //bodySide.children[0].style.zIndex='0'
 
   }
     } />
@@ -126,7 +126,7 @@ export default function Sidebar(props) {
   );
   return (
     <>
-    <div id='sideBtn' style={{position: 'absolute', display: 'none', left: 0, zIndex: 5}}>
+    <div id='sideBtn' style={{position: 'absolute', display: 'none', left: 0, zIndex: 9999}}>
           <IconButton
               color="inherit"
               aria-label="open drawer"
