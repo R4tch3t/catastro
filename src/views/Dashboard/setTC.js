@@ -8,13 +8,17 @@ function redondeo(n) {
 export default (n,c) => {
   const checkU = document.getElementById('check0');
   const bg = document.getElementById('baseGravable');
-  const m1 = document.getElementById('m1').value;
+  let m1 = document.getElementById('m1').value;
   const m2 = document.getElementById('m2').value;
   const zona = document.getElementById('zona').value;
   const prol1 = document.getElementById('0070201');
   const prol2 = document.getElementById('0070202');
   const task = [0, 1];
   //const p1 = m1 * m2;
+  const tp = checkU.checked ? 'u' : 'r'
+  if(tp==='r'){
+    m1/=1000
+  }
   let p1 = m1;
   let p2 = m2;
   let umaZ = 86.88 * zona;

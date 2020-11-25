@@ -3,6 +3,7 @@ import Paper from "@material-ui/core/Paper";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import MenuList from "@material-ui/core/MenuList";
 import {isMobile} from "react-device-detect";
+import Loader from "react-loader-spinner";
 //import Accessibility from "@material-ui/icons/Accessibility";
 //import BugReport from "@material-ui/icons/BugReport";
 //import Code from "@material-ui/icons/Code";
@@ -35,7 +36,8 @@ state={
     classes: null,
     openDash: null,
     setOpenDash: null,
-    labelB: null
+    labelB: null,
+    bandLoad: false
 }
 tipoB = 1
 handleCloseDash = () => {
@@ -51,7 +53,8 @@ constructor(props){
         classesM: props.classesM,
         openDash: null,
         setOpenDash: null,
-        labelB: 'NOMBRE'
+        labelB: 'NOMBRE',
+        bandLoad: false
     };
     
 }
@@ -71,7 +74,7 @@ round = (num, decimales = 2)=>{
 
 allPadrones=async(CTAnombre)=>{
     try {
-
+      this.setState({bandLoad: false})
        //const sendUri = "http://34.66.54.10:3015/";
        const sendUri = ip("3023");
        // const sendUri = "http://localhost:3015/";
@@ -118,7 +121,7 @@ allPadrones=async(CTAnombre)=>{
               })
 
             }
-            this.setState({dataTable: data});
+            this.setState({dataTable: data, bandLoad: true});
             /*else if (r.error.name === "error01") {
                        this.removeCookies()
                        confirmAlert({
@@ -208,11 +211,12 @@ render() {
     { id: 'NOMBRE', numeric: false, disablePadding: false, label: 'Nombre' },
     { id: 'tp', numeric: false, disablePadding: false, label: 'Tipo' },
     { id: 'carta', numeric: false, disablePadding: false, label: 'Carta' },
-    { id: 'escritura', numeric: false, disablePadding: false, label: 'Escritura' },
+    { id: 'escritura', numeric: false, disablePadding: false, label: 'Expediente' },
    // { id: 'construccion', numeric: true, disablePadding: false, label: 'Construccion' },
   ]
   return (
     <CardIcon>
+      
       <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
           <Card>
@@ -232,6 +236,17 @@ render() {
               />*/              
               }
               <div className={classes.searchWrapper}>
+                
+                <Loader
+                  type="BallTriangle"
+                  color="#00BFFF"
+                  height={100}
+                  width={100}
+                  visible={!this.state.bandLoad}
+                  style={{position:'absolute', top: "50%", left: '42%'}}
+                  //timeout={3000} //3 secs
+                />
+
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={4}>
                     <CustomInput
@@ -243,7 +258,7 @@ render() {
                         placeholder: labelB,
                         type: "text",
                         onKeyUp: this.handleUpper,
-                        onMouseUp: this.handleUpper,
+                      //  onMouseUp: this.handleUpper,
                         //value: idUsuario,
 
                         inputProps: {
@@ -308,8 +323,10 @@ render() {
                       )}
                     </Poppers>
                   </GridItem>
+                  
                 </GridContainer>
               </div>
+              
               <TablePadrones
                 tableHeaderColor="warning"
                 tableHead={headCells}

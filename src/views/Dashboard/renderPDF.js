@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from 'react-dom';
+/*import ReactDOM from 'react-dom';
 import {
   PDFViewer,
   Page,
@@ -9,12 +9,12 @@ import {
   StyleSheet,
   View,
   Image
-} from "@react-pdf/renderer";
-import {
+} from "@react-pdf/renderer";*/
+/*import {
   MobileView,
-  isMobile
+//  isMobile
 } from "react-device-detect";
-import { MobilePDFReader } from "react-read-pdf";
+//import { MobilePDFReader } from "react-read-pdf";*/
 import Button from "components/CustomButtons/Button.js";
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
@@ -29,7 +29,16 @@ import RobB from "../Typography/Roboto-Bold.ttf";
 import RobBI from "../Typography/Roboto-BoldItalic.ttf";
 import spellNumber from "./spellNumber";
 
-Font.register({
+  let PDFViewer=0;
+  let Page=0;
+  let Text=0;
+  let Document=0;
+  let Font=0;
+  let StyleSheet=0;
+  let View=0;
+  let Image=0;
+  let ReactDOM = 0
+/*Font.register({
   family: 'Roboto',
   fonts: [{
     src: RobI,
@@ -44,10 +53,12 @@ Font.register({
     fontWeight: 'bold'
   }]
   
-});
+});*/
+
 const meses = ['ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE']
 class App extends React.Component {
-  state = { url: null , dia: null, mes: null, año: null};
+  
+  state = { url: null , dia: null, mes: null, año: null, loadvars: false};
   constructor(props){
     super(props);
     const d = new Date();
@@ -55,14 +66,24 @@ class App extends React.Component {
       url:null,
       dia: d.getDate(),
       mes: meses[d.getMonth()],
-      año: d.getFullYear()
+      año: d.getFullYear(),
+      loadvars: false
     }
   }
-
+  PDFViewer = null;
+  Page = null;
+  Text = null;
+  Document = null;
+  Font = null;
+  StyleSheet = null;
+  View = null;
+  Image = null;
   onRender = ({ blob }) => {
     this.setState({ url: URL.createObjectURL(blob) });
-    
-    if (isMobile){
+    import("react-device-detect")
+      .then(({ isMobile, MobileView }) => {
+        // Use moduleA
+        if (isMobile){
       //let myHeaders = new Headers();
       //myHeaders.set('Content-Disposition', 'inline');
       //myHeaders.append('Content-Type', 'application/pdf');
@@ -82,18 +103,60 @@ class App extends React.Component {
       const win = window.open(this.state.url, '_self');
       win.focus();
       */
+      const mobileContainer = document.getElementById('mobileContainer');
+      mobileContainer.innerHTML=""
+      ReactDOM.render(<MobileView>
+                      <div id='mobilePdf' style={{ position: 'relative', top: 20, width: '100%' }} ></div>
+                    </MobileView>,mobileContainer)
       const pdfview = document.getElementById("pdfView");
       const mobilePdf = document.getElementById('mobilePdf');
       const h = window.devicePixelRatio<2?960:360 //window.screen.availHeight;
       mobilePdf.style.height=`${h}px`;
       pdfview.style.display='none';
-      ReactDOM.render(<MobilePDFReader url={this.state.url} />, mobilePdf);
-
+      import("react-read-pdf")
+      .then(({ MobilePDFReader }) => {
+          ReactDOM.render(<MobilePDFReader url={this.state.url} />, mobilePdf);
+      })
     }
+      })
+      .catch(err => {
+        // Handle failure
+      });
+    
   };
   
 
-  styles = StyleSheet.create({
+  styles=null
+  componentDidMount(){
+    import("@react-pdf/renderer").then(({PDFViewer,Page,Text,Document,Font,StyleSheet,View,Image})=>{
+      const obj = {}
+      obj.PDFViewer=PDFViewer
+      obj.Page=Page
+      obj.Text=Text
+      obj.Document=Document
+      obj.Font=Font
+      obj.StyleSheet=StyleSheet
+      obj.View=View
+      obj.Image=Image
+
+        
+        obj.Font.register({
+  family: 'Roboto',
+  fonts: [{
+    src: RobI,
+    fontStyle: 'italic',
+    fontWeight: 50
+  }, {
+    src: RobB,
+    fontWeight: 'bold'
+  }, {
+    src: RobBI,
+    fontStyle: 'italic',
+    fontWeight: 'bold'
+  }]
+  
+});
+this.styles = StyleSheet.create({
     logoI: {
       position: "absolute",
       width: 125,
@@ -171,7 +234,24 @@ class App extends React.Component {
     }
 
   });
-
+  import('react-dom').then(({ReactDOM})=>{
+    obj.ReactDOM = ReactDOM 
+    this.setVars(obj)
+    this.setState({loadvars: true})
+  });
+      })
+      
+  }
+  setVars = (obj) => {
+    PDFViewer = obj.PDFViewer;
+    Page = obj.Page;
+    Text = obj.Text;
+    Document = obj.Document;
+    Font = obj.Font;
+    StyleSheet = obj.StyleSheet;
+    View = obj.View;
+    Image = obj.Image;
+  }
   render() {
     const {classes} = this.props
     const {dia} = this.state
@@ -203,7 +283,12 @@ class App extends React.Component {
            V0090701,V0090702,V0090703,V0090704,V00913,
            V0091301,V0010804,V0010101,V21173001001,
            otroservicio,servQ,constaQ,constaL,certiQ} = this.props;
+    let {loadvars} = this.state       
     //const valQ = V0090704 !== '0' ? V0090704*0.15:0
+    if(!loadvars){
+      
+      return (<div></div>)
+    }else{
     return (
       <CardIcon>
         <GridContainer>
@@ -232,11 +317,12 @@ class App extends React.Component {
                         Descargar PDF
                       </Button>
                     </a>  
-                  </GridContainer>  
-                  <MobileView>
-                    <div id='mobilePdf' style={{ position: 'relative', top: 20, width: '100%' }} ></div>
+                  </GridContainer> 
+                  <div id='mobileContainer' >
                     
-                  </MobileView>
+                  </div>
+                  
+
                   <PDFViewer id='pdfView' style={{ width: '100%', height: 1180 }}  >
                   <Document shallow onRender={this.onRender} title={`${nDoc}.pdf`} >
                     <Page size="LETTER" wrap>
@@ -879,6 +965,7 @@ class App extends React.Component {
         </GridContainer>
       </CardIcon>
     );
+                      }
   }
 }
 export default App;

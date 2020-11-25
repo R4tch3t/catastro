@@ -42,9 +42,15 @@ const switchRoutes = (
 
 const useStyles = makeStyles(styles);
 
-export default function Login({ ...rest }) {
+const Inicio=({ ...rest }) => {
   // styles
   let bandFadeSide = [true]
+  let posMain = ''
+  let leftMain = 0
+  if(window.innerWidth>=960){
+    posMain='absolute'
+    leftMain=260
+  }
   const classes = useStyles();
   // ref to help us initialize PerfectScrollbar on windows devices
   const mainPanel = React.createRef();
@@ -130,7 +136,7 @@ export default function Login({ ...rest }) {
         {...rest}
       />
       
-      <div className={classes.mainPanel} style={{position: 'absolute', left:260}} ref={mainPanel}>
+      <div className={classes.mainPanel} style={{position: posMain, left:leftMain}} ref={mainPanel}>
         <Navbar
           routes={routes}
           handleDrawerToggle={handleDrawerToggle}
@@ -158,3 +164,4 @@ export default function Login({ ...rest }) {
     </>
   );
 }
+export { Inicio };

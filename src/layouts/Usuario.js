@@ -40,7 +40,7 @@ const switchRoutes = (
 
 const useStyles = makeStyles(styles);
 
-export default function Admin({ ...rest }) {
+const Usuario=({ ...rest }) => {
   let bandFadeSide = [true]
   let posMain = ''
   let leftMain = 0
@@ -155,3 +155,4 @@ export default function Admin({ ...rest }) {
     </div>
   );
 }
+export { Usuario };

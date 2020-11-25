@@ -10,6 +10,7 @@ import decrypt from "./decrypt";
 
 const useStyles = makeStyles(styles);
 const useStylesM = makeStyles(stylesM);
+
 function getParameterByName(name, url) {
   if (!url) url = window.location.href;
   //url = url.split('orden');

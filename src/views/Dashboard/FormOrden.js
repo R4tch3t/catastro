@@ -31,7 +31,6 @@ import setTC from "./setTC";
 import setBg from "./setBg";
 import GridsOrden from "./GridsOrden";
 
-//import genImp from './genImp.js';
 import sumaT from './sumaT.js';
 import changeI from './changeI.js';
 import rezago from './rezago.js';
@@ -209,7 +208,8 @@ round = (num, decimales = 2)=>{
 
 
 padrones=async(CTAnombre, tp, tipoB, idOrden)=>{
-   padrones(CTAnombre, tp, tipoB, idOrden, this)
+  //;(await import('./padrones.js')).default(CTAnombre, tp, tipoB, idOrden, this) 
+  padrones(CTAnombre, tp, tipoB, idOrden, this)
 }
 
 registrarO=async()=>{
@@ -223,9 +223,11 @@ registrarO=async()=>{
     this.showNotification('tr')
   }else{
     if(CTA!==''){
+      //;(await import('./registrarO.js')).default(CTA,this)
       registrarO(CTA,this)
     }else{
       registrarF(this)
+      //;(await import('./registrarF.js')).default(this)
     }
   }
 }
@@ -461,10 +463,11 @@ buscarCTA = (key) => (event) => {
   }
 }
 
-buscarFolio = () => (event) => {
+buscarFolio = () => async (event) => {
   let CTAnombre = document.getElementById('CTANM');
   CTAnombre.placeholder = 'FOLIO'
   if (CTAnombre !== '') {
+    //;(await import('./ByFolio.js')).default(this)
     ByFolio(CTAnombre.value,this)
   }
 }
@@ -494,19 +497,24 @@ zonaHandle = (n) => (e) => {
 
 setTC = async (n) => {
   this.handleCloseTC()
+  //;(await import("./setTC")).default(n,this)
   setTC(n, this)
 }
 
 setZona = async(n) => {
   this.handleCloseZona()
-  setZona(n,this)
+  //;(await import("./setZona")).default(n,this)
+ setZona(n,this)
 }
 
 setBg = async () => {
   const periodo = document.getElementById('periodo').value;
   rezago(this, periodo);
+  //;(await import('./rezago.js')).default(this, periodo)
   setBg(this);
+  //;(await import("./setBg")).default(this)
   sumaT(this);
+  //;(await import("./sumaT")).default(this)
 }
 
 KUEnter = e => {
@@ -515,13 +523,14 @@ KUEnter = e => {
   }
 }
 
-handleImp = e => {
+handleImp = async e => {
   if (e.which === 13) {
+    //;(await import("./sumaT")).default(this)
     sumaT(this);
   }
 }
 
-addImpuesto = (id) => {
+addImpuesto = async (id) => {
     //console.log(`id: ${id}`);
     if(id === '0070201'||id === '0070202'){
       const vi = document.getElementById(id);
@@ -543,12 +552,15 @@ addImpuesto = (id) => {
         }
     } else {
       changeI(id,this)
+     //;(await import("./changeI")).default(this)
     } 
     sumaT(this)
+    //;(await import("./sumaT")).default(this)
 }
 
 sumaT=async()=>{
-  sumaT(this);
+  //;(await import("./sumaT")).default(this)
+  sumaT(this)
 }
 oldDateUpL=''
 oldIdOrden=0
@@ -566,7 +578,8 @@ setZero=async(id)=>{
     this.setState({currentD: this.oldCurrentD});
     //this.state.currentD = new Date()
   }
-  sumaT(this);
+  //;(await import("./sumaT")).default(this)
+  sumaT(this)
 }
 
 showNotification = place => {
@@ -603,19 +616,22 @@ hideMap = () => {
   map.style.display = 'none'
 }
 
-blurPeriodo=(e)=>{
-  if (e.which!==undefined && e.which!==13){
+blurPeriodo=async(e)=>{
+  /*if (e.which!==undefined && e.which!==13){
     return
-  }
+  }*/
   rezago(this,e.target.value)
-  sumaT(this);
+  //;(await import('./rezago.js')).default(this,e.target.value)
+  //;(await import("./sumaT")).default(this)
+  sumaT(this)
 }
-
+//asynClear = async () => {}
 componentDidMount(){
   const {bandPdf,bandCTA,genCTA,tp,idOrden} = this.props
-  const {readOnly} = this.state
+  //const {readOnly} = this.state
   const checks = tp === 'u' || tp === '' ? [0] : [1]
   if (bandPdf !== '1') {
+    
     clearCheckCP(checks)
     clearCheckM(this)
     clearCheckN(this)

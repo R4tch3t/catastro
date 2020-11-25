@@ -14,6 +14,11 @@ import Paper from "@material-ui/core/Paper";
 import Grow from "@material-ui/core/Grow";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Button from "components/CustomButtons/Button.js";
+import Loader from "react-loader-spinner";
+import SnackbarContent from "components/Snackbar/SnackbarContent.js";
+import Snackbar from "components/Snackbar/Snackbar.js";
+
+
 //import setTCG from "../Dasboard/setTC";
 
 const useStylesM = makeStyles(stylesM);
@@ -21,6 +26,9 @@ export default (props) => {
     const {c} = props;
     let selectionStartNombre = null;
     let selectionEndNombre = null;
+    const [bandLoad, setBandLoad] = React.useState(false);
+    const [analyze, setAnalyze] = React.useState(0);
+    const [labelA, setLabelA] = React.useState("Analizando...")
    // let [tc, setTC] = React.useState(0);
     //let [zona, setZona] = React.useState(0);
     const d = new Date()
@@ -29,6 +37,8 @@ export default (props) => {
     const [openZona, setOpenZona] = React.useState(false);
     const classesM = useStylesM();
     const checkU = document.getElementById('check0');
+    //const [iconTo, setIconTo] = React.useState(WN)
+    //const [opSnack, setOpSnack] = React.useState(0)
     //const tp = checkU.checked ? 'u' : 'r'
     //let avatar64 = null;
 
@@ -188,7 +198,7 @@ export default (props) => {
         }
         c.base64 = `${result}`
         document.getElementById('pdfToUp').innerHTML = file.name
-        console.log(file)
+      //  console.log(file)
         //console.log(c.base64)
         c.bandUpTramite = false
         noDisabled()
@@ -203,6 +213,7 @@ export default (props) => {
 
 return(
     <>
+    
     <GridContainer>
         <GridItem xs={12} sm={12} md={3}>
             <CustomInput
@@ -850,7 +861,7 @@ return(
         <GridItem xs={12} sm={12} md={3}>    
             <input id="file-input" type="file" onChange={selectFile} name="avatar" style={{display: 'none'}} />
                 <a  /*style={{cursor: 'pointer'}}*/ >  
-                  <div style={{height: 28}} >Subir escrituras:</div>
+                  <div style={{height: 28}} >Subir expediente:</div>
                   <div style={{height: 28, width: 600, color: 'red'}} id='pdfToUp' ></div>
                     <Button
                         color="primary"  
@@ -865,6 +876,11 @@ return(
                         Seleccionar archivo
                     </Button>
                 </a>
+        </GridItem>
+        <GridItem xs={12} sm={12} md={4}>    
+            <input id="file-input" type="file" onChange={selectFile} name="avatar" style={{display: 'none'}} />
+             <div style={{height: 28}} ></div>
+                    
         </GridItem>
     </GridContainer>        
     </>

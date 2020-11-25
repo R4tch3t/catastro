@@ -6,6 +6,7 @@ import CheckCircle from "@material-ui/icons/CheckCircle"
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
+import Loader from "react-loader-spinner";
 //import Tasks from "components/Tasks/Tasks.js";
 //import CustomTabs from "components/CustomTabs/CustomTabs.js";
 //import Danger from "components/Typography/Danger.js";
@@ -27,6 +28,11 @@ state={
     tr: false,
     trE: false,
     classes: null,
+    iconTo: WN,
+    opSnack: false,
+    colorSnack:'info',
+    bandLoad: true, 
+    topAna: 20
 }
 //dValue = "\0"
 dValue = "\0"
@@ -43,7 +49,12 @@ constructor(props){
         trA: false,
         classes: props.classes,
         classesM: props.classesM,
-        disabledReg: false
+        disabledReg: false,
+        iconTo: WN,
+        opSnack: false,
+        colorSnack:'info',
+        bandLoad: true,
+        topAna: 20
     };
     
 }
@@ -109,13 +120,18 @@ checkPorts = async() => {
     });
   const responseJson = await response.json().then(r => {
       //console.log(`Response1: ${r}`)
-
       if (r.portEn) {
+        const Smn1 = document.getElementById("Sm1")
+        if(Smn1){
+          Smn1.innerHTML=""
+        }
+        this.setState({iconTo: WN, colorSnack: 'info', opSnack: false, bandLoad: true, topAna: 20})
         this.regE(r.portEn.n);
+       // this.setState({opSnack:1})
       }
   });
   }catch(e){
-
+    console.log(e)
   }
 }
 
@@ -152,7 +168,7 @@ setUnPort = async(port) => {
   }
 }
 
-regE = async(port=3031)=>{
+regE = async(port=3031,analize=false,npage=0)=>{
   const buffer = 64000
   try{
   const CTA = document.getElementById('CTA').value
@@ -179,7 +195,9 @@ regE = async(port=3031)=>{
     lengthE,
     count: this.countA,
     fileName: pdfToUp.innerHTML,
-    port
+    port,
+    analize,
+    npage
   }
   //console.log(`bodyJSON ${bodyJSON}`)
   //console.log(bodyJSON)
@@ -196,18 +214,43 @@ regE = async(port=3031)=>{
   const responseJson = await response.json().then(r => {
       //console.log(`Response1: ${r}`)
 //console.log(bodyJSON);
-      if (r.next) {
+      if (r.next) { 
         this.regE(port);
       }else if(r.nextNode){
         //console.log(r.currentCTA)
         this.countA=0;
         this.regE(port+1)
-      }else{
-        this.setUnPort(port);
+      }else if(r.next===0){
+        //regP.innerHTML = " ANALIZANDO... " + parseInt(this.countA/lengthE*100)+" % "
         regP.innerHTML = "- CARGA COMPLETADA - " + parseInt(this.countA/lengthE*100)+" % "
+        this.setState({opSnack: true})
+        document.getElementById("analizeBtn").innerHTML=" ANALIZANDO... 0 % "
+        //document.getElementById("snackAnaL").style.opacity=1
+        this.setState({opSnack: true})
+
+        this.regE(port,true)
+      }else if(r.analising){
+        document.getElementById("analizeBtn").innerHTML=`ANALIZANDO... ${r.p}, hoja ${r.npage} de ${r.lengthP}`
+        this.regE(port,true,r.npage)
+      }else if(r.analize){
+        this.setUnPort(port);
+        this.setState({iconTo: CheckCircle, colorSnack: 'success', bandLoad: false, topAna: 5})
+        regP.innerHTML = "- CARGA COMPLETADA - " + parseInt(this.countA/lengthE*100)+" % "
+        document.getElementById("analizeBtn").innerHTML=r.p
         this.countA=0
         this.showNotification("trA")
+        
+        if(r.S&&r.S!==null&&r.S!==undefined&&r.S!==""&&r.S!=="undefined"){
+          r.S=r.S.split(" ").join("")
+          if(r.S!==""){
+            document.getElementById("m1").value=r.S
+            document.getElementById("Sm1").innerHTML="*  Terreno: "+r.S+" m²"
+          }
+        }else{
+          document.getElementById("Sm1").value=""
+        }
       }
+
   });  
   }catch(e){
     console.log(e)
@@ -497,6 +540,34 @@ render() {
   return (
     <CardIcon>
       <GridContainer>
+        <Snackbar
+                    place="tr"
+                    color={this.state.colorSnack}
+                    icon={this.state.iconTo}
+                    message={
+                        <div style={{width:250}} >
+                        <Loader
+                        type="BallTriangle"
+                        color="red"
+                        height={10}
+                        width={10}
+                        visible={this.state.bandLoad}
+                        style={{position:'absolute', top: `${this.state.topAna}px`, left: "45px"}}
+                        //timeout={3000} //3 secs
+                            />
+                            <div style={{position: 'absolute', top: this.state.topAna, left: 60}} id="analizeBtn" >
+                                Analizando paginas...
+                            </div>
+                            <div style={{position: 'absolute', top: 25, left: 70}} id="Sm1" >
+                                
+                            </div>
+                        </div>
+                
+                    }
+                    open={this.state.opSnack}
+                    closeNotification={() => this.setState({opSnack: false})}
+                    close
+                />
         <Snackbar
           place="tr"
           color="warning"

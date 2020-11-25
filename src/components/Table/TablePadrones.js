@@ -208,7 +208,7 @@ const genCarta = (CTA, nombre, ubi, tp) => {
 
 const getE = (tp, CTA, escriturasPath) => {
   tp = tp[0].toLowerCase()
-  let url = `${ip(2998)}escrituras/${tp}/${CTA}/${escriturasPath}`;
+  let url = `${ip(2998)}expedientes/${tp}/${CTA}/${escriturasPath}`;
   const win = window.open(url, '_blank');
   win.focus();
 }
@@ -308,7 +308,7 @@ export default function CustomTable(props) {
                       }
                       onMouseUp={(e)=>{getE(row.tp,row.cta,row.escriturasPath)}}
                     >
-                      VER ESCRITURAS
+                      VER EXPEDIENTE
                     </Button>
                   </GridContainer>
                 </TableCell>

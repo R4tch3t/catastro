@@ -118,7 +118,7 @@ function Millones(num) {
     const cientos = Math.floor(num / divisor)
     const resto = num - (cientos * divisor)
 
-    let strMillones = Seccion(num, divisor, "UN MILLON DE", "MILLONES DE");
+    let strMillones = Seccion(num, divisor, "UN MILLON", "MILLONES");
     let strMiles = Miles(resto);
 
     if(strMillones == "")
