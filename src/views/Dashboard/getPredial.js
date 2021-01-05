@@ -2,7 +2,7 @@ import ip from "variables/ip.js";
 import genImp from "./genImp";
 
 
-export default async(idOrden, tp, c) => {
+export default async(idOrden, tp, c, bandUp) => {
    
     const _setLength = (poly, latlng) => {
         let needle = {
@@ -131,7 +131,11 @@ export default async(idOrden, tp, c) => {
             //console.log(`Response1: ${r}`)
 
             if (r.predial !== undefined) {
-                genImp(r.predial, c);
+                if(!bandUp){
+                    genImp(r.predial, c);
+                }else{
+                    c.setBg();
+                }
             }
             c.markerInfo.setMap(null)
             if (r.loca) {

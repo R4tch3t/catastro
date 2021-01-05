@@ -364,7 +364,11 @@ const registrarO = async(CTA,c) => {
                 let tzoffset = (new Date()).getTimezoneOffset() * 60000; 
                 let d=null
                 if (CTA !== '') {
-                  d = new Date(r.dateUp) - tzoffset
+                  if(r.dateUp){
+                    d = new Date(r.dateUp) - tzoffset
+                  }else{
+                    d = new Date() - tzoffset
+                  }
                 }else{
                   d = new Date() - tzoffset
                 }
@@ -529,7 +533,6 @@ const registrarO = async(CTA,c) => {
                     let copiQ = pb * 0.15
                     copiQ = Math.round(copiQ)
                     pb += copiQ * 2
-                    console.log(`pb: ${pb}`)
                     //pb = Math.round(pb)
                     copiQ = copiQ.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                     if (copiQ !== '0' && copiQ.toString().split('.').length === 1) {

@@ -97,15 +97,19 @@ export default (r,tp,c) => {
         m1.value = orden.m1
         m2.value = orden.m2
         let tzoffset = (new Date()).getTimezoneOffset() * 60000;
-        let dateUp = new Date(orden.dateUp)
-        c.setState({currentD: dateUp, 
+        let dateUp = new Date(orden.dateUp);
+        const bandUp = (parseInt(Y)) > parseInt(dateUp.getFullYear());
+        if (bandUp){
+          c.idOrden = 0;
+          /*dateUp = new Date();
+          c.setState({currentD: dateUp, 
                     horas: dateUp.getHours(),
                     minutos: dateUp.getUTCMinutes(),
                     segundos: dateUp.getSeconds()
-        })
-        if ((parseInt(Y)) > parseInt(dateUp.getFullYear())){
+          });*/
           const añoI = dateUp.getFullYear()
           const añoF = new Date().getFullYear()
+          periodo.value = añoF;
           if((añoF - añoI)>4 ){
               sCarta.style.display = 'block'
               let ubi = `${ubicacion.calle}`
@@ -120,22 +124,31 @@ export default (r,tp,c) => {
                   ubi, predio, añoI, añoF)
               }
           }
-
+          
         }else{
+          
+        c.setState({currentD: dateUp, 
+                    horas: dateUp.getHours(),
+                    minutos: dateUp.getUTCMinutes(),
+                    segundos: dateUp.getSeconds()
+          })
           dateUpL.value = new Date(dateUp - tzoffset).toISOString().slice(0, -1)
           regB.innerHTML = 'ACTUALIZAR ORDEN DE PAGO'
           c.idOrden = orden.idOrden
           document.getElementById('otroservicio').value=orden.otroservicio
+          periodo.value = orden.periodo
+
         }
         
-        periodo.value = orden.periodo
+        
         c.setState({tc: orden.tc, zona: orden.zona, totalN: orden.total});
         // this.setState({totalN: orden.total});
         //if(checkU.checked){
         
         bg.value = orden.bg;
-        
-        getPredial(orden.idOrden,tp,c)
+        //if ((parseInt(Y)) <= parseInt(dateUp.getFullYear())){
+            getPredial(orden.idOrden,tp,c,bandUp);
+        //}
         //console.log(predial);
       //  genImp(predial,this);
         //if (parseInt(orden.zona) > 0) {

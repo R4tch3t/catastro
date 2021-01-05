@@ -24,7 +24,7 @@ import FormRegistro from './FormRegistro';
 
 
 export default class TableRender extends React.Component {
-state={
+/*state={
     tr: false,
     trE: false,
     classes: null,
@@ -32,9 +32,10 @@ state={
     opSnack: false,
     colorSnack:'info',
     bandLoad: true, 
-    topAna: 20
+    topAna: 20,
+    bandPost: false
 }
-//dValue = "\0"
+//dValue = "\0"*/
 dValue = "\0"
 dValInt = 0
 bandUpTramite = true
@@ -54,7 +55,8 @@ constructor(props){
         opSnack: false,
         colorSnack:'info',
         bandLoad: true,
-        topAna: 20
+        topAna: 20,
+        bandPost: false
     };
     
 }
@@ -168,7 +170,7 @@ setUnPort = async(port) => {
   }
 }
 
-regE = async(port=3031,analize=false,npage=0)=>{
+regE = async(port=3131,analize=false,npage=0)=>{
   const buffer = 64000
   try{
   const CTA = document.getElementById('CTA').value
@@ -266,6 +268,7 @@ updateNB = () => {
 
 padrones=async(tp)=>{
   try {
+    this.setState({bandPost: true})
     let CTAnombre = document.getElementById('CTA');
     const nombre = document.getElementById('nombre')
     const calle = document.getElementById('calle')
@@ -349,8 +352,9 @@ padrones=async(tp)=>{
         numCalle.value = numCalle.value === '' ? 0 : numCalle.value
         manzana.value = manzana.value === '' ? 0 : manzana.value
         lote.value = lote.value === '' ? 0 : lote.value
+        
       }
-
+      this.setState({bandPost: false});
       /*else if (r.error.name === "error01") {
                  this.removeCookies()
                  confirmAlert({
@@ -366,6 +370,7 @@ padrones=async(tp)=>{
                }*/
     });
   } catch (e) {
+    this.setState({bandPost: false});
     console.log(`Error: ${e}`);
   }
 }
@@ -540,34 +545,35 @@ render() {
   return (
     <CardIcon>
       <GridContainer>
+        
         <Snackbar
-                    place="tr"
-                    color={this.state.colorSnack}
-                    icon={this.state.iconTo}
-                    message={
-                        <div style={{width:250}} >
-                        <Loader
-                        type="BallTriangle"
-                        color="red"
-                        height={10}
-                        width={10}
-                        visible={this.state.bandLoad}
-                        style={{position:'absolute', top: `${this.state.topAna}px`, left: "45px"}}
-                        //timeout={3000} //3 secs
-                            />
-                            <div style={{position: 'absolute', top: this.state.topAna, left: 60}} id="analizeBtn" >
-                                Analizando paginas...
-                            </div>
-                            <div style={{position: 'absolute', top: 25, left: 70}} id="Sm1" >
-                                
-                            </div>
-                        </div>
-                
-                    }
-                    open={this.state.opSnack}
-                    closeNotification={() => this.setState({opSnack: false})}
-                    close
-                />
+          place="tr"
+          color={this.state.colorSnack}
+          icon={this.state.iconTo}
+          message={
+              <div style={{width:250}} >
+              <Loader
+              type="BallTriangle"
+              color="red"
+              height={10}
+              width={10}
+              visible={this.state.bandLoad}
+              style={{position:'absolute', top: `${this.state.topAna}px`, left: "45px"}}
+              //timeout={3000} //3 secs
+                  />
+                  <div style={{position: 'absolute', top: this.state.topAna, left: 60}} id="analizeBtn" >
+                      Analizando paginas...
+                  </div>
+                  <div style={{position: 'absolute', top: 25, left: 70}} id="Sm1" >
+                      
+                  </div>
+              </div>
+      
+          }
+          open={this.state.opSnack}
+          closeNotification={() => this.setState({opSnack: false})}
+          close
+        />
         <Snackbar
           place="tr"
           color="warning"
@@ -613,6 +619,15 @@ render() {
               </p>
             </CardHeader>
             <CardBody>
+              <Loader
+                  type="BallTriangle"
+                  color="#00BFFF"
+                  height={20}
+                  width={20}
+                  visible={this.state.bandPost}
+                  style={{position:'absolute', top: "10px", left: '10px'}}
+                  //timeout={3000} //3 secs
+                />
               <FormRegistro c={this} a={true} fa={this.padrones} />
               <CardFooter>
               <Button id = 'regP'

@@ -4,7 +4,22 @@ export default (predial,c) => {
    while (checkeds.length < 14) {
      checkeds.push([])
    };
-
+   /*
+   if(bandUp){
+     const aux = [];
+     predial.forEach(e => {
+       switch(e.idImpuesto){
+         case 1:
+         case 5:
+         case 10:
+         case 11:
+         case 12:
+           aux.push(e)
+           break;
+       }
+     });
+     predial=aux;
+   }*/
    predial.forEach(e => {
      if (e.idImpuesto === 1) {
        checkeds[0].push(0)
@@ -35,9 +50,11 @@ export default (predial,c) => {
        document.getElementById('0020804').value = e.val
      }
      if (e.idImpuesto === 8) {
-       c.esAlta=true
-       checkeds[3].push(1)
-       document.getElementById('0030101').value = e.val
+       //if(!bandUp){
+        c.esAlta=true
+        checkeds[3].push(1)
+        document.getElementById('0030101').value = e.val
+       //}
      }
      if (e.idImpuesto === 9) {
        checkeds[4].push(0)

@@ -16,8 +16,8 @@ export default (n,c) => {
   const task = [0, 1];
   //const p1 = m1 * m2;
   const tp = checkU.checked ? 'u' : 'r'
-  if(tp==='r'){
-    m1/=1000
+  if(tp==='r'&&n>300){
+    m1/=10000
   }
   let p1 = m1;
   let p2 = m2;

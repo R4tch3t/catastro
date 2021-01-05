@@ -26,7 +26,7 @@ export default (props) => {
     const {c} = props;
     let selectionStartNombre = null;
     let selectionEndNombre = null;
-    const [bandLoad, setBandLoad] = React.useState(false);
+    let bandLoading=false;
     const [analyze, setAnalyze] = React.useState(0);
     const [labelA, setLabelA] = React.useState("Analizando...")
    // let [tc, setTC] = React.useState(0);
@@ -70,15 +70,40 @@ export default (props) => {
         c.updateNB();
         noDisabled(e)
         if(props.a){
-            padrones()
+            if(!c.state.bandPost){
+                padrones()
+            }else{
+                if(!bandLoading){
+                    bandLoading=true;
+                    waitPost()
+                }
+            }
         }
+    }
+    const waitPost = async() => {
+        
+        while(c.state.bandPost){
+            await sleep(300);    
+        }
+        padrones()
+        bandLoading=false;
+    }
+    const sleep = (milliseconds) => {
+        return new Promise(resolve => setTimeout(resolve, milliseconds))
     }
     const handleMUpper = e => {
         c.updateNB();
-        c.bandUpTramite=true
+      //  c.bandUpTramite=true
         noDisabled(e)
-        if (props.a) {
-            padrones()
+        if(props.a){
+            if(!c.state.bandPost){
+                padrones()
+            }else{
+                if(!bandLoading){
+                    bandLoading=true;
+                    waitPost()
+                }
+            }
         }
     }
 
@@ -131,9 +156,14 @@ export default (props) => {
         if (!tc) {
             tc = 0
         }
+        const checkU = document.getElementById('check0');
         const bg = document.getElementById('baseGravable');
-        const m1 = document.getElementById('m1').value;
+        let m1 = document.getElementById('m1').value;
         const m2 = document.getElementById('m2').value;
+        const tp = checkU.checked ? 'u' : 'r'
+        if(tp==='r'&&zona>300){
+            m1/=10000
+        }
         let p1 = m1;
         let p2 = m2;
         let umaZ = 86.88 * zona;
@@ -230,6 +260,7 @@ return(
                 onMouseUp: handleMUpper
             }}
             />
+            
         </GridItem>
         <GridItem xs={12} sm={12} md={6}>
             <CustomInput
