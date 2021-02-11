@@ -144,6 +144,7 @@ constructor(props){
       openTC: null,
       openCTA: null,
       labelConsta: '',
+      labelCerti: '',
       lastD: date,
       currentD: date,
       ctasIndexes: [],
@@ -669,7 +670,7 @@ render() {
            V0070202,V0070203,V0090101,V0090106,V0090107,
            V0090701,V0090702,V0090703,V0090704,V00913,
            V0091301,V0010804,V0010101,V21173001001, 
-           otroservicio,servQ,constaQ,constaL,certiQ} = this.props;
+           otroservicio,servQ,constaQ,constaL,certiL,certiQ} = this.props;
     
      return(<Pdf classes={classes} CTA={CTA} folio={folio} nombre={nombre} 
                  calle={calle} lote={lote} manzana={manzana} numero={numero} colonia={colonia}
@@ -684,7 +685,7 @@ render() {
                  V0090704={V0090704} V00913={V00913} V0091301={V0091301}
                  V0010804={V0010804} V0010101={V0010101} V21173001001={V21173001001}
                  otroservicio={otroservicio} servQ={servQ} constaQ={constaQ} 
-                 constaL={constaL} certiQ={certiQ} /> )
+                 constaL={constaL} certiL={certiL} certiQ={certiQ} /> )
   }else
   if(bandPdf==='0'){
     const {Y, labelW, tr, trA} = this.state;

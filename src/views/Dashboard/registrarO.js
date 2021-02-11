@@ -269,6 +269,7 @@ const registrarO = async(CTA,c) => {
           removI.push({id: 24});
         }
         const otroservicio = document.getElementById('otroservicio').value.toUpperCase();
+        const obs = document.getElementById('observaciones').value.toUpperCase();
         
         const bodyJSON = {
           CTA: CTA,
@@ -293,7 +294,8 @@ const registrarO = async(CTA,c) => {
           tp: tipoPredio,
           idImpuestos: idImpuestos,
           removI: removI,
-          otroservicio: otroservicio
+          otroservicio: otroservicio,
+          obs
         }
         const response = await fetch(sendUri, {
             method: "POST",
@@ -495,6 +497,7 @@ const registrarO = async(CTA,c) => {
                     while (labelF.length < 5) {
                       labelF = `0${labelF}`
                     }*/
+                    const {labelCerti} = c.state
                     pb = parseInt(V0090702)
                     let certiQ = pb * 0.15
                     certiQ = Math.round(certiQ)
@@ -509,7 +512,7 @@ const registrarO = async(CTA,c) => {
                     arrSub[indexS] += `&V0020801=0&V0020802=0&V0020803=0&V0020804=0&V0030101=0`
                     arrSub[indexS] += `&V0070101=0&V0070201=0&V0070202=0&V0070203=0&V0090101=0`
                     arrSub[indexS] += `&V0090106=0&V0090107=0&V0090701=0&V0090702=${V0090702}&V0090703=0`
-                    arrSub[indexS] += `&V0090704=0&V00913=0&V0091301=0&V0010804=0&V0010101=0`
+                    arrSub[indexS] += `&V0090704=0&V00913=0&V0091301=0&V0010804=0&V0010101=0&certiL=${labelCerti}`
                     arrSub[indexS] += `&V21173001001=0&otroservicio=${''}&servQ=0&certiQ=${certiQ}&total=${pb}`
                     //window.open(`${url}?v=${encrypt(subUrl2)}`, '_blank');
                     //genFolio(newF, url, subUrl2, r.idOrden, tipoPredio)

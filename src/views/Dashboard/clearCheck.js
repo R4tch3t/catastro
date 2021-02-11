@@ -56,7 +56,7 @@ export default (fa) => {
 
      renderCI('subCop0', task, 6, [], ['41491004', '41491004'],
        ['CONSTANCIAS',
-        'CERTIFICADO CATASTRAL'
+        'CERTIFICACIONES'
        ],
        ['0090701', '0090702'], fa);
        document.getElementById('0090701').value = 0

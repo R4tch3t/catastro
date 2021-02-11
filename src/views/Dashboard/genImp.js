@@ -183,7 +183,7 @@ export default (predial,c) => {
    if (checkeds[8].length > 0) {
      renderCI('subCop0', task, 6, checkeds[8], ['41491004', '41491004'],
        ['CONSTANCIAS',
-         'CERTIFICADO CATASTRAL'
+         'CERTIFICACIÓN'
        ],
        ['0090701', '0090702'], c);
    }

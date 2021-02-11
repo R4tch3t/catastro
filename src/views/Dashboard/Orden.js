@@ -78,6 +78,7 @@ export default () => {
   let servQ = getParameterByName('servQ', urlDec);
   let constaQ = getParameterByName('constaQ', urlDec);
   let constaL = getParameterByName('constaL', urlDec);
+  let certiL = getParameterByName('certiL', urlDec);
   let certiQ = getParameterByName('certiQ', urlDec);
   const idRol = cookie.load('idRol')
   const idUsuario = cookie.load('idUsuario')
@@ -116,7 +117,7 @@ export default () => {
           V0090704={V0090704} V00913={V00913} V0091301={V0091301}
           V0010804={V0010804} V0010101={V0010101} V21173001001={V21173001001}
           otroservicio={otroservicio} servQ={servQ} constaQ={constaQ} 
-          constaL={constaL} certiQ={certiQ}
+          constaL={constaL} certiL={certiL} certiQ={certiQ}
            />
   );
 }

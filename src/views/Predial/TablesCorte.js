@@ -481,6 +481,7 @@ onChangeDI = date => {
   this.obtenerOF(date, dateNSF)
   this.setState({ dateSI: date })
 }
+
 onChangeDF = date => {
   const {dateSI} = this.state
   let dateNSF = new Date(date);

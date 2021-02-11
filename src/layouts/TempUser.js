@@ -11,7 +11,7 @@ import Footer from "components/Footer/Footer.js";
 import Sidebar from "components/Sidebar/SidebarUsuario.js";
 import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
 
-import routes from "routesUser.js";
+import routes from "routesUserT.js";
 
 import styles from "assets/jss/material-dashboard-react/layouts/adminStyle.js";
 
@@ -34,7 +34,7 @@ const switchRoutes = (
       }
       return null;
     })}
-    <Redirect from="/" to="/usuario/padron" />
+    <Redirect from="/" to="/usuario/actualizarPredio" />
   </Switch>
 );
 
@@ -58,7 +58,9 @@ const Usuario=({ ...rest }) => {
   const [fixedClasses, setFixedClasses] = React.useState("dropdown");
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const handleImageClick = image => {
+
     setImage(image);
+
   };
   const handleColorClick = color => {
     setColor(color);

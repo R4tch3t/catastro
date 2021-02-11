@@ -141,6 +141,20 @@ function EnhancedTableHead(props) {
                     {tableHead[4].label}
                     </TableSortLabel>
               </TableCell>
+              <TableCell
+                    className={classes.tableCell + " " + classes.tableHeadCell}
+                    key={tableHead[5].id}
+                    sortDirection={orderBy === tableHead[5].id ? order : false}
+                    rowSpan='2'
+                  >
+                    <TableSortLabel
+                      active={orderBy === tableHead[5].id}
+                      direction={order}
+                      onClick={createSortHandler(tableHead[5].id)} 
+                      >
+                    {tableHead[5].label}
+                    </TableSortLabel>
+              </TableCell>
              {/* <TableCell
                     className={classes.tableCell + " " + classes.tableHeadCell}
                     colSpan='2'
@@ -200,6 +214,16 @@ const genCarta = (CTA, nombre, ubi, tp) => {
   let url = idRol === '1' ? `#/admin/padron` : `#/usuario/padron`
   const y = new Date().getFullYear()
   let subUrl = `?bandCarta=1&genCTA=${CTA}&nombre=${nombre}&ubi=${ubi}&tp=${tp}`
+  subUrl+=`&añoI=${y}&añoF=${y}`
+  url += `?v=${encrypt(subUrl)}`;
+  const win = window.open(url, '_blank');
+  win.focus();
+}
+const genCerti = (CTA, nombre, ubi, tp, localidad, bg) => {
+  const idRol = cookie.load('idRol')
+  let url = idRol === '1' ? `#/admin/padron` : `#/usuario/padron`
+  const y = new Date().getFullYear()
+  let subUrl = `?bandCerti=1&genCTA=${CTA}&nombre=${nombre}&ubi=${ubi}&tp=${tp}&localidad=${localidad}&bg=${bg}`
   subUrl+=`&añoI=${y}&añoF=${y}`
   url += `?v=${encrypt(subUrl)}`;
   const win = window.open(url, '_blank');
@@ -290,7 +314,25 @@ export default function CustomTable(props) {
                       }
                       onMouseUp={(e)=>{genCarta(row.cta,row.NOMBRE,row.ubi,row.tp)}}
                     >
-                      CARTA INVITACIÓN
+                      INVITACIÓN
+                    </Button>
+                  </GridContainer>
+                </TableCell>
+                <TableCell className={classes.tableCell}>
+                  <GridContainer> 
+                    <Button
+                      id="regB"
+                      color="success"
+                      style = {
+                        {
+                          display: "flex",
+                          flex: 1,
+                          alignItems: "center"
+                        }
+                      }
+                      onMouseUp={(e)=>{genCerti(row.cta,row.NOMBRE,row.ubi,row.tp,row.localidad,row.bg)}}
+                    >
+                      CATASTRAL
                     </Button>
                   </GridContainer>
                 </TableCell>

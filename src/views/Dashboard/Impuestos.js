@@ -14,13 +14,14 @@ import clearCheck from "./clearCheck";
 import renderCI from "./renderCI";
 
 export default class Impuestos extends React.Component {
-  state={
+  /*state={
     openConsta: null
-  }
+  }*/
 constructor(props){
     super(props)
     this.state={
-      openConsta: null
+      openConsta: null,
+      openCerti: null
     }
 }
 
@@ -48,6 +49,25 @@ handleOpenConsta = event =>{
   this.changeConsta(event);
 }
 
+changeCerti = event => {
+  const {openCerti} = this.state;
+  if (openCerti && openCerti.contains(event.target)) {
+    //setOpenDash(null);
+    this.setState({openCerti: null});
+  } else {
+    //setOpenDash(event.currentTarget);
+    this.setState({openCerti: event.currentTarget});
+  }
+}
+
+handleCloseCerti = () =>{
+  this.setState({openCerti: null})
+}
+
+handleOpenCerti = event =>{
+  this.changeCerti(event);
+}
+
 constaHandle = (l,v) => (e) => {
   const {c} = this.props
   const V0090701 = document.getElementById('0090701')
@@ -60,11 +80,57 @@ constaHandle = (l,v) => (e) => {
   }
   renderCI('subCop0', [0,1], 6, task, ['41491004', '41491004'],
     ['CONSTANCIAS',
-      'CERTIFICADO CATASTRAL'
+      'CERTIFICACIONES'
     ],
     ['0090701', '0090702'], this.props.c);
     c.sumaT()
   this.handleCloseConsta()
+}
+
+certiHandle = (l,v,op) => (e) => {
+  const {c} = this.props
+  const I0090701 = document.getElementById('I0090701').checked
+  const vi = document.getElementById('0090702')
+  c.setState({labelCerti: l})
+  //V0090702.value=v
+  let task = [1]
+  if (I0090701){
+    task = [0,1]
+  }
+  renderCI('subCop0', [0,1], 6, task, ['41491004', '41491004'],
+    ['CONSTANCIAS',
+      'CERTIFICACIONES'
+    ],
+    ['0090701', '0090702'], this.props.c);
+    switch(op){
+      case 0:
+
+        const bg = document.getElementById('baseGravable');
+       // const vi = document.getElementById(id);
+    
+        if(bg.value<10792){
+          vi.value=193
+        }
+        if(bg.value>10791&&bg.value<21583){
+          vi.value=483
+        }
+        if(bg.value>21582&&bg.value<43165){
+          vi.value=964
+        }
+        if(bg.value>43164&&bg.value<86329){
+          vi.value=1449
+        }
+        if(bg.value>86328){
+          vi.value=1932
+        }        
+        break;
+      case 1:
+        //vi.value=257.50
+        vi.value=198
+        break
+    }
+    c.sumaT()
+  this.handleCloseCerti()
 }
 
 componentDidMount(){
@@ -74,8 +140,8 @@ componentDidMount(){
 
 render(){
     const {classes, classesM, c} = this.props
-    const {readOnly, labelConsta} = c.state
-    const {openConsta} = this.state
+    const {readOnly, labelConsta, labelCerti} = c.state
+    const {openConsta,openCerti} = this.state
     const fb = c.sumaT
     return (
         <>
@@ -429,7 +495,7 @@ render(){
                       </GridContainer>
                       
                       <GridContainer>
-                        <GridItem xs={12} sm={12} md={3}/>
+                        <GridItem xs={12} sm={12} md={1} />
                         <GridItem xs={12} sm={12} md={3}>
                           <CustomInput
                             labelText = "CONSTANCIA:"
@@ -516,6 +582,79 @@ render(){
                               
                             }}
                           />
+                        </GridItem>
+                        <GridItem xs={12} sm={12} md={3}>
+                          <CustomInput
+                            labelText = "CERTIFICACIÓN:"
+                            id = "certiI"
+                            formControlProps={{
+                              fullWidth: true
+                            }}
+                            inputProps = {{
+                              type: 'text',
+                              onClick: this.handleOpenCerti,
+                              value: labelCerti,
+                              
+                            }}
+                          />
+                          <Poppers
+                            open={Boolean(openCerti)}
+                            anchorEl={openCerti}
+                            transition
+                            disablePortal
+                            className={
+                              classNames({ [classesM.popperClose]: !openCerti }) +
+                              " " +
+                              classesM.popperNav
+                            }
+                            style={{ zIndex: 9999 }}
+                          >
+                            {({ TransitionProps, placement }) => (
+                              <Grow
+                                {...TransitionProps}
+                                id="profile-menu-list-grow"
+                                style={{
+                                  transformOrigin:
+                                    placement === "bottom" ? "center top" : "center bottom"
+                                }}
+                              >
+                                <Paper>
+                                  <ClickAwayListener onClickAway={this.handleCloseCerti}>
+                                    <MenuList role="menu">
+                                      <MenuItem
+                                        key={"consta1"}
+                                        className={classesM.dropdownItem}
+                                        onClick={this.certiHandle('CATASTRAL',66,0)}
+                                      >
+                                        CATASTRAL
+                                      </MenuItem>
+                                      <MenuItem
+                                        key={"consta2"}
+                                        className={classesM.dropdownItem}
+                                        onClick={this.certiHandle('DE PLANOS',112,1)}
+                                      >
+                                        DE PLANOS
+                                      </MenuItem>
+                                      {/*<MenuItem
+                                        key={"consta3"}
+                                        className={classesM.dropdownItem}
+                                        onClick={this.constaHandle('NO AFECTACIÓN',225)}
+                                      >
+                                        NO AFECTACIÓN
+                                      </MenuItem>
+                                      <MenuItem
+                                        key={"consta4"}
+                                        className={classesM.dropdownItem}
+                                        onClick={this.constaHandle('NO GRAVAMEN',218)}
+                                      >
+                                        NO GRAVAMEN
+                                      </MenuItem>*/}
+                                    </MenuList>
+                                  </ClickAwayListener>
+                                </Paper>
+                              </Grow>
+                            )}
+                          </Poppers>
                         </GridItem>
                       </GridContainer>
 

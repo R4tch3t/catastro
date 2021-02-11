@@ -155,8 +155,8 @@ const accesoKey = (e) =>{
     //const sendUri = "http://localhost:3012/";
      const sendUri = ip('3012');
      const bodyJSON = {
-       idUsuario: idUsuario,
-       pass: pass
+       idUsuario,
+       pass
      };
      const response = await fetch(sendUri, {
        method: "POST",
@@ -167,12 +167,13 @@ const accesoKey = (e) =>{
        body: JSON.stringify(bodyJSON)
      });
      const responseJson = await response.json().then(r => {
+       console.log(r)
        if (
          r[0] !== undefined &&
          (`${r[0].idUsuario}` === `${idUsuario}`)
        ) {
-         saveCookies(idUsuario, r[0].nombre, r[0].correo, r[0].edad, r[0].idRol, pass)
-         if (r[0].idRol === 0) {
+         saveCookies(idUsuario, r[0].nombre, r[0].correo, r[0].edad, r[0].idRol, pass);
+         if (r[0].idRol === 0 || r[0].idRol === -1) {
            window.history.pushState(null, 'Usuario', '#/usuario/creditos')
            window.history.go()
          } else if (r[0].idRol === 1) {

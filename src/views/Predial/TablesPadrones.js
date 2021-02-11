@@ -72,7 +72,7 @@ round = (num, decimales = 2)=>{
   return signo * (num[0] + 'e' + (num[1] ? (+num[1] - decimales) : -decimales));
 }
 
-allPadrones=async(CTAnombre)=>{
+allPadrones=async(CTAnombre) => {
     try {
       this.setState({bandLoad: false})
        //const sendUri = "http://34.66.54.10:3015/";
@@ -95,26 +95,68 @@ allPadrones=async(CTAnombre)=>{
         const responseJson = await response.json().then(r => {
             //  console.log(`Response1: ${r}`)
             let data = [];
+            let i = 0
+            let calle = "";
+            let lote = "";
+            let manzana = "";
+            let numero = "";
+            let colonia = "";
             if (r.contribuyenteu) {
+             // console.log(r.contribuyenteu)
              r.contribuyenteu.forEach(e => {
+               if(r.ubiprediou&&r.ubiprediou[`${e.CTA}`]!==undefined){
+                calle = r.ubiprediou[`${e.CTA}`].calle;
+                lote = r.ubiprediou[`${e.CTA}`].lote;
+                manzana = r.ubiprediou[`${e.CTA}`].manzana;
+                numero = r.ubiprediou[`${e.CTA}`].numero;
+                colonia = r.ubiprediou[`${e.CTA}`].colonia;
+              //  i++;
+               }else{
+                calle = "";
+                lote = "";
+                manzana = "";
+                numero = "";
+                colonia = "";
+               }
+               
                 data.push({
                   key: `${e.CTA}u`,
                   cta: e.CTA,
                   NOMBRE: e.contribuyente,
-                  ubi: e.ubicacion,
+                  ubi: (calle?"CALLE: "+calle+", ":"")+(lote?"LOTE: "+lote+", ":"")+(manzana?"MZA: "+manzana+", ":"")+(numero?"N°: "+numero+", ":"")+(colonia?"COL: "+colonia:""),
+                  localidad: e.localidad,
+                  bg: e.orden?e.orden.bg:e.bg,
                   tp: 'URBANO',
                   escriturasPath: e.escriturasPath
                 })
+               // i++;
              })
 
             }
             if (r.contribuyenter) {
+             // i=0;
               r.contribuyenter.forEach(e => {
+               if(r.ubipredior&&r.ubipredior[`${e.CTA}`]!==undefined){
+                calle = r.ubipredior[`${e.CTA}`].calle;
+                lote = r.ubipredior[`${e.CTA}`].lote;
+                manzana = r.ubipredior[`${e.CTA}`].manzana;
+                numero = r.ubipredior[`${e.CTA}`].numero;
+                colonia = r.ubipredior[`${e.CTA}`].colonia;
+              //  i++;
+               }else{
+                calle = "";
+                lote = "";
+                manzana = "";
+                numero = "";
+                colonia = "";
+               }
                 data.push({
                   key: `${e.CTA}r`,
                   cta: e.CTA,
                   NOMBRE: e.contribuyente,
-                  ubi: e.ubicacion,
+                  ubi: (calle?"CALLE: "+calle+", ":"")+(lote?"LOTE: "+lote+", ":"")+(manzana?"MZA: "+manzana+", ":"")+(numero?"N°: "+numero+", ":"")+(colonia?"COL: "+colonia:""),
+                  localidad: e.localidad,
+                  bg: e.orden?e.orden.bg:e.bg,
                   tp: 'RÚSTICO',
                   escriturasPath: e.escriturasPath
                 })
@@ -211,6 +253,7 @@ render() {
     { id: 'NOMBRE', numeric: false, disablePadding: false, label: 'Nombre' },
     { id: 'tp', numeric: false, disablePadding: false, label: 'Tipo' },
     { id: 'carta', numeric: false, disablePadding: false, label: 'Carta' },
+    { id: 'certi', numeric: false, disablePadding: false, label: 'Certificado' },
     { id: 'escritura', numeric: false, disablePadding: false, label: 'Expediente' },
    // { id: 'construccion', numeric: true, disablePadding: false, label: 'Construccion' },
   ]

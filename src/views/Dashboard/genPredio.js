@@ -48,6 +48,7 @@ export default (r,tp,c) => {
         const tc = document.getElementById('tc');
         const zona = document.getElementById('zona');
         const periodo = document.getElementById('periodo');
+        const obs = document.getElementById('observaciones');
         const dateUpL = document.getElementById('dateUp');
         const regB=document.getElementById('regB')
         regB.innerHTML = 'GENERAR ORDEN DE PAGO'
@@ -96,6 +97,7 @@ export default (r,tp,c) => {
         
         m1.value = orden.m1
         m2.value = orden.m2
+        obs.value = orden.obs
         let tzoffset = (new Date()).getTimezoneOffset() * 60000;
         let dateUp = new Date(orden.dateUp);
         const bandUp = (parseInt(Y)) > parseInt(dateUp.getFullYear());

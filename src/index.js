@@ -35,6 +35,28 @@ import("react-dom").then((ReactDOM)=>{
           const hist = createBrowserHistory();
           
           switch(cookie.load("idRol")){
+            case "-1":
+              let src = "layouts/TempUser.js";
+              const pass = cookie.load("pass"); 
+              if(pass === "   "){
+                src="layouts/TempUser.js"
+              }
+
+              if(pass === "    "){
+                src="layouts/Usuario.js"
+              }
+
+            import("layouts/TempUser.js").then(({ Usuario })=>{  
+              ReactDOM.render(
+                <HashRouter history={hist}>
+                  <Switch>
+                    <Route path="/" component={Usuario} />
+                  </Switch>
+                </HashRouter>,
+                document.getElementById("root")
+              )
+            });
+            break;
             case "0":
             import("layouts/Usuario.js").then(({ Usuario })=>{  
               ReactDOM.render(
